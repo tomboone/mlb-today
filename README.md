@@ -6,9 +6,9 @@ Data is stored in Azure Blob Storage, and each function's data is overwritten ev
 
 ## Functions
 
-*   `bp_probables`: Fetches today's game schedules and pitching probables from MLB.com.
-*   `bp_batting`: Fetches current batting statistics from Fangraphs.
-*   `bp_pitching`: Fetches current pitching statistics from Fangraphs.
+*   `get_probables`: Fetches today's games and pitching probables from MLB.com.
+*   `get_batting_stats:`: Fetches current batting leaders from Fangraphs.
+*   `get_pitching_stats`: Fetches current pitching leaders from Fangraphs.
 
 ## Technology Stack
 
@@ -16,6 +16,14 @@ Data is stored in Azure Blob Storage, and each function's data is overwritten ev
 *   **Framework:** Azure Functions
 *   **Storage:** Azure Blob Storage
 *   **HTTP Client:** Requests
+
+## Required Environment Variables
+
+*   `STORAGE_CONNECTION_STRING`: Azure Blob Storage connection string
+*   `BLOB_CONTAINER_NAME`: Azure Blob Storage container name
+*   `PITCHING_CRON`: timer trigger nCron string for `get_pitching_stats`
+*   `BATTING_CRON`: timer triggernCron string for `get_batting_stats`
+*   `PROBABLES_CRON`: timer triggernCron string for `get_probables`
 
 ## License
 
