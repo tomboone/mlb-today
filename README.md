@@ -1,6 +1,6 @@
 # MLB Today API
 
-Azure Function written in Python to retrieve and store daily Major League Baseball (MLB) game schedules, probable pitchers, and player statistics.
+Python Azure Function to retrieve and store daily Major League Baseball (MLB) probable pitchers and league leaders.
 
 Data is stored in Azure Blob Storage, and each function's data is overwritten every time the function runs.
 
