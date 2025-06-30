@@ -1,4 +1,4 @@
-# MLB Today API
+# MLB Today
 
 Python Azure Function to retrieve and store daily Major League Baseball (MLB) probable pitchers and league leaders.
 
