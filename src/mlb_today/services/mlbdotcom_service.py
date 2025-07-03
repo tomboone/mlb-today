@@ -6,7 +6,7 @@ import requests
 
 import src.mlb_today.config as config
 
-SCHEDULE_ENDPOINT = config.SCHEDULE_ENDPOINT
+SCHEDULE_ENDPOINT: str = config.SCHEDULE_ENDPOINT
 
 
 class MlbDotComService:
@@ -24,7 +24,7 @@ class MlbDotComService:
         Returns:
             list[dict[str, Any]]: list of games
         """
-        payload: dict[str, Any] = {
+        payload: dict[str, Any] = {  # Create payload
             "sportId": 1,
             "startDate": date,
             "endDate": date,
@@ -34,10 +34,10 @@ class MlbDotComService:
         }
 
         try:
-            r: requests.Response = requests.get(self.endpoint, params=payload)
-            r.raise_for_status()
+            r: requests.Response = requests.get(self.endpoint, params=payload)  # Get data
+            r.raise_for_status()  # Raise error for HTTP status code
         except requests.exceptions.HTTPError or requests.exceptions.RequestException as err:
             logging.error(err)
             return None
 
-        return r.json()["dates"][0]["games"]
+        return r.json()["dates"][0].get("games", [])

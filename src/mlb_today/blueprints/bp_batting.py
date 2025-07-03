@@ -1,6 +1,7 @@
 """ Retrieve batting stats from Fangraphs """
 from datetime import datetime
 import json
+from typing import Any
 
 import azure.functions as func
 
@@ -8,9 +9,9 @@ import src.mlb_today.config as config
 from src.mlb_today.services.fangraphs_service import FangraphsService
 from src.mlb_today.services.storage_service import StorageService
 
-bp = func.Blueprint()
+bp: func.Blueprint = func.Blueprint()
 
-BATTING_CRON = config.BATTING_CRON
+BATTING_CRON: str = config.BATTING_CRON
 
 
 # noinspection PyUnusedLocal
@@ -27,10 +28,19 @@ def main(battingarg: func.TimerRequest) -> None:
     Args:
         battingarg (func.TimerRequest): timer trigger
     """
-    # Get batting stats from Fangraphs
-    fangraphs_service = FangraphsService()
-    batting = fangraphs_service.get_data("all", "bat", datetime.now().strftime("%Y"), "default", "WAR")
+    fangraphs_service: FangraphsService = FangraphsService()  # Create FangraphsService instance
+    batting: dict[str, Any] = fangraphs_service.get_data(  # Get batting stats from Fangraphs
+        position="all",
+        stats_type="bat",
+        year=datetime.now().strftime("%Y"),
+        sort_dir="default",
+        sort_stat="WAR"
+    )
 
-    # Store batting stats in Azure Blob
-    storage_service = StorageService()
-    storage_service.save_blob("batting.json", json.dumps(batting))
+    storage_service: StorageService = StorageService()  # Create StorageService instance
+    storage_service.save_blob(  # Store batting stats in Azure Blob
+        blob_filename="batting.json",
+        data=json.dumps(batting)
+    )
+
+    return
