@@ -1,5 +1,6 @@
 """ Retrieve pitching stats from Fangraphs """
 from datetime import datetime
+import json
 
 import azure.functions as func
 
@@ -32,4 +33,4 @@ def main(pitchingarg: func.TimerRequest) -> None:
 
     # Store pitching stats in Azure Blob
     storage_service = StorageService()
-    storage_service.save_blob("pitching.json", str(pitching))
+    storage_service.save_blob("pitching.json", json.dumps(pitching))

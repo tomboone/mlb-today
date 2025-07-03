@@ -1,5 +1,6 @@
 """ Retrieve pitching probables from MLB.com """
 from datetime import datetime
+import json
 
 import azure.functions as func
 
@@ -32,4 +33,4 @@ def main(probablesarg: func.TimerRequest) -> None:
 
     # Store pitching probables in Azure Blob
     storage_service = StorageService()
-    storage_service.save_blob("probables.json", str(probables))
+    storage_service.save_blob("probables.json", json.dumps(probables))

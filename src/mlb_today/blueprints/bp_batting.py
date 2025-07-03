@@ -1,5 +1,6 @@
 """ Retrieve batting stats from Fangraphs """
 from datetime import datetime
+import json
 
 import azure.functions as func
 
@@ -32,4 +33,4 @@ def main(battingarg: func.TimerRequest) -> None:
 
     # Store batting stats in Azure Blob
     storage_service = StorageService()
-    storage_service.save_blob("batting.json", str(batting))
+    storage_service.save_blob("batting.json", json.dumps(batting))
