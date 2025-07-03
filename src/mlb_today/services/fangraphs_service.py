@@ -6,7 +6,7 @@ import requests
 
 import src.mlb_today.config as config
 
-STATS_ENDPOINT = config.STATS_ENDPOINT
+STATS_ENDPOINT: str = config.STATS_ENDPOINT
 
 class FangraphsService:
     """ Fangraphs API service """
@@ -29,11 +29,11 @@ class FangraphsService:
         Returns:
             dict[str, Any]: data from Fangraphs API
         """
-        payload: dict[str, Any] = {
+        payload: dict[str, Any] = {  # Create payload
             "pos": position,
             "stats": stats_type,
             "lg": "all",
-            "qual": "y",
+            "qual": "n",
             "season": year,
             "pageItems": 2000000000,
             "sortDir": sort_dir,
@@ -41,8 +41,8 @@ class FangraphsService:
         }
 
         try:
-            r: requests.Response = requests.get(self.endpoint, params=payload)
-            r.raise_for_status()
+            r: requests.Response = requests.get(self.endpoint, params=payload)  # Get data
+            r.raise_for_status()  # Raise error for HTTP status code
         except requests.exceptions.HTTPError or requests.exceptions.RequestException as err:
             logging.error(err)
             return None

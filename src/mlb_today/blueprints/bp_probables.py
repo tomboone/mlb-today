@@ -1,15 +1,20 @@
 """ Retrieve pitching probables from MLB.com """
+import json
+import logging
 from datetime import datetime
+from typing import Any
 
 import azure.functions as func
 
 import src.mlb_today.config as config
 from src.mlb_today.services.mlbdotcom_service import MlbDotComService
+from src.mlb_today.services.probables_service import ProbablesService
 from src.mlb_today.services.storage_service import StorageService
 
-bp = func.Blueprint()
+bp: func.Blueprint = func.Blueprint()
 
-PROBABLES_CRON = config.PROBABLES_CRON
+PROBABLES_CRON: str = config.PROBABLES_CRON
+EMAIL_BLOB_CONTAINER_NAME: str = config.EMAIL_BLOB_CONTAINER_NAME
 
 
 # noinspection PyUnusedLocal
@@ -26,10 +31,31 @@ def main(probablesarg: func.TimerRequest) -> None:
     Args:
         probablesarg (func.TimerRequest): timer trigger
     """
-    # Get pitching probables from MLB.com
-    mlbdotcom_service = MlbDotComService()
-    probables = mlbdotcom_service.get_schedule(datetime.now().strftime("%Y-%m-%d"))
+    mlbdotcom_service: MlbDotComService = MlbDotComService()  # Create MlbDotComService instance
+    probables: list[dict[str, Any]] | None = mlbdotcom_service.get_schedule(  # Get today's pitching probables
+        date=datetime.now().strftime("%Y-%m-%d")
+    )
 
-    # Store pitching probables in Azure Blob
-    storage_service = StorageService()
-    storage_service.save_blob("probables.json", str(probables))
+    if not probables:  # If no probables found, log and return
+        logging.info("No probables found for today")
+        return
+
+    probables_service: ProbablesService = ProbablesService()  # Create ProbablesService instance
+    probables_data: list[dict[str, Any]] | None = probables_service.get_probables_data(  # Get probables data
+        probables=probables
+    )
+    batting_data: list[dict[str, Any]] | None = probables_service.get_off_war_leaders()  # Get batting data
+
+    email_data: dict[str, Any] = {  # Create email data
+        "probables": probables_data,
+        "batting": batting_data
+    }
+
+    storage_service: StorageService = StorageService()  # Create StorageService instance
+    storage_service.save_blob(  # Store email data in Azure Blob
+        blob_filename="email_data.json",
+        data=json.dumps(email_data),
+        blob_container_name=EMAIL_BLOB_CONTAINER_NAME
+    )
+
+    return
