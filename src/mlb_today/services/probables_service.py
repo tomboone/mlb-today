@@ -118,7 +118,7 @@ class ProbablesService:
 
         off_war_leaders: list[dict[str, Any]] = []  # List for WAR leaders
 
-        for batter in batting:  # For each batter
+        for batter in batting[:25]:  # For each batter
             leader = {  # Create leader dict
                 "name": batter.get("PlayerName"),
                 "team": batter.get("TeamNameAbb"),
