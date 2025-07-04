@@ -45,15 +45,17 @@ def main(probablesarg: func.TimerRequest) -> None:
         probables=probables
     )
     batting_data: list[dict[str, Any]] | None = probables_service.get_off_war_leaders()  # Get batting data
+    pitching_data: list[dict[str, Any]] | None = probables_service.get_pitching_war_leaders()  # Get pitching data
 
     email_data: dict[str, Any] = {  # Create email data
         "probables": probables_data,
-        "batting": batting_data
+        "batting": batting_data,
+        "pitching": pitching_data
     }
 
     storage_service: StorageService = StorageService()  # Create StorageService instance
     storage_service.save_blob(  # Store email data in Azure Blob
-        blob_filename="email_data.json",
+        blob_filename="email_data_"+datetime.now().strftime("_%Y%m%d%H%M%S")+".json",
         data=json.dumps(email_data),
         blob_container_name=EMAIL_BLOB_CONTAINER_NAME
     )

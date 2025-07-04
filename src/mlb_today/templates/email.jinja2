@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Baseball Matchups & Top Performers</title>
+    <style type="text/css">
+        /* Client-specific Styles */
+        div, p, a, li, td { -webkit-text-size-adjust: none; }
+        #outlook a { padding: 0; }
+        .ReadMsgBody { width: 100%; }
+        .ExternalClass { width: 100%; }
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
+        body, table, td, p, a, li, blockquote { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; }
+
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            width: 100% !important;
+            min-width: 100%;
+        }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #2a6f97; /* Dark blue for header */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333333;
+            text-align: center;
+        }
+        .game-card {
+            padding: 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .game-card:last-child {
+            border-bottom: none;
+        }
+        .game-info {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .team-block {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .team-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+        .team-record {
+            font-size: 13px;
+            color: #555555;
+            margin-bottom: 8px;
+        }
+        .pitcher-info {
+            font-size: 14px;
+            color: #333333;
+        }
+        .pitcher-name {
+            font-weight: bold;
+            color: #2a6f97;
+        }
+        .pitcher-stats {
+            font-size: 13px;
+            color: #666666;
+            line-height: 1.5;
+        }
+        .batting-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        .batting-table th, .batting-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .batting-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #333333;
+        }
+        .batting-table tr:last-child td {
+            border-bottom: none;
+        }
+        .footer {
+            font-size: 12px;
+            color: #999999;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive Styles */
+        @media only screen and (max-width: 480px) {
+            .container {
+                width: 100% !important;
+            }
+            .header h1 {
+                font-size: 24px !important;
+            }
+            .section-title {
+                font-size: 20px !important;
+            }
+            .team-block {
+                margin-bottom: 15px; /* Add more space between team blocks on mobile */
+            }
+            .team-block-wrapper {
+                display: block !important;
+                width: 100% !important;
+            }
+            .team-block-cell {
+                display: block !important;
+                width: 100% !important;
+                padding: 0 10px 10px 10px !important; /* Adjust padding for mobile */
+            }
+            .batting-table th, .batting-table td {
+                padding: 8px 10px !important;
+                font-size: 12px !important;
+            }
+            .pitcher-info {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; width: 100% !important; min-width: 100%;">
+    <div style="width: 100%; background-color: #f4f4f4;">
+        <table class="container" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; width: 100%; margin: 0 auto; border-spacing: 0; border-collapse: collapse;" role="presentation">
+            <tr>
+                <td align="center" valign="top" style="padding: 20px 0;">
+                    <table class="card" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 8px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" role="presentation">
+                        <tr>
+                            <td class="header" style="background-color: #2a6f97; color: #ffffff; padding: 20px; text-align: center; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                                <h1 style="margin: 0; font-size: 28px; font-weight: bold;">Daily Baseball Report</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 20px;">
+                                <p class="section-title" style="font-size: 22px; font-weight: bold; margin-bottom: 15px; color: #333333; text-align: center;">Today's Pitching Probables</p>
+                                {% for game in probables %}
+                                <table class="game-card" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 15px; border-bottom: 1px solid #eeeeee; border-spacing: 0; border-collapse: collapse;" role="presentation">
+                                    <tr>
+                                        <td align="center" style="padding-bottom: 10px;">
+                                            <p class="game-info" style="font-size: 14px; color: #666666; margin: 0;">
+                                                <strong>{{ game.date }}</strong> - {{ game.venue }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="team-block-wrapper" style="padding: 0;">
+                                            <!-- Two-column layout for teams, stacks on mobile -->
+                                            <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                <tr>
+                                                    <td class="team-block-cell" width="50%" valign="top" style="padding: 0 10px 10px 0;">
+                                                        <table class="team-block" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; border-radius: 6px; padding: 10px; border-spacing: 0; border-collapse: collapse;" role="presentation">
+                                                            <tr>
+                                                                <td style="padding: 5px;">
+                                                                    <p class="team-name" style="font-size: 18px; font-weight: bold; color: #000000; margin: 0 0 5px 0;">{{ game.away.abbr }} ({{ game.away.record.wins }}-{{ game.away.record.losses }})</p>
+                                                                    <p class="pitcher-info" style="font-size: 14px; color: #333333; margin: 0;">
+                                                                        Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.away.pitcher.name }} ({{ "%.0f" | format(game.away.pitcher.record.wins) }}-{{ "%.0f" | format(game.away.pitcher.record.losses) }})</span><br>
+                                                                        <span class="pitcher-stats" style="font-size: 13px; color: #666666; line-height: 1.5;">
+                                                                            ERA: {{ "%.2f" | format(game.away.pitcher.era) }} | xFIP: {{ "%.2f" | format(game.away.pitcher.xfip) }} | WAR: {{ "%.2f" | format(game.away.pitcher.war) }}
+                                                                        </span>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td class="team-block-cell" width="50%" valign="top" style="padding: 0 0 10px 10px;">
+                                                        <table class="team-block" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; border-radius: 6px; padding: 10px; border-spacing: 0; border-collapse: collapse;" role="presentation">
+                                                            <tr>
+                                                                <td style="padding: 5px;">
+                                                                    <p class="team-name" style="font-size: 18px; font-weight: bold; color: #000000; margin: 0 0 5px 0;">{{ game.home.abbr }} ({{ game.home.record.wins }}-{{ game.home.record.losses }})</p>
+                                                                    <p class="pitcher-info" style="font-size: 14px; color: #333333; margin: 0;">
+                                                                        Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.home.pitcher.name }} ({{ "%.0f" | format(game.home.pitcher.record.wins) }}-{{ "%.0f" | format(game.home.pitcher.record.losses) }})</span><br>
+                                                                        <span class="pitcher-stats" style="font-size: 13px; color: #666666; line-height: 1.5;">
+                                                                            ERA: {{ "%.2f" | format(game.home.pitcher.era) }} | xFIP: {{ "%.2f" | format(game.home.pitcher.xfip) }} | WAR: {{ "%.2f" | format(game.home.pitcher.war) }}
+                                                                        </span>
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="card" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" role="presentation">
+                        <tr>
+                            <td style="padding: 20px;">
+                                <p class="section-title" style="font-size: 22px; font-weight: bold; margin-bottom: 15px; color: #333333; text-align: center;">Batting Leaders</p>
+                                <table class="batting-table" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; border-spacing: 0;" role="presentation">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">Player</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">Team</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">AVG</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">HR</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">OPS</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">WAR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for batter in batting %}
+                                        <tr>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; font-weight: bold;">{{ batter.name }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee;">{{ batter.team }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee;">{{ "%.3f" | format(batter.avg) }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee;">{{ "%.0f" | format(batter.hr) }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee;">{{ "%.3f" | format(batter.ops) }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; font-weight: bold;">{{ "%.3f" | format(batter.war) }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="card" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" role="presentation">
+                        <tr>
+                            <td style="padding: 20px;">
+                                <p class="section-title" style="font-size: 22px; font-weight: bold; margin-bottom: 15px; color: #333333; text-align: center;">Pitching Leaders</p>
+                                <table class="batting-table" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; border-spacing: 0;" role="presentation">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">Player</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">Team</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">Record</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">ERA</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">xFIP</th>
+                                            <th style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; background-color: #f0f0f0; font-weight: bold; color: #333333;">WAR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for pitcher in pitching %}
+                                        <tr>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; font-weight: bold;">{{ pitcher.name }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee;">{{ pitcher.team }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee;">{{ "%.0f" | format(pitcher.w) }}-{{ "%.0f" | format(pitcher.l) }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee;">{{ "%.2f" | format(pitcher.era) }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee;">{{ "%.2f" | format(pitcher.xfip) }}</td>
+                                            <td style="padding: 10px 15px; border-bottom: 1px solid #eeeeee; font-weight: bold;">{{ "%.3f" | format(pitcher.war) }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="footer" border="0" cellpadding="0" cellspacing="0" width="100%" style="font-size: 12px; color: #999999; text-align: center; padding: 20px; border-spacing: 0; border-collapse: collapse;" role="presentation">
+                        <tr>
+                            <td align="center" style="padding: 0;">
+                                <p style="margin: 0;">This email was generated with the latest baseball statistics.</p>
+                                <p style="margin: 5px 0 0 0;">&copy; 2025 Daily Baseball Report. All rights reserved.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
