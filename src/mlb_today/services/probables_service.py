@@ -1,3 +1,4 @@
+""" Service for creating today's probables data """
 import json
 import logging
 from typing import Any
