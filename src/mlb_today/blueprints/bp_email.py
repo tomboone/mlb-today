@@ -1,27 +1,21 @@
-# src/mlb_today/blueprints/bp_email.py
-
+""" Azure Function to send email """
 import logging
 import json
 import os
 from datetime import datetime
 
 import azure.functions as func
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, select_autoescape, Template
 
 import src.mlb_today.config as config
-# You will need an EmailService to handle the sending logic
 from src.mlb_today.services.email_service import EmailService
 
 bp = func.Blueprint()
 
-# --- Configuration ---
-EMAIL_RECIPIENTS = config.PROBABLES_TO_EMAIL_STR
+EMAIL_RECIPIENTS: str = config.PROBABLES_TO_EMAIL_STR
 
-# --- Jinja2 Environment Setup ---
-# This assumes a 'templates' directory exists alongside your 'blueprints' and 'services' directories
-# e.g., src/mlb_today/templates/
-template_path = os.path.join(os.path.dirname(__file__), '..', 'templates')
-jinja_env = Environment(
+template_path: str = os.path.join(os.path.dirname(__file__), '..', 'templates')
+jinja_env: Environment = Environment(
     loader=FileSystemLoader(template_path),
     autoescape=select_autoescape(['html', 'xml'])
 )
@@ -40,29 +34,26 @@ def create_and_send_email(emailblob: func.InputStream) -> None:
     logging.info(f"Blob trigger processed blob: {emailblob.name}")
 
     try:
-        # 1. Read and parse the blob data
-        blob_data_str = emailblob.read().decode('utf-8')
-        email_data = json.loads(blob_data_str)
+        blob_data_str: str = emailblob.read().decode()  # Convert blob bytes to string
+        email_data: dict[str, list[dict[str, str]]] = json.loads(blob_data_str)  # Convert JSON to dict
 
-        # 2. Load the Jinja2 template
-        template = jinja_env.get_template("email.jinja2")
+        template: Template = jinja_env.get_template("email.jinja2")  # Load the Jinja2 template
 
-        # 3. Render the template with the data
-        html_body = template.render(
+        html_body = template.render(  # Render the template with the data
             probables=email_data.get("probables"),
             batting=email_data.get("batting")
         )
 
-        # 4. Send the email
-        email_service = EmailService()
-        to_recipients = email_service.create_email_recipients(EMAIL_RECIPIENTS)
+        email_service = EmailService()  # Create an instance of EmailService
+        to_recipients = email_service.create_email_recipients(EMAIL_RECIPIENTS)  # Create recipients
 
-        if not to_recipients:
+        if not to_recipients:  # If no email recipients, log and return
             logging.warning("No email recipients configured. Skipping email send.")
             return
 
-        subject = f"MLB Today: Probable Pitchers & Top Hitters for {datetime.now().strftime('%B %d, %Y')}"
-        email_service.send_email_with_acs(
+        subject = f"MLB Today for {datetime.now().strftime('%B %d, %Y')}"  # Create subject
+
+        email_service.send_email_with_acs(  # Send the email
             subject=subject,
             html_body=html_body,
             to_recipients=to_recipients
@@ -70,7 +61,7 @@ def create_and_send_email(emailblob: func.InputStream) -> None:
 
         logging.info("Successfully generated and sent email.")
 
-    except json.JSONDecodeError:
+    except json.JSONDecodeError:  # Handle JSON decoding errors
         logging.error(f"Failed to parse JSON from blob: {emailblob.name}", exc_info=True)
-    except Exception as e:
+    except Exception as e:  # Handle other exceptions
         logging.error(f"An unexpected error occurred: {e}", exc_info=True)

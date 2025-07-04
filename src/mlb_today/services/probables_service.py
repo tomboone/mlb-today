@@ -9,61 +9,54 @@ from src.mlb_today.services.storage_service import StorageService
 # noinspection PyMethodMayBeStatic
 class ProbablesService:
     """ Service for creating today's probables data """
+
     def __init__(self):
-        pass
+        # Instantiate the storage service once to reuse the client
+        self.storage_service = StorageService()
 
-    def get_probables_data(self, probables: list[dict[str, Any]]) -> list[dict[str, Any]] | None:
-        """
-        Get data for today's teams and probable pitchers
-        """
+    def _load_stats_from_blob(self, filename: str) -> list[dict[str, Any]]:
+        """Helper method to load and parse stats data from a blob."""
         try:
-            storage_service: StorageService = StorageService()  # Create StorageService instance
-            pitching_blob: bytes = storage_service.get_blob('pitching.json').download_blob().readall()  # Get blob
-            pitching: list[dict[str, Any]] = json.loads(pitching_blob).get("data")  # Convert blob to list
-        except Exception as err:  # If error, log and return
-            logging.error(err)
-            return None
+            blob_bytes = self.storage_service.get_blob(filename).download_blob().readall()
+            # Safely get the 'data' key, defaulting to an empty list
+            return json.loads(blob_bytes).get("data", [])
+        except json.JSONDecodeError as err:
+            logging.error(f"JSON decode error for {filename}: {err}", exc_info=True)
+        except Exception as err:
+            logging.error(f"Failed to load or parse {filename}: {err}", exc_info=True)
+        return []
 
-        games: list[dict[str, Any]] = []  # List for games
+    def get_probables_data(self, probables: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Get data for today's teams and probable pitchers."""
+        pitching = self._load_stats_from_blob('pitching.json')
+        if not pitching:
+            logging.warning("Could not load pitching stats. Pitcher data will be incomplete.")
 
-        for game in probables:  # For each game
-            away_team: dict[str, Any] = game.get("teams", {}).get("away", {})  # Get away team
-            home_team: dict[str, Any] = game.get("teams", {}).get("home", {})  # Get home team
+        games: list[dict[str, Any]] = []
+        for game in probables:
+            away_team = game.get("teams", {}).get("away", {})
+            home_team = game.get("teams", {}).get("home", {})
+            away_pitcher = away_team.get("probablePitcher", {})
+            home_pitcher = home_team.get("probablePitcher", {})
+            venue = game.get("venue", {})
+            location = venue.get("location", {})
 
-            away_pitcher: dict[str, Any] = away_team.get("probablePitcher", {})  # Get away pitcher
-            home_pitcher: dict[str, Any] = home_team.get("probablePitcher", {})  # Get home pitcher
+            # Use an f-string for cleaner formatting
+            venue_str = f"{venue.get('name', 'N/A')}, ({location.get('city', '?')}, {location.get('stateAbbrev', '?')})"
 
-            stadium: str = game.get("venue", {}).get("name")  # Get stadium name
-            location: dict[str, Any] = game.get("venue", {}).get("location")  # Get location
-            city: str = location.get("city", "")  # Get city
-            state: str = location.get("stateAbbrev", "")  # Get state
-
-            matchup: dict[str, Any] = {  # Create matchup dict
+            matchup = {
                 "date": game.get("gameDate"),
-                "venue": stadium + ", (" + city + ", " + state + ")",
+                "venue": venue_str,
                 "away": self.get_matchup_team(away_team, away_pitcher, pitching),
                 "home": self.get_matchup_team(home_team, home_pitcher, pitching)
             }
-
-            games.append(matchup)  # Add matchup dict to list
-
+            games.append(matchup)
         return games
 
-    def get_matchup_team(
-            self, team: dict[str, Any], pitcher: dict[str, Any], pitching: list[dict[str, Any]]
-    ) -> dict[str, Any]:
-        """
-        Get team data for matchup
-
-        Args:
-            team (dict): team dict
-            pitcher (dict): pitcher dict
-            pitching (list): pitching stats list
-
-        Returns:
-            dict: team data for matchup
-        """
-        matchup_team: dict[str, Any] = {  # Create matchup team dict
+    def get_matchup_team(self, team: dict, pitcher: dict, pitching_stats: list) -> dict:
+        """Get team data for matchup."""
+        pitcher_id = pitcher.get("id")
+        return {
             "abbr": team.get("team", {}).get("abbreviation"),
             "record": {
                 "wins": team.get("leagueRecord", {}).get("wins", 'N/A'),
@@ -72,55 +65,39 @@ class ProbablesService:
             "pitcher": {
                 "name": pitcher.get("fullName"),
                 "record": {
-                    "wins": self.get_pitcher_stat('W', pitcher.get("id"), pitching),
-                    "losses": self.get_pitcher_stat('L', pitcher.get("id"), pitching)
+                    "wins": self.get_pitcher_stat('W', pitcher_id, pitching_stats),
+                    "losses": self.get_pitcher_stat('L', pitcher_id, pitching_stats)
                 },
-                "era": self.get_pitcher_stat('ERA', pitcher.get("id"), pitching),
-                "xfip": self.get_pitcher_stat('xFIP', pitcher.get("id"), pitching),
-                "war": self.get_pitcher_stat('WAR', pitcher.get("id"), pitching)
+                "era": self.get_pitcher_stat('ERA', pitcher_id, pitching_stats),
+                "xfip": self.get_pitcher_stat('xFIP', pitcher_id, pitching_stats),
+                "war": self.get_pitcher_stat('WAR', pitcher_id, pitching_stats)
             }
         }
 
-        return matchup_team
-
-    def get_pitcher_stat(self, stat_key: str, pitcher_id: int, pitching_stats: list[dict[str, Any]]) -> str | None:
-        """
-        Finds today's value of a stat for a pitcher.
-
-        Args:
-            stat_key (str): The key of the stat to find.
-            pitcher_id (int): The MLB player ID for the pitcher.
-            pitching_stats (list[dict[str, Any]]): A list of dictionaries with pitching stats.
-
-        Returns:
-            The stat value as a string, or None if the pitcher is not found.
-        """
-        # Find the dictionary where 'player_id' matches the pitcher_id
-        pitcher_data: dict[str, Any] = next((p for p in pitching_stats if p.get('xMLBAMID') == pitcher_id), None)
-
-        # Return the stat value if the pitcher was found, otherwise return None
-        return pitcher_data.get(stat_key) if pitcher_data else None
-
-    def get_off_war_leaders(self) -> list[dict[str, Any]] | None:
-        """
-        Get today's offensive WAR leaders
-
-        Returns:
-            list[dict[str, Any]]: list of offensive WAR leaders
-        """
-        try:
-            storage_service: StorageService = StorageService()  # Create StorageService instance
-            batting_blob: bytes = storage_service.get_blob('batting.json').download_blob().readall()  # Get blob
-            batting: list[dict[str, Any]] = json.loads(batting_blob).get("data")  # Convert blob to list
-
-        except Exception as err:  # If error, log and return
-            logging.error(err)
+    def get_pitcher_stat(self, stat_key: str, pitcher_id: int, pitching_stats: list) -> str | None:
+        """Finds a stat for a pitcher, safely comparing IDs."""
+        if not pitcher_id:
             return None
 
-        off_war_leaders: list[dict[str, Any]] = []  # List for WAR leaders
+        # Use a generator expression with next() for efficiency
+        try:
+            pitcher_data = next(
+                (p for p in pitching_stats if int(p.get('xMLBAMID', 0)) == pitcher_id),
+                None
+            )
+            return pitcher_data.get(stat_key) if pitcher_data else None
+        except (ValueError, TypeError):
+            # This handles cases where xMLBAMID is not a valid integer
+            logging.warning(f"Encountered a non-integer pitcher ID in stats data.")
+            return None
 
-        for batter in batting[:25]:  # For each batter
-            leader = {  # Create leader dict
+    def get_off_war_leaders(self) -> list[dict[str, Any]]:
+        """Get today's top 25 offensive WAR leaders."""
+        batting = self._load_stats_from_blob('batting.json')
+        off_war_leaders: list[dict[str, Any]] = []
+
+        for batter in batting[:25]:
+            leader = {
                 "name": batter.get("PlayerName"),
                 "team": batter.get("TeamNameAbb"),
                 "avg": batter.get("AVG"),
@@ -131,7 +108,5 @@ class ProbablesService:
                 "babip": batter.get("BABIP"),
                 "war": batter.get("WAR")
             }
-
-            off_war_leaders.append(leader)  # Add leader dict to list
-
+            off_war_leaders.append(leader)
         return off_war_leaders
