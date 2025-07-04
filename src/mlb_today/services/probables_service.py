@@ -1,4 +1,5 @@
 """ Service for creating today's probables data """
+from datetime import datetime
 import json
 import logging
 from typing import Any
@@ -45,7 +46,7 @@ class ProbablesService:
             venue_str = f"{venue.get('name', 'N/A')}, ({location.get('city', '?')}, {location.get('stateAbbrev', '?')})"
 
             matchup = {
-                "date": game.get("gameDate"),
+                "date": self.format_iso_to_ampm(game.get("gameDate")),
                 "venue": venue_str,
                 "away": self.get_matchup_team(away_team, away_pitcher, pitching),
                 "home": self.get_matchup_team(home_team, home_pitcher, pitching)
@@ -110,3 +111,47 @@ class ProbablesService:
             }
             off_war_leaders.append(leader)
         return off_war_leaders
+
+    def get_pitching_war_leaders(self) -> list[dict[str, Any]]:
+        """Get today's top 25 pitching WAR leaders."""
+        pitching = self._load_stats_from_blob('pitching.json')
+        pitching_war_leaders: list[dict[str, Any]] = []
+
+        for pitcher in pitching[:25]:
+            leader = {
+                "name": pitcher.get("PlayerName"),
+                "team": pitcher.get("TeamNameAbb"),
+                "w": pitcher.get("W"),
+                "l": pitcher.get("L"),
+                "era": pitcher.get("ERA"),
+                "xfip": pitcher.get("xFIP"),
+                "war": pitcher.get("WAR")
+            }
+            pitching_war_leaders.append(leader)
+        return pitching_war_leaders
+
+    def format_iso_to_ampm(self, iso_string: str) -> str:
+        """
+        Converts an ISO 8601 datetime string (e.g., '2025-06-27T18:40:00-04:00')
+        into a human-readable 12-hour format (e.g., '6:40 PM').
+        """
+        if not iso_string:
+            return "N/A"
+        try:
+            # 1. Parse the string into a timezone-aware datetime object.
+            #    fromisoformat() handles the timezone offset automatically.
+            dt_object = datetime.fromisoformat(iso_string)
+
+            # 2. Format the object into a 12-hour string with AM/PM.
+            #    - %I: Hour (12-hour clock) as a zero-padded decimal number.
+            #    - %M: Minute as a zero-padded decimal number.
+            #    - %p: Locale’s equivalent of either AM or PM.
+            formatted_time = dt_object.strftime("%I:%M %p")
+
+            # 3. Remove the leading zero from the hour (e.g., '06:40 PM' -> '6:40 PM')
+            if formatted_time.startswith('0'):
+                return formatted_time[1:]
+            return formatted_time
+        except (ValueError, TypeError):
+            # Return a fallback value if the input string is malformed
+            return "Invalid Time"

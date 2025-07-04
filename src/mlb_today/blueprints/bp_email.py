@@ -23,7 +23,7 @@ jinja_env: Environment = Environment(
 
 @bp.blob_trigger(
     arg_name="emailblob",
-    path="email-data/email_data.json",  # Matches the container/blob name from bp_probables
+    path="mlbemail",  # Matches the containerb name from bp_probables
     connection="STORAGE_CONNECTION_STRING"  # Name of the app setting for the connection string
 )
 def create_and_send_email(emailblob: func.InputStream) -> None:
@@ -41,7 +41,8 @@ def create_and_send_email(emailblob: func.InputStream) -> None:
 
         html_body = template.render(  # Render the template with the data
             probables=email_data.get("probables"),
-            batting=email_data.get("batting")
+            batting=email_data.get("batting"),
+            pitching=email_data.get("pitching")
         )
 
         email_service = EmailService()  # Create an instance of EmailService
