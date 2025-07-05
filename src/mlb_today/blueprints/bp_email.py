@@ -13,6 +13,7 @@ from src.mlb_today.services.email_service import EmailService
 bp = func.Blueprint()
 
 EMAIL_RECIPIENTS: str = config.PROBABLES_TO_EMAIL_STR
+EMAIL_BLOB_CONTAINER_NAME: str = config.EMAIL_BLOB_CONTAINER_NAME
 
 template_path: str = os.path.join(os.path.dirname(__file__), '..', 'templates')
 jinja_env: Environment = Environment(
@@ -23,12 +24,14 @@ jinja_env: Environment = Environment(
 
 @bp.blob_trigger(
     arg_name="emailblob",
-    path="mlbemail",  # Matches the containerb name from bp_probables
-    connection="STORAGE_CONNECTION_STRING"  # Name of the app setting for the connection string
+    # Correctly format the path with the container name and a blob name pattern.
+    # This makes the trigger robust and configurable.
+    path=f"{EMAIL_BLOB_CONTAINER_NAME}/{{name}}",
+    connection="STORAGE_CONNECTION_STRING"
 )
 def create_and_send_email(emailblob: func.InputStream) -> None:
     """
-    Triggers when email_data.json is created, generates an HTML email body
+    Triggers when a blob is created/updated, generates an HTML email body
     from a Jinja2 template, and sends the email.
     """
     logging.info(f"Blob trigger processed blob: {emailblob.name}")

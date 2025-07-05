@@ -54,10 +54,9 @@ def main(probablesarg: func.TimerRequest) -> None:
     }
 
     storage_service: StorageService = StorageService()  # Create StorageService instance
+    logging.info(f"Saving email data to {EMAIL_BLOB_CONTAINER_NAME}/email_data.json")
     storage_service.save_blob(  # Store email data in Azure Blob
-        blob_filename="email_data_"+datetime.now().strftime("_%Y%m%d%H%M%S")+".json",
-        data=json.dumps(email_data),
+        blob_filename="email_data.json",  # Use a consistent filename
+        data=json.dumps(email_data, indent=4),  # Use indent for readability
         blob_container_name=EMAIL_BLOB_CONTAINER_NAME
     )
-
-    return
