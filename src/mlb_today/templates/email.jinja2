@@ -187,9 +187,9 @@
                                                                 <table class="team-block" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; border-radius: 6px; padding: 10px; border-spacing: 0; border-collapse: collapse;" role="presentation">
                                                                     <tr>
                                                                         <td style="padding: 5px;">
-                                                                            <p class="team-name" style="font-size: 18px; font-weight: bold; color: #000000; margin: 0 0 5px 0;">{{ game.away.abbr }} ({{ game.away.record.wins }}-{{ game.away.record.losses }})</p>
+                                                                            <p class="team-name" style="font-size: 18px; color: #000000; margin: 0 0 5px 0;"><strong>{{ game.away.abbr }}</strong> ({{ game.away.record.wins }}-{{ game.away.record.losses }})</p>
                                                                             <p class="pitcher-info" style="font-size: 14px; color: #333333; margin: 0;">
-                                                                                Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.away.pitcher.name }} ({{ "%.0f" | format(game.away.pitcher.record.wins) }}-{{ "%.0f" | format(game.away.pitcher.record.losses) }})</span><br>
+                                                                                Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.away.pitcher.name }}</span> ({{ "%.0f" | format(game.away.pitcher.record.wins) }}-{{ "%.0f" | format(game.away.pitcher.record.losses) }})<br>
                                                                                 <span class="pitcher-stats" style="font-size: 13px; color: #666666; line-height: 1.5;">
                                                                                     ERA: {{ "%.2f" | format(game.away.pitcher.era) }} | xFIP: {{ "%.2f" | format(game.away.pitcher.xfip) }} | WAR: {{ "%.2f" | format(game.away.pitcher.war) }}
                                                                                 </span>
@@ -202,9 +202,9 @@
                                                                 <table class="team-block" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; border-radius: 6px; padding: 10px; border-spacing: 0; border-collapse: collapse;" role="presentation">
                                                                     <tr>
                                                                         <td style="padding: 5px;">
-                                                                            <p class="team-name" style="font-size: 18px; font-weight: bold; color: #000000; margin: 0 0 5px 0;">{{ game.home.abbr }} ({{ game.home.record.wins }}-{{ game.home.record.losses }})</p>
+                                                                            <p class="team-name" style="font-size: 18px; color: #000000; margin: 0 0 5px 0;"><strong>{{ game.home.abbr }}</strong> ({{ game.home.record.wins }}-{{ game.home.record.losses }})</p>
                                                                             <p class="pitcher-info" style="font-size: 14px; color: #333333; margin: 0;">
-                                                                                Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.home.pitcher.name }} ({{ "%.0f" | format(game.home.pitcher.record.wins) }}-{{ "%.0f" | format(game.home.pitcher.record.losses) }})</span><br>
+                                                                                Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.home.pitcher.name }}</span> ({{ "%.0f" | format(game.home.pitcher.record.wins) }}-{{ "%.0f" | format(game.home.pitcher.record.losses) }})<br>
                                                                                 <span class="pitcher-stats" style="font-size: 13px; color: #666666; line-height: 1.5;">
                                                                                     ERA: {{ "%.2f" | format(game.home.pitcher.era) }} | xFIP: {{ "%.2f" | format(game.home.pitcher.xfip) }} | WAR: {{ "%.2f" | format(game.home.pitcher.war) }}
                                                                                 </span>
