@@ -57,6 +57,24 @@ class ProbablesService:
     def get_matchup_team(self, team: dict, pitcher: dict, pitching_stats: list) -> dict:
         """Get team data for matchup."""
         pitcher_id = pitcher.get("id")
+
+        pitcher_wins = self.get_pitcher_stat('W', pitcher_id, pitching_stats)
+        pitcher_losses = self.get_pitcher_stat('L', pitcher_id, pitching_stats)
+        pitcher_era = self.get_pitcher_stat('ERA', pitcher_id, pitching_stats)
+        pitcher_xfip = self.get_pitcher_stat('xFIP', pitcher_id, pitching_stats)
+        pitcher_war = self.get_pitcher_stat('WAR', pitcher_id, pitching_stats)
+
+        if not pitcher_wins:
+            pitcher_wins = 0.0
+        if not pitcher_losses:
+            pitcher_losses = 0.0
+        if not pitcher_era:
+            pitcher_era = 0.0
+        if not pitcher_xfip:
+            pitcher_xfip = 0.0
+        if not pitcher_war:
+            pitcher_war = 0.0
+
         return {
             "abbr": team.get("team", {}).get("abbreviation"),
             "record": {
@@ -66,12 +84,12 @@ class ProbablesService:
             "pitcher": {
                 "name": pitcher.get("fullName"),
                 "record": {
-                    "wins": self.get_pitcher_stat('W', pitcher_id, pitching_stats),
-                    "losses": self.get_pitcher_stat('L', pitcher_id, pitching_stats)
+                    "wins": pitcher_wins,
+                    "losses": pitcher_losses
                 },
-                "era": self.get_pitcher_stat('ERA', pitcher_id, pitching_stats),
-                "xfip": self.get_pitcher_stat('xFIP', pitcher_id, pitching_stats),
-                "war": self.get_pitcher_stat('WAR', pitcher_id, pitching_stats)
+                "era": pitcher_era,
+                "xfip": pitcher_xfip,
+                "war": pitcher_war
             }
         }
 
