@@ -1,6 +1,7 @@
 """ Azure Function to compile today's schedule """
 import logging
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from src.mlb_today.services.app_setting_service import AppSettingService
 from src.mlb_today.services.schedule_service import ScheduleService
@@ -29,9 +30,13 @@ def main(schedulearg: func.TimerRequest) -> None:
     Args:
         schedulearg (func.TimerRequest): timer trigger
     """
+    eastern_tz = ZoneInfo("America/New_York")
+    today_eastern_str = datetime.now(eastern_tz).strftime("%Y-%m-%d")
+    logging.info(f"Checking for games on {today_eastern_str} (Eastern Time).")
+
     mlbdotcom_service: MlbDotComService = MlbDotComService()  # Create MlbDotComService instance
     games: list[dict[str, str]] | None = mlbdotcom_service.get_schedule(  # Get today's games
-        date=datetime.now().strftime("%Y-%m-%d")
+        date=today_eastern_str
     )
 
     if not games:  # If no games found, log and return

@@ -35,21 +35,23 @@ class ProbablesService:
 
         games: list[dict[str, Any]] = []
         for game in probables:
-            away_team = game.get("teams", {}).get("away", {})
-            home_team = game.get("teams", {}).get("home", {})
-            away_pitcher = away_team.get("probablePitcher", {})
-            home_pitcher = home_team.get("probablePitcher", {})
-            venue = game.get("venue", {})
-            location = venue.get("location", {})
+            away_team: dict[str, Any] = game.get("teams", {}).get("away", {})
+            home_team: dict[str, Any] = game.get("teams", {}).get("home", {})
+            away_pitcher: dict[str, Any] = away_team.get("probablePitcher", {})
+            home_pitcher: dict[str, Any] = home_team.get("probablePitcher", {})
+            venue: dict[str, Any] = game.get("venue", {})
+            location: dict[str, Any] = venue.get("location", {})
+            broadcasts: list[dict[str, Any]] = game.get("broadcasts", [])
 
             # Use an f-string for cleaner formatting
             venue_str = f"{venue.get('name', 'N/A')}, ({location.get('city', '?')}, {location.get('stateAbbrev', '?')})"
 
             matchup = {
-                "date": self.format_iso_to_ampm(game.get("gameDate")),
+                "date": game.get("gameDate"),
                 "venue": venue_str,
                 "away": self.get_matchup_team(away_team, away_pitcher, pitching),
-                "home": self.get_matchup_team(home_team, home_pitcher, pitching)
+                "home": self.get_matchup_team(home_team, home_pitcher, pitching),
+                "watch": self.get_tv_watch(broadcasts)
             }
             games.append(matchup)
         return games
@@ -58,22 +60,16 @@ class ProbablesService:
         """Get team data for matchup."""
         pitcher_id = pitcher.get("id")
 
-        pitcher_wins = self.get_pitcher_stat('W', pitcher_id, pitching_stats)
-        pitcher_losses = self.get_pitcher_stat('L', pitcher_id, pitching_stats)
-        pitcher_era = self.get_pitcher_stat('ERA', pitcher_id, pitching_stats)
-        pitcher_xfip = self.get_pitcher_stat('xFIP', pitcher_id, pitching_stats)
-        pitcher_war = self.get_pitcher_stat('WAR', pitcher_id, pitching_stats)
-
-        if not pitcher_wins:
-            pitcher_wins = 0.0
-        if not pitcher_losses:
-            pitcher_losses = 0.0
-        if not pitcher_era:
-            pitcher_era = 0.0
-        if not pitcher_xfip:
-            pitcher_xfip = 0.0
-        if not pitcher_war:
-            pitcher_war = 0.0
+        def get_stat_as_float(stat_key: str, default_value: float = 0.0) -> float:
+            """Safely retrieves a stat and converts it to a float."""
+            stat_value = self.get_pitcher_stat(stat_key, pitcher_id, pitching_stats)
+            if stat_value is None:
+                return default_value
+            try:
+                # Ensure the stat is always a number for the template
+                return float(stat_value)
+            except (ValueError, TypeError):
+                return default_value
 
         return {
             "abbr": team.get("team", {}).get("abbreviation"),
@@ -84,13 +80,13 @@ class ProbablesService:
             "pitcher": {
                 "name": pitcher.get("fullName"),
                 "record": {
-                    "wins": pitcher_wins,
-                    "losses": pitcher_losses
+                    "wins": get_stat_as_float('W'),
+                    "losses": get_stat_as_float('L')
                 },
-                "era": pitcher_era,
-                "xfip": pitcher_xfip,
-                "war": pitcher_war
-            }
+                "era": get_stat_as_float('ERA'),
+                "xfip": get_stat_as_float('xFIP'),
+                "war": get_stat_as_float('WAR')
+            },
         }
 
     def get_pitcher_stat(self, stat_key: str, pitcher_id: int, pitching_stats: list) -> str | None:
@@ -148,28 +144,42 @@ class ProbablesService:
             pitching_war_leaders.append(leader)
         return pitching_war_leaders
 
-    def format_iso_to_ampm(self, iso_string: str) -> str:
+    def get_tv_watch(self, broadcasts: list[dict[str, Any]]) -> dict[str, Any] | None:
         """
-        Converts an ISO 8601 datetime string (e.g., '2025-06-27T18:40:00-04:00')
-        into a human-readable 12-hour format (e.g., '6:40 PM').
+        Get TV broadcasts for a game.
+
+        Args:
+            broadcasts (dict): list of all broadcast data.
+
+        Returns:
+            dict: dictionary of broadcasts.
         """
-        if not iso_string:
-            return "N/A"
-        try:
-            # 1. Parse the string into a timezone-aware datetime object.
-            #    fromisoformat() handles the timezone offset automatically.
-            dt_object = datetime.fromisoformat(iso_string)
+        if not broadcasts:
+            return None
 
-            # 2. Format the object into a 12-hour string with AM/PM.
-            #    - %I: Hour (12-hour clock) as a zero-padded decimal number.
-            #    - %M: Minute as a zero-padded decimal number.
-            #    - %p: Locale’s equivalent of either AM or PM.
-            formatted_time = dt_object.strftime("%I:%M %p")
+        home = []
+        away = []
+        national = []
+        misc = []
 
-            # 3. Remove the leading zero from the hour (e.g., '06:40 PM' -> '6:40 PM')
-            if formatted_time.startswith('0'):
-                return formatted_time[1:]
-            return formatted_time
-        except (ValueError, TypeError):
-            # Return a fallback value if the input string is malformed
-            return "Invalid Time"
+        for broadcast in broadcasts:
+            if broadcast.get("type") == "TV":
+                if broadcast.get("isNational") and broadcast.get("callSign") not in national:
+                    national.append(broadcast.get("callSign"))
+                else:
+                    if broadcast.get("homeAway") == "home" and broadcast.get("callSign") not in national:
+                        home.append(broadcast.get("callSign"))
+                    elif broadcast.get("homeAway") == "away" and broadcast.get("callSign") not in national:
+                        away.append(broadcast.get("callSign"))
+                    else:
+                        if broadcast.get("callSign") not in national:
+                            misc.append(broadcast.get("callSign"))
+
+        tvwatch = {
+            "home": home,
+            "away": away,
+            "national": national,
+            "misc": misc
+        }
+
+        return tvwatch

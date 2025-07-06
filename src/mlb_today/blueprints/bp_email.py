@@ -15,11 +15,30 @@ bp = func.Blueprint()
 EMAIL_RECIPIENTS: str = config.PROBABLES_TO_EMAIL_STR
 EMAIL_BLOB_CONTAINER_NAME: str = config.EMAIL_BLOB_CONTAINER_NAME
 
+
+def format_time_ampm(iso_string: str) -> str:
+    """Jinja2 filter to convert an ISO datetime string to a 12-hour AM/PM format."""
+    if not iso_string:
+        return ""
+    try:
+        dt_object = datetime.fromisoformat(iso_string)
+        # Format to 12-hour with AM/PM
+        formatted_time = dt_object.strftime("%I:%M %p")
+        # Remove leading zero for hours like '02:40 PM' -> '2:40 PM'
+        if formatted_time.startswith('0'):
+            return formatted_time[1:]
+        return formatted_time
+    except (ValueError, TypeError):
+        return iso_string  # Return original string on error
+
+
 template_path: str = os.path.join(os.path.dirname(__file__), '..', 'templates')
 jinja_env: Environment = Environment(
     loader=FileSystemLoader(template_path),
     autoescape=select_autoescape(['html', 'xml'])
 )
+
+jinja_env.filters['to_ampm'] = format_time_ampm
 
 
 @bp.blob_trigger(

@@ -174,55 +174,74 @@
                         <tr>
                             <td style="padding: 20px;">
                                 <p class="section-title" style="font-size: 22px; font-weight: bold; margin-bottom: 15px; color: #333333; text-align: center;">Today's Pitching Probables</p>
-                                {% for game in probables %}
-                                <table class="game-card" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 15px; border-bottom: 1px solid #eeeeee; border-spacing: 0; border-collapse: collapse;" role="presentation">
-                                    <tr>
-                                        <td align="center" style="padding-bottom: 10px;">
-                                            <p class="game-info" style="font-size: 14px; color: #666666; margin: 0;">
-                                                <strong>{{ game.date }}</strong> - {{ game.venue }}
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="team-block-wrapper" style="padding: 0;">
-                                            <!-- Two-column layout for teams, stacks on mobile -->
-                                            <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
-                                                <tr>
-                                                    <td class="team-block-cell" width="50%" valign="top" style="padding: 0 10px 10px 0;">
-                                                        <table class="team-block" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; border-radius: 6px; padding: 10px; border-spacing: 0; border-collapse: collapse;" role="presentation">
-                                                            <tr>
-                                                                <td style="padding: 5px;">
-                                                                    <p class="team-name" style="font-size: 18px; font-weight: bold; color: #000000; margin: 0 0 5px 0;">{{ game.away.abbr }} ({{ game.away.record.wins }}-{{ game.away.record.losses }})</p>
-                                                                    <p class="pitcher-info" style="font-size: 14px; color: #333333; margin: 0;">
-                                                                        Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.away.pitcher.name }} ({{ "%.0f" | format(game.away.pitcher.record.wins) }}-{{ "%.0f" | format(game.away.pitcher.record.losses) }})</span><br>
-                                                                        <span class="pitcher-stats" style="font-size: 13px; color: #666666; line-height: 1.5;">
-                                                                            ERA: {{ "%.2f" | format(game.away.pitcher.era) }} | xFIP: {{ "%.2f" | format(game.away.pitcher.xfip) }} | WAR: {{ "%.2f" | format(game.away.pitcher.war) }}
-                                                                        </span>
-                                                                    </p>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                    <td class="team-block-cell" width="50%" valign="top" style="padding: 0 0 10px 10px;">
-                                                        <table class="team-block" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; border-radius: 6px; padding: 10px; border-spacing: 0; border-collapse: collapse;" role="presentation">
-                                                            <tr>
-                                                                <td style="padding: 5px;">
-                                                                    <p class="team-name" style="font-size: 18px; font-weight: bold; color: #000000; margin: 0 0 5px 0;">{{ game.home.abbr }} ({{ game.home.record.wins }}-{{ game.home.record.losses }})</p>
-                                                                    <p class="pitcher-info" style="font-size: 14px; color: #333333; margin: 0;">
-                                                                        Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.home.pitcher.name }} ({{ "%.0f" | format(game.home.pitcher.record.wins) }}-{{ "%.0f" | format(game.home.pitcher.record.losses) }})</span><br>
-                                                                        <span class="pitcher-stats" style="font-size: 13px; color: #666666; line-height: 1.5;">
-                                                                            ERA: {{ "%.2f" | format(game.home.pitcher.era) }} | xFIP: {{ "%.2f" | format(game.home.pitcher.xfip) }} | WAR: {{ "%.2f" | format(game.home.pitcher.war) }}
-                                                                        </span>
-                                                                    </p>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                </table>
+                                {% for group in probables | groupby('date') %}
+                                    <h3 style="font-size: 18px; color: #333; margin: 25px 0 10px 0; text-align: left; border-bottom: 1px solid #ddd; padding-bottom: 8px;">{{ group.grouper | to_ampm }}</h3>
+                                    {% for game in group.list %}
+                                        <table class="game-card" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 15px; border-bottom: 1px solid #eeeeee; border-spacing: 0; border-collapse: collapse;" role="presentation">
+                                            <tr>
+                                                <td class="team-block-wrapper" style="padding: 0;">
+                                                    <!-- Two-column layout for teams, stacks on mobile -->
+                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                                        <tr>
+                                                            <td class="team-block-cell" width="50%" valign="top" style="padding: 10px 10px 0 0;">
+                                                                <table class="team-block" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; border-radius: 6px; padding: 10px; border-spacing: 0; border-collapse: collapse;" role="presentation">
+                                                                    <tr>
+                                                                        <td style="padding: 5px;">
+                                                                            <p class="team-name" style="font-size: 18px; font-weight: bold; color: #000000; margin: 0 0 5px 0;">{{ game.away.abbr }} ({{ game.away.record.wins }}-{{ game.away.record.losses }})</p>
+                                                                            <p class="pitcher-info" style="font-size: 14px; color: #333333; margin: 0;">
+                                                                                Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.away.pitcher.name }} ({{ "%.0f" | format(game.away.pitcher.record.wins) }}-{{ "%.0f" | format(game.away.pitcher.record.losses) }})</span><br>
+                                                                                <span class="pitcher-stats" style="font-size: 13px; color: #666666; line-height: 1.5;">
+                                                                                    ERA: {{ "%.2f" | format(game.away.pitcher.era) }} | xFIP: {{ "%.2f" | format(game.away.pitcher.xfip) }} | WAR: {{ "%.2f" | format(game.away.pitcher.war) }}
+                                                                                </span>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                            <td class="team-block-cell" width="50%" valign="top" style="padding: 10px 0 0 10px;">
+                                                                <table class="team-block" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; border-radius: 6px; padding: 10px; border-spacing: 0; border-collapse: collapse;" role="presentation">
+                                                                    <tr>
+                                                                        <td style="padding: 5px;">
+                                                                            <p class="team-name" style="font-size: 18px; font-weight: bold; color: #000000; margin: 0 0 5px 0;">{{ game.home.abbr }} ({{ game.home.record.wins }}-{{ game.home.record.losses }})</p>
+                                                                            <p class="pitcher-info" style="font-size: 14px; color: #333333; margin: 0;">
+                                                                                Pitcher: <span class="pitcher-name" style="font-weight: bold; color: #2a6f97;">{{ game.home.pitcher.name }} ({{ "%.0f" | format(game.home.pitcher.record.wins) }}-{{ "%.0f" | format(game.home.pitcher.record.losses) }})</span><br>
+                                                                                <span class="pitcher-stats" style="font-size: 13px; color: #666666; line-height: 1.5;">
+                                                                                    ERA: {{ "%.2f" | format(game.home.pitcher.era) }} | xFIP: {{ "%.2f" | format(game.home.pitcher.xfip) }} | WAR: {{ "%.2f" | format(game.home.pitcher.war) }}
+                                                                                </span>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" style="padding-bottom: 10px;">
+                                                    <p class="game-info" style="font-size: 14px; color: #666666; margin: 0;">
+                                                        {{ game.venue }}
+                                                    </p>
+                                                    {% if game.watch %}
+                                                    <p class="game-info" style="font-size: 13px; color: #444444; margin: 5px 0 0 0;">
+                                                        {% if game.watch.national %}
+                                                            National: {{ game.watch.national | join(', ') }}<br />
+                                                        {% endif %}
+                                                        {% if game.watch.home %}
+                                                            <span style="color: #555;">{{ game.home.abbr }}: {{ game.watch.home | join(', ') }}</span><br />
+                                                        {% endif %}
+                                                        {% if game.watch.away %}
+                                                            <span style="color: #555;">{{ game.away.abbr }}: {{ game.watch.away | join(', ') }}</span>
+                                                        {% endif %}
+                                                        {% if game.watch.misc %}
+                                                            <span style="color: #555;">Misc: {{ game.watch.away | join(', ') }}</span>
+                                                        {% endif %}
+                                                    </p>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    {% endfor %}
                                 {% endfor %}
                             </td>
                         </tr>

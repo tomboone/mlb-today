@@ -3,6 +3,7 @@ import json
 import logging
 from datetime import datetime
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import azure.functions as func
 
@@ -31,9 +32,13 @@ def main(probablesarg: func.TimerRequest) -> None:
     Args:
         probablesarg (func.TimerRequest): timer trigger
     """
+    eastern_tz = ZoneInfo("America/New_York")
+    today_eastern_str = datetime.now(eastern_tz).strftime("%Y-%m-%d")
+    logging.info(f"Checking for games on {today_eastern_str} (Eastern Time).")
+
     mlbdotcom_service: MlbDotComService = MlbDotComService()  # Create MlbDotComService instance
-    probables: list[dict[str, Any]] | None = mlbdotcom_service.get_schedule(  # Get today's pitching probables
-        date=datetime.now().strftime("%Y-%m-%d")
+    probables: list[dict[str, str]] | None = mlbdotcom_service.get_schedule(  # Get today's games
+        date=today_eastern_str
     )
 
     if not probables:  # If no probables found, log and return
