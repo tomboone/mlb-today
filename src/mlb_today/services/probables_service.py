@@ -60,6 +60,11 @@ class ProbablesService:
         """Get team data for matchup."""
         pitcher_id = pitcher.get("id")
 
+        pitcher_name = pitcher.get("fullName")
+
+        if not pitcher_name:
+            pitcher_name = "TBD"
+
         def get_stat_as_float(stat_key: str, default_value: float = 0.0) -> float:
             """Safely retrieves a stat and converts it to a float."""
             stat_value = self.get_pitcher_stat(stat_key, pitcher_id, pitching_stats)
@@ -78,7 +83,7 @@ class ProbablesService:
                 "losses": team.get("leagueRecord", {}).get("losses", 'N/A')
             },
             "pitcher": {
-                "name": pitcher.get("fullName"),
+                "name": pitcher_name,
                 "record": {
                     "wins": get_stat_as_float('W'),
                     "losses": get_stat_as_float('L')
