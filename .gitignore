@@ -53,3 +53,5 @@ azurite-debug.log
 .vscode
 
 .DS_Store
+
+logs
