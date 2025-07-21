@@ -54,7 +54,8 @@ def main(schedulearg: func.TimerRequest) -> None:
     app_settings_service: AppSettingService = AppSettingService(  # Create AppSettingService instance
         subscription_id=app_info.get("subscription_id"),
         target_resource_group=app_info.get("resource_group_name"),
-        target_function_app_name=app_info.get("app_name")
+        target_function_app_name=app_info.get("app_name"),
+        target_slot_name=app_info.get("slot_name")  # <-- Pass the slot name here
     )
     app_settings_service.update_setting("PROBABLES_CRON", new_cron_schedule)  # Update app setting
     logger.info(f"NCronTab schedule updated to {new_cron_schedule}")
