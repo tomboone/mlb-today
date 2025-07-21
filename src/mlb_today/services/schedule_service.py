@@ -1,7 +1,8 @@
 """ Service for retrieving/parsing today's schedule """
-import logging
 from datetime import datetime, timedelta, timezone
 from typing import Any
+
+from src.mlb_today.logger import logger
 
 
 # noinspection PyMethodMayBeStatic
@@ -53,5 +54,5 @@ class ScheduleService:
             return ncrontab
 
         except (ValueError, TypeError) as e:  # If error, log and return None
-            logging.error(f"Could not parse or convert timestring '{iso_timestring}': {e}")
+            logger.error(f"Could not parse or convert timestring '{iso_timestring}': {e}")
             return None

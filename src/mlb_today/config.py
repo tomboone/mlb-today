@@ -1,10 +1,6 @@
 """ Configuration for mlb-today """
 import os
 
-STORAGE_CONNECTION_STRING = os.getenv("STORAGE_CONNECTION_STRING")
-BLOB_CONTAINER_NAME = os.getenv("BLOB_CONTAINER_NAME")
-EMAIL_BLOB_CONTAINER_NAME = os.getenv("EMAIL_BLOB_CONTAINER_NAME")
-
 SUBSCRIPTION_ID = os.getenv("SUBSCRIPTION_ID")
 TARGET_RESOURCE_GROUP_NAME = os.getenv("TARGET_RESOURCE_GROUP_NAME")
 TARGET_FUNCTION_APP_NAME = os.getenv("TARGET_FUNCTION_APP_NAME")
@@ -20,5 +16,8 @@ PROBABLES_CRON = os.getenv("PROBABLES_CRON")
 SCHEDULE_CRON = os.getenv("SCHEDULE_CRON")
 
 
-SCHEDULE_ENDPOINT = "https://statsapi.mlb.com/api/v1/schedule"
+SCHEDULE_ENDPOINT = os.getenv("SCHEDULE_ENDPOINT")
 STATS_ENDPOINT = "https://www.fangraphs.com/api/leaders/major-league/data"
+
+LOG_DIRECTORY = os.getenv("LOG_DIRECTORY")
+LOG_LEVEL = os.getenv("LOG_LEVEL")

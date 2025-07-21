@@ -1,10 +1,11 @@
 """ MLB.com API service """
-import logging
 from typing import Any
 
 import requests
 
 import src.mlb_today.config as config
+from src.mlb_today.logger import logger
+
 
 SCHEDULE_ENDPOINT: str = config.SCHEDULE_ENDPOINT
 
@@ -37,7 +38,7 @@ class MlbDotComService:
             r: requests.Response = requests.get(self.endpoint, params=payload)  # Get data
             r.raise_for_status()  # Raise error for HTTP status code
         except requests.exceptions.HTTPError or requests.exceptions.RequestException as err:
-            logging.error(err)
+            logger.error(err)
             return None
 
         return r.json()["dates"][0].get("games", [])

@@ -1,6 +1,5 @@
 """ Retrieve pitching probables from MLB.com """
 import json
-import logging
 from datetime import datetime
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -8,6 +7,7 @@ from zoneinfo import ZoneInfo
 import azure.functions as func
 
 import src.mlb_today.config as config
+from src.mlb_today.logger import logger
 from src.mlb_today.services.mlbdotcom_service import MlbDotComService
 from src.mlb_today.services.probables_service import ProbablesService
 from src.mlb_today.services.storage_service import StorageService
@@ -34,7 +34,7 @@ def main(probablesarg: func.TimerRequest) -> None:
     """
     eastern_tz = ZoneInfo("America/New_York")
     today_eastern_str = datetime.now(eastern_tz).strftime("%Y-%m-%d")
-    logging.info(f"Checking for games on {today_eastern_str} (Eastern Time).")
+    logger.info(f"Checking for games on {today_eastern_str} (Eastern Time).")
 
     mlbdotcom_service: MlbDotComService = MlbDotComService()  # Create MlbDotComService instance
     probables: list[dict[str, str]] | None = mlbdotcom_service.get_schedule(  # Get today's games
@@ -42,7 +42,7 @@ def main(probablesarg: func.TimerRequest) -> None:
     )
 
     if not probables:  # If no probables found, log and return
-        logging.info("No probables found for today")
+        logger.info("No probables found for today")
         return
 
     probables_service: ProbablesService = ProbablesService()  # Create ProbablesService instance
@@ -59,7 +59,7 @@ def main(probablesarg: func.TimerRequest) -> None:
     }
 
     storage_service: StorageService = StorageService()  # Create StorageService instance
-    logging.info(f"Saving email data to {EMAIL_BLOB_CONTAINER_NAME}/email_data.json")
+    logger.info(f"Saving email data to {EMAIL_BLOB_CONTAINER_NAME}/email_data.json")
     storage_service.save_blob(  # Store email data in Azure Blob
         blob_filename="email_data.json",  # Use a consistent filename
         data=json.dumps(email_data, indent=4),  # Use indent for readability

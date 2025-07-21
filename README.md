@@ -20,19 +20,26 @@ Azure Function to retrieve today's Major League Baseball (MLB) schedule w/pitchi
 
 ## Required Environment Variables
 
-*   `STORAGE_CONNECTION_STRING`: Azure Blob Storage connection string
-*   `BLOB_CONTAINER_NAME`: Azure Blob Storage container name for player statistics
-*   `EMAIL_BLOB_CONTAINER_NAME`: Azure Blob Storage container name for probables email data
-*   `SUBSCRIPTION_ID`: ID of Azure subscription the app belongs to
-*   `TARGET_RESOURCE_GROUP_NAME`: Name of Azure resource group containing the app
-*   `TARGET_FUNCTION_APP_NAME`: Name of the Azure Function where this code is deployed
-*   `ACS_CONNECTION_STRING`: Connection string for the Azure Communication Service used to send email
-*   `ACS_SENDER_ADDRESS`: The sender email address configured for the ACS domain
-*   `PROBABLES_TO_EMAIL_STR`: Email address or comma-separated list of email addresses to receive email
+*   `SCHEDULE_ENDPOINT`: URL for MLB.com schedule API
+*   `STATS_ENDPOINT`: URL for Fangraphs stat leaders API
+*   `LOG_DIRECTORY`: Directory for log files
+*   `LOG_LEVEL`: Log level for logging
 *   `PITCHING_CRON`: nCron string for timer trigger to retrieve pitching stats from Fangraphs
 *   `BATTING_CRON`: nCron string for timer trigger to retrieve batting stats from Fangraphs
 *   `PROBABLES_CRON`: placeholder nCron string for timer trigger to send email (automatically updated daily)
 *   `SCHEDULE_CRON`: nCron string for timer trigger to retrieve game schedule for the day from MLB.com
+*   `STORAGE_CONNECTION_STRING`: Azure Blob Storage connection string
+*   `BLOB_CONTAINER_NAME`: Azure Blob Storage container name for player statistics
+*   `EMAIL_BLOB_CONTAINER_NAME`: Azure Blob Storage container name for probables email data
+*   `ACS_CONNECTION_STRING`: Connection string for the Azure Communication Service used to send email
+*   `ACS_SENDER_ADDRESS`: The sender email address configured for the ACS domain
+*   `PROBABLES_TO_EMAIL_STR`: Email address or comma-separated list of email addresses to receive email
+
+## Development Environment Variables
+  
+*   `SUBSCRIPTION_ID`: ID of Azure subscription the app belongs to
+*   `TARGET_RESOURCE_GROUP_NAME`: Name of Azure resource group containing the app
+*   `TARGET_FUNCTION_APP_NAME`: Name of the Azure Function where this code is deployed
 
 ## License
 

@@ -1,24 +1,20 @@
 """ Azure App Settings service """
-import logging
+import os
 
 from azure.identity import DefaultAzureCredential
 from azure.mgmt.web import WebSiteManagementClient
 from azure.mgmt.web.v2018_02_01.models import StringDictionary
 
 import src.mlb_today.config as config
+from src.mlb_today.logger import logger
 
-SUBSCRIPTION_ID: str = config.SUBSCRIPTION_ID
-TARGET_RESOURCE_GROUP: str = config.TARGET_RESOURCE_GROUP_NAME
-TARGET_FUNCTION_APP_NAME: str = config.TARGET_FUNCTION_APP_NAME
-
-
-# noinspection PyTypeChecker
+# noinspection PyTypeChecker,PyMethodMayBeStatic
 class AppSettingService:
     """ Azure App Settings service """
-    def __init__(self):
-        self.subscription_id = SUBSCRIPTION_ID
-        self.target_resource_group = TARGET_RESOURCE_GROUP
-        self.target_function_app_name = TARGET_FUNCTION_APP_NAME
+    def __init__(self, subscription_id: str, target_resource_group: str, target_function_app_name: str):
+        self.subscription_id = subscription_id
+        self.target_resource_group = target_resource_group
+        self.target_function_app_name = target_function_app_name
 
     def update_setting(self, setting_name: str, setting_value: str) -> None:
         """
@@ -30,7 +26,7 @@ class AppSettingService:
         """
         try:
             credential: DefaultAzureCredential = DefaultAzureCredential()  # Create DefaultAzureCredential instance
-            web_client: WebSiteManagementClient = WebSiteManagementClient(credential, SUBSCRIPTION_ID)  # Create client
+            web_client: WebSiteManagementClient = WebSiteManagementClient(credential, self.subscription_id)  # Create client
 
             current_settings: StringDictionary = web_client.web_apps.list_application_settings(  # Get current settings
                 resource_group_name=self.target_resource_group,
@@ -46,7 +42,42 @@ class AppSettingService:
                 )
 
         except Exception as err:  # If error, log and return
-            logging.error(err)
+            logger.error(err)
             return
 
         return
+
+def get_azure_app_info() -> dict[str, str]:
+    """
+    Get Azure App Info from
+
+    Args:
+
+
+    Returns:
+
+    """
+    # Fallback app values
+    subscription_id: str | None = config.SUBSCRIPTION_ID
+    resource_group_name = config.TARGET_RESOURCE_GROUP_NAME
+
+    app_name = os.getenv("WEBSITE_SITE_NAME", os.getenv("APP_NAME", None))
+
+    # Get Subscription ID and Resource Group from WEBSITE_OWNER_NAME
+    website_owner_name = os.environ.get('WEBSITE_OWNER_NAME')
+    if website_owner_name:
+        parts = website_owner_name.split('+')
+        if len(parts) > 0:
+            subscription_id = parts[0]
+        if len(parts) > 1:
+            resource_group_region_parts = parts[1].split('-')
+            if len(resource_group_region_parts) > 2:
+                resource_group_name = "-".join(resource_group_region_parts[:-1])
+            else:
+                resource_group_name = parts[1]  # Fallback if no clear region suffix
+
+    return {
+        "app_name": app_name,
+        "subscription_id": subscription_id,
+        "resource_group_name": resource_group_name
+    }

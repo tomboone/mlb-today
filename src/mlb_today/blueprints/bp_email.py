@@ -1,5 +1,4 @@
 """ Azure Function to send email """
-import logging
 import json
 import os
 from datetime import datetime
@@ -8,6 +7,7 @@ import azure.functions as func
 from jinja2 import Environment, FileSystemLoader, select_autoescape, Template
 
 import src.mlb_today.config as config
+from src.mlb_today.logger import logger
 from src.mlb_today.services.email_service import EmailService
 
 bp = func.Blueprint()
@@ -53,7 +53,7 @@ def create_and_send_email(emailblob: func.InputStream) -> None:
     Triggers when a blob is created/updated, generates an HTML email body
     from a Jinja2 template, and sends the email.
     """
-    logging.info(f"Blob trigger processed blob: {emailblob.name}")
+    logger.info(f"Blob trigger processed blob: {emailblob.name}")
 
     try:
         blob_data_str: str = emailblob.read().decode()  # Convert blob bytes to string
@@ -71,7 +71,7 @@ def create_and_send_email(emailblob: func.InputStream) -> None:
         to_recipients = email_service.create_email_recipients(EMAIL_RECIPIENTS)  # Create recipients
 
         if not to_recipients:  # If no email recipients, log and return
-            logging.warning("No email recipients configured. Skipping email send.")
+            logger.warning("No email recipients configured. Skipping email send.")
             return
 
         subject = f"MLB Today for {datetime.now().strftime('%B %d, %Y')}"  # Create subject
@@ -82,9 +82,9 @@ def create_and_send_email(emailblob: func.InputStream) -> None:
             to_recipients=to_recipients
         )
 
-        logging.info("Successfully generated and sent email.")
+        logger.info("Successfully generated and sent email.")
 
     except json.JSONDecodeError:  # Handle JSON decoding errors
-        logging.error(f"Failed to parse JSON from blob: {emailblob.name}", exc_info=True)
+        logger.error(f"Failed to parse JSON from blob: {emailblob.name}", exc_info=True)
     except Exception as e:  # Handle other exceptions
-        logging.error(f"An unexpected error occurred: {e}", exc_info=True)
+        logger.error(f"An unexpected error occurred: {e}", exc_info=True)

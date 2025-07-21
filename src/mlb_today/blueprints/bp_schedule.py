@@ -1,15 +1,14 @@
 """ Azure Function to compile today's schedule """
-import logging
 from datetime import datetime
 from zoneinfo import ZoneInfo
-
-from src.mlb_today.services.app_setting_service import AppSettingService
-from src.mlb_today.services.schedule_service import ScheduleService
 
 import azure.functions as func
 
 import src.mlb_today.config as config
+from src.mlb_today.logger import logger
+from src.mlb_today.services.app_setting_service import AppSettingService, get_azure_app_info
 from src.mlb_today.services.mlbdotcom_service import MlbDotComService
+from src.mlb_today.services.schedule_service import ScheduleService
 
 bp: func.Blueprint = func.Blueprint()
 
@@ -32,7 +31,7 @@ def main(schedulearg: func.TimerRequest) -> None:
     """
     eastern_tz = ZoneInfo("America/New_York")
     today_eastern_str = datetime.now(eastern_tz).strftime("%Y-%m-%d")
-    logging.info(f"Checking for games on {today_eastern_str} (Eastern Time).")
+    logger.info(f"Checking for games on {today_eastern_str} (Eastern Time).")
 
     mlbdotcom_service: MlbDotComService = MlbDotComService()  # Create MlbDotComService instance
     games: list[dict[str, str]] | None = mlbdotcom_service.get_schedule(  # Get today's games
@@ -40,17 +39,23 @@ def main(schedulearg: func.TimerRequest) -> None:
     )
 
     if not games:  # If no games found, log and return
-        logging.info("No games scheduled for today")
+        logger.info("No games scheduled for today")
         return
 
     schedule_service: ScheduleService = ScheduleService()  # Create ScheduleService instance
     new_cron_schedule: str | None = schedule_service.create_new_cron_schedule(games)  # Get new cron schedule
 
     if not new_cron_schedule:  # If no new cron schedule, log and return
-        logging.warning("Failed to generate a new CRON schedule")
+        logger.warning("Failed to generate a new CRON schedule")
         return
 
-    app_settings_service: AppSettingService = AppSettingService()  # Create AppSettingService instance
+    app_info = get_azure_app_info()
+
+    app_settings_service: AppSettingService = AppSettingService(  # Create AppSettingService instance
+        subscription_id=app_info.get("subscription_id"),
+        target_resource_group=app_info.get("resource_group_name"),
+        target_function_app_name=app_info.get("app_name")
+    )
     app_settings_service.update_setting("PROBABLES_CRON", new_cron_schedule)  # Update app setting
-    logging.info(f"NCronTab schedule updated to {new_cron_schedule}")
+    logger.info(f"NCronTab schedule updated to {new_cron_schedule}")
     return

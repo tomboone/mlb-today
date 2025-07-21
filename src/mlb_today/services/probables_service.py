@@ -1,9 +1,8 @@
 """ Service for creating today's probables data """
-from datetime import datetime
 import json
-import logging
 from typing import Any
 
+from src.mlb_today.logger import logger
 from src.mlb_today.services.storage_service import StorageService
 
 
@@ -22,16 +21,16 @@ class ProbablesService:
             # Safely get the 'data' key, defaulting to an empty list
             return json.loads(blob_bytes).get("data", [])
         except json.JSONDecodeError as err:
-            logging.error(f"JSON decode error for {filename}: {err}", exc_info=True)
+            logger.error(f"JSON decode error for {filename}: {err}", exc_info=True)
         except Exception as err:
-            logging.error(f"Failed to load or parse {filename}: {err}", exc_info=True)
+            logger.error(f"Failed to load or parse {filename}: {err}", exc_info=True)
         return []
 
     def get_probables_data(self, probables: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Get data for today's teams and probable pitchers."""
         pitching = self._load_stats_from_blob('pitching.json')
         if not pitching:
-            logging.warning("Could not load pitching stats. Pitcher data will be incomplete.")
+            logger.warning("Could not load pitching stats. Pitcher data will be incomplete.")
 
         games: list[dict[str, Any]] = []
         for game in probables:
@@ -108,7 +107,7 @@ class ProbablesService:
             return pitcher_data.get(stat_key) if pitcher_data else None
         except (ValueError, TypeError):
             # This handles cases where xMLBAMID is not a valid integer
-            logging.warning(f"Encountered a non-integer pitcher ID in stats data.")
+            logger.warning(f"Encountered a non-integer pitcher ID in stats data.")
             return None
 
     def get_off_war_leaders(self) -> list[dict[str, Any]]:

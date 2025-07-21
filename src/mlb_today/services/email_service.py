@@ -1,9 +1,8 @@
 """Service for sending emails using Azure Communication Services."""
-import logging
-
 from azure.communication.email import EmailClient
 
 import src.mlb_today.config as config
+from src.mlb_today.logger import logger
 
 ACS_CONNECTION_STRING = config.ACS_CONNECTION_STRING
 ACS_SENDER_ADDRESS = config.ACS_SENDER_ADDRESS
@@ -26,13 +25,13 @@ class EmailService:
     def send_email_with_acs(self, subject, html_body, to_recipients, cc_recipients=None):
         """Sends an HTML email using Azure Communication Services."""
         if not ACS_CONNECTION_STRING:
-            logging.error("ACS_CONNECTION_STRING is not set. Cannot send email.")
+            logger.error("ACS_CONNECTION_STRING is not set. Cannot send email.")
             return
         if not ACS_SENDER_ADDRESS:
-            logging.error("ACS_SENDER_ADDRESS is not set. Cannot send email.")
+            logger.error("ACS_SENDER_ADDRESS is not set. Cannot send email.")
             return
         if not to_recipients:
-            logging.error("No TO_EMAIL recipients specified. Cannot send email.")
+            logger.error("No TO_EMAIL recipients specified. Cannot send email.")
             return
 
         try:
@@ -74,14 +73,14 @@ class EmailService:
             result = poller.result()
 
             if poller.done() and result:
-                logging.info(f"Email sent successfully via ACS.")
+                logger.info(f"Email sent successfully via ACS.")
             else:
-                logging.error(
+                logger.error(
                     f"ACS Email send operation finished, but status indicates failure or is unknown. Poller status: "
                     f"{poller.status()}"
                 )
                 if hasattr(poller, '_operation') and hasattr(poller._operation, 'details'):
-                    logging.error(f"ACS Error details: {poller._operation.details}")
+                    logger.error(f"ACS Error details: {poller._operation.details}")
 
         except Exception as e:
-            logging.error(f"Failed to send email via ACS: {e}", exc_info=True)
+            logger.error(f"Failed to send email via ACS: {e}", exc_info=True)
