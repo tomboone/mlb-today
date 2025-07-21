@@ -57,24 +57,16 @@ def get_azure_app_info() -> dict[str, str]:
     Returns:
 
     """
-    # Fallback app values
+    app_name = os.getenv("WEBSITE_SITE_NAME", config.TARGET_FUNCTION_APP_NAME)
+    resource_group_name = os.getenv("WEBSITE_RESOURCE_GROUP", config.TARGET_RESOURCE_GROUP_NAME)
+
+    # Get Subscription ID from WEBSITE_OWNER_NAME
     subscription_id: str | None = config.SUBSCRIPTION_ID
-    resource_group_name = config.TARGET_RESOURCE_GROUP_NAME
-
-    app_name = os.getenv("WEBSITE_SITE_NAME", os.getenv("APP_NAME", None))
-
-    # Get Subscription ID and Resource Group from WEBSITE_OWNER_NAME
     website_owner_name = os.environ.get('WEBSITE_OWNER_NAME')
     if website_owner_name:
         parts = website_owner_name.split('+')
         if len(parts) > 0:
             subscription_id = parts[0]
-        if len(parts) > 1:
-            resource_group_region_parts = parts[1].split('-')
-            if len(resource_group_region_parts) > 2:
-                resource_group_name = "-".join(resource_group_region_parts[:-1])
-            else:
-                resource_group_name = parts[1]  # Fallback if no clear region suffix
 
     return {
         "app_name": app_name,
