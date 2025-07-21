@@ -26,34 +26,9 @@ STATS_ENDPOINT = "https://www.fangraphs.com/api/leaders/major-league/data"
 LOG_DIRECTORY = os.getenv("LOG_DIRECTORY")
 LOG_LEVEL = os.getenv("LOG_LEVEL")
 
+DISABLE_EMAIL_SENDING: bool = False
 
-def get_azure_app_info() -> dict[str, str]:
-    """
+disable_email: str | None = os.getenv("DISABLE_EMAIL_SENDING")
 
-    Returns:
-
-    """
-    # Fallback app values
-    subscription_id = os.getenv("SUBSCRIPTION_ID", None)
-    resource_group_name = os.getenv("RESOURCE_GROUP_NAME", None)
-    app_name = os.getenv("WEBSITE_SITE_NAME", os.getenv("APP_NAME", ""))
-
-    # Get Subscription ID and Resource Group from WEBSITE_OWNER_NAME
-    website_owner_name = os.environ.get('WEBSITE_OWNER_NAME')
-    if website_owner_name:
-        parts = website_owner_name.split('+')
-        if len(parts) > 0:
-            subscription_id = parts[0]
-        if len(parts) > 1:
-            resource_group_region_parts = parts[1].split('-')
-            if len(resource_group_region_parts) > 2 and \
-               resource_group_region_parts[-1] in ['eastus', 'westus', 'centralus', 'northeurope', 'westeurope', 'southeastasia', 'uksouth', 'canadacentral', 'brazilsouth', 'australiaeast', 'japaneast', 'southindia', 'uaenorth', 'southafricanorth', 'koreacentral', 'francecentral', 'germanywestcentral', 'norwayeast', 'switzerlandnorth', 'qatarcentral', 'swedencentral', 'israelcentral', 'polandcentral', 'italycentral', 'newzealandnorth']:
-                resource_group_name = "-".join(resource_group_region_parts[:-1])
-            else:
-                resource_group_name = parts[1] # Fallback if no clear region suffix
-
-    return {
-        "app_name": app_name,
-        "subscription_id": subscription_id,
-        "resource_group_name": resource_group_name
-    }
+if disable_email and disable_email.strip().lower() in ("true", "1", "yes", "on"):
+    DISABLE_EMAIL_SENDING = True

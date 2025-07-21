@@ -12,6 +12,8 @@ from src.mlb_today.services.email_service import EmailService
 
 bp = func.Blueprint()
 
+DISABLE_EMAIL_SENDING: bool = config.DISABLE_EMAIL_SENDING
+
 EMAIL_RECIPIENTS: str = config.PROBABLES_TO_EMAIL_STR
 EMAIL_BLOB_CONTAINER_NAME: str = config.EMAIL_BLOB_CONTAINER_NAME
 
@@ -55,36 +57,38 @@ def create_and_send_email(emailblob: func.InputStream) -> None:
     """
     logger.info(f"Blob trigger processed blob: {emailblob.name}")
 
-    try:
-        blob_data_str: str = emailblob.read().decode()  # Convert blob bytes to string
-        email_data: dict[str, list[dict[str, str]]] = json.loads(blob_data_str)  # Convert JSON to dict
+    if not DISABLE_EMAIL_SENDING:
 
-        template: Template = jinja_env.get_template("email.jinja2")  # Load the Jinja2 template
+        try:
+            blob_data_str: str = emailblob.read().decode()  # Convert blob bytes to string
+            email_data: dict[str, list[dict[str, str]]] = json.loads(blob_data_str)  # Convert JSON to dict
 
-        html_body = template.render(  # Render the template with the data
-            probables=email_data.get("probables"),
-            batting=email_data.get("batting"),
-            pitching=email_data.get("pitching")
-        )
+            template: Template = jinja_env.get_template("email.jinja2")  # Load the Jinja2 template
 
-        email_service = EmailService()  # Create an instance of EmailService
-        to_recipients = email_service.create_email_recipients(EMAIL_RECIPIENTS)  # Create recipients
+            html_body = template.render(  # Render the template with the data
+                probables=email_data.get("probables"),
+                batting=email_data.get("batting"),
+                pitching=email_data.get("pitching")
+            )
 
-        if not to_recipients:  # If no email recipients, log and return
-            logger.warning("No email recipients configured. Skipping email send.")
-            return
+            email_service = EmailService()  # Create an instance of EmailService
+            to_recipients = email_service.create_email_recipients(EMAIL_RECIPIENTS)  # Create recipients
 
-        subject = f"MLB Today for {datetime.now().strftime('%B %d, %Y')}"  # Create subject
+            if not to_recipients:  # If no email recipients, log and return
+                logger.warning("No email recipients configured. Skipping email send.")
+                return
 
-        email_service.send_email_with_acs(  # Send the email
-            subject=subject,
-            html_body=html_body,
-            to_recipients=to_recipients
-        )
+            subject = f"MLB Today for {datetime.now().strftime('%B %d, %Y')}"  # Create subject
 
-        logger.info("Successfully generated and sent email.")
+            email_service.send_email_with_acs(  # Send the email
+                subject=subject,
+                html_body=html_body,
+                to_recipients=to_recipients
+            )
 
-    except json.JSONDecodeError:  # Handle JSON decoding errors
-        logger.error(f"Failed to parse JSON from blob: {emailblob.name}", exc_info=True)
-    except Exception as e:  # Handle other exceptions
-        logger.error(f"An unexpected error occurred: {e}", exc_info=True)
+            logger.info("Successfully generated and sent email.")
+
+        except json.JSONDecodeError:  # Handle JSON decoding errors
+            logger.error(f"Failed to parse JSON from blob: {emailblob.name}", exc_info=True)
+        except Exception as e:  # Handle other exceptions
+            logger.error(f"An unexpected error occurred: {e}", exc_info=True)

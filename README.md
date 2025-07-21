@@ -2,13 +2,13 @@
 
 Azure Function to retrieve today's Major League Baseball (MLB) schedule w/pitching probables and current stat leaders, then send an email 30 minutes prior to the day's first game.
 
-## Functions
+## Trigger Functions
 
-*   `earliest_game_time` (timer trigger): Sets time that email will be sent (30 minutes prior to first game of the day, per MLB.com)
-*   `get_batting_stats:`: (timer trigger) Fetches current batting leaders from Fangraphs.
-*   `get_pitching_stats`: (timer trigger) Fetches current pitching leaders from Fangraphs.
-*   `get_probables`: (timer trigger) Compiles today's probables and leaders data for email and stores in blob.
-*   `create_and_send_email`: (blob trigger) On new blob storage, generates an HTML email body from a Jinja2 template, and sends the email.
+*   `earliest_game_time` (timer): Sets time that email will be sent (30 minutes prior to first game of the day, per MLB.com)
+*   `get_batting_stats:`: (timer) Fetches current batting leaders from Fangraphs.
+*   `get_pitching_stats`: (timer) Fetches current pitching leaders from Fangraphs.
+*   `get_probables`: (timer) Compiles today's probables and leaders data for email and stores in blob.
+*   `create_and_send_email`: (blob) On new blob storage, generates an HTML email body from a Jinja2 template, and sends the email.
 
 ## Technology Stack
 
@@ -35,11 +35,15 @@ Azure Function to retrieve today's Major League Baseball (MLB) schedule w/pitchi
 *   `ACS_SENDER_ADDRESS`: The sender email address configured for the ACS domain
 *   `PROBABLES_TO_EMAIL_STR`: Email address or comma-separated list of email addresses to receive email
 
-## Development Environment Variables
+## Development Environment Variables (for testing `earliest_game_time` function)
   
-*   `SUBSCRIPTION_ID`: ID of Azure subscription the app belongs to
-*   `TARGET_RESOURCE_GROUP_NAME`: Name of Azure resource group containing the app
-*   `TARGET_FUNCTION_APP_NAME`: Name of the Azure Function where this code is deployed
+*   `SUBSCRIPTION_ID`: ID of Azure subscription the production app belongs to
+*   `TARGET_RESOURCE_GROUP_NAME`: Name of Azure resource group containing the production app
+*   `TARGET_FUNCTION_APP_NAME`: Name of the Azure Function where this code is deployed to production
+
+## Optional Environment Variable:
+
+*   `DISABLE_EMAIL_SENDING`: Set to `True` to disable daily email (e.g., in staging deployment slot)
 
 ## License
 
