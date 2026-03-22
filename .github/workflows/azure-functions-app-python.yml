@@ -4,6 +4,10 @@ on:
   push:
     branches: ["main"]
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   AZURE_FUNCTIONAPP_NAME: 'mlbtoday'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
@@ -12,7 +16,6 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: stage
     steps:
     - name: Checkout GitHub Action
       uses: actions/checkout@v6
@@ -31,12 +34,18 @@ jobs:
     - name: Export dependencies to requirements.txt
       run: poetry export -f requirements.txt --output requirements.txt --without-hashes
 
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
     - name: Run Azure Functions Action
       uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
         scm-do-build-during-deployment: true
         enable-oryx-build: true
