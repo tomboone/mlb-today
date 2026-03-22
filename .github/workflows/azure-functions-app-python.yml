@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 env:
-  AZURE_FUNCTIONAPP_NAME: 'mlbtoday'
+  AZURE_FUNCTIONAPP_NAME: 'mlb-today'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.12'
 
