@@ -15,7 +15,7 @@ Azure Function to retrieve today's Major League Baseball (MLB) schedule w/pitchi
 *   **Backend:** Python
 *   **Framework:** Azure Functions
 *   **Storage:** Azure Blob Storage
-*   **Email:** Azure Communication Service
+*   **Email:** SMTP (Fastmail by default)
 *   **HTTP Client:** Requests
 
 ## Required Environment Variables
@@ -31,8 +31,9 @@ Azure Function to retrieve today's Major League Baseball (MLB) schedule w/pitchi
 *   `STORAGE_CONNECTION_STRING`: Azure Blob Storage connection string
 *   `BLOB_CONTAINER_NAME`: Azure Blob Storage container name for player statistics
 *   `EMAIL_BLOB_CONTAINER_NAME`: Azure Blob Storage container name for probables email data
-*   `ACS_CONNECTION_STRING`: Connection string for the Azure Communication Service used to send email
-*   `ACS_SENDER_ADDRESS`: The sender email address configured for the ACS domain
+*   `SMTP_USERNAME`: SMTP login (for Fastmail, your full Fastmail address)
+*   `SMTP_PASSWORD`: SMTP password (for Fastmail, an app password with SMTP access)
+*   `SMTP_SENDER_ADDRESS`: The From address; must be an address or alias the SMTP account is allowed to send as
 *   `PROBABLES_TO_EMAIL_STR`: Email address or comma-separated list of email addresses to receive email
 
 ## Development Environment Variables (for testing `earliest_game_time` function)
@@ -44,6 +45,8 @@ Azure Function to retrieve today's Major League Baseball (MLB) schedule w/pitchi
 ## Optional Environment Variable:
 
 *   `DISABLE_EMAIL_SENDING`: Set to `True` to disable daily email (e.g., in staging deployment slot)
+*   `SMTP_HOST`: SMTP server hostname (default: `smtp.fastmail.com`)
+*   `SMTP_PORT`: SMTP server port, implicit TLS (default: `465`)
 
 ## License
 

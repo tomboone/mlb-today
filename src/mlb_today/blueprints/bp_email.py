@@ -80,7 +80,7 @@ def create_and_send_email(emailblob: func.InputStream) -> None:
 
             subject = f"MLB Today for {datetime.now().strftime('%B %d, %Y')}"  # Create subject
 
-            email_service.send_email_with_acs(  # Send the email
+            email_service.send_email(  # Send the email
                 subject=subject,
                 html_body=html_body,
                 to_recipients=to_recipients
