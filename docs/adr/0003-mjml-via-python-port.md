@@ -1,0 +1,3 @@
+# Email is authored in MJML and compiled by the Python port, not the Node CLI
+
+The digest is a responsive HTML email that must render in mail clients, which is what MJML exists for. The reference MJML compiler is a Node package; pulling Node into a Python container doubles the image and the toolchain. We use `mjml-python`, which wraps the Rust `mrml` compiler and ships prebuilt wheels, so the container stays Python-only. Jinja2 renders the MJML source with typed digest models; the port compiles it to HTML. If `mrml` ever lags the MJML spec on a component we need, the fallback is the Node CLI in a build stage, not a hand-written table template.
