@@ -162,7 +162,10 @@ time; use `--dry-run` or `preview` when you only want to look.
 in the last 26 hours.
 
 **Updates** are automatic: Watchtower checks GHCR every 5 minutes and restarts `mlb-today` (the only container
-labelled `com.centurylinklabs.watchtower.enable=true`) on the new image, removing the old one. To update by hand:
+labelled both `com.centurylinklabs.watchtower.enable=true` and `com.centurylinklabs.watchtower.scope=mlb-today`)
+on the new image, removing the old one. Its `--scope mlb-today` keeps it away from other projects' containers and
+Watchtowers on the same host, such as nba-today's; `docker compose logs watchtower` should show
+`Only checking containers using enable label, in scope "mlb-today"`. To update by hand:
 `docker compose pull && docker compose up -d`.
 
 **Roll back** by pinning a commit: change the `image` tag in `docker-compose.yml` to `sha-<7>` and run

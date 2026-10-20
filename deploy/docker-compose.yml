@@ -10,11 +10,16 @@ services:
     restart: unless-stopped
     labels:
       - com.centurylinklabs.watchtower.enable=true
+      - com.centurylinklabs.watchtower.scope=mlb-today
 
-  # Polls GHCR every 5 minutes and restarts only containers carrying the enable label.
+  # Polls GHCR every 5 minutes and restarts only containers carrying the enable label in its scope.
+  # Without a scope it would also update other projects' enabled containers on the host, such as
+  # nba-today, and remove their Watchtowers each time it starts.
   watchtower:
     image: containrrr/watchtower:1.7.1
-    command: ["--label-enable", "--interval", "300", "--cleanup"]
+    command: ["--label-enable", "--scope", "mlb-today", "--interval", "300", "--cleanup"]
+    labels:
+      - com.centurylinklabs.watchtower.scope=mlb-today
     environment:
       # Watchtower's client defaults to API 1.25, which Docker Engine 29+ rejects.
       DOCKER_API_VERSION: "1.44"
