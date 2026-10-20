@@ -2,6 +2,7 @@
 
 import logging
 from collections.abc import Callable
+from datetime import date
 
 from mlb_today.settings import Settings, TransportName
 from mlb_today.transport.base import Transport
@@ -46,14 +47,16 @@ _BUILDERS: dict[TransportName, Callable[[Settings], Transport | None]] = {
 }
 
 
-def build_transport(settings: Settings) -> Transport:
+def build_transport(settings: Settings, *, day: date | None = None) -> Transport:
     """`DRY_RUN` → the outbox under `DATA_DIR`; otherwise every configured transport, in order.
+
+    `day` names the outbox files for that digest date rather than the send date.
 
     A transport whose settings are incomplete is skipped with a warning. Raises
     `TransportConfigError` when that leaves the chain empty.
     """
     if settings.dry_run:
-        return OutboxTransport(settings.data_dir / "outbox", tz=settings.tz_local)
+        return OutboxTransport(settings.data_dir / "outbox", tz=settings.tz_local, day=day)
     transports: list[Transport] = []
     for name in settings.transports:
         if (transport := _BUILDERS[name](settings)) is None:

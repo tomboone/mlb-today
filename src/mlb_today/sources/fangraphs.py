@@ -23,14 +23,19 @@ PITCHING_ROWS = 2000
 
 
 class FangraphsClient:
-    def __init__(self, client: httpx.Client, store: SnapshotStore) -> None:
+    """Each source fetched through `client`, or, with no client, read from its snapshot alone."""
+
+    def __init__(self, client: httpx.Client | None, store: SnapshotStore) -> None:
         self._client = client
         self._store = store
+
+    def _getter(self, stats: Stats, season: int, page_items: int) -> Callable[[], Payload] | None:
+        client = self._client
+        if client is None:
+            return None
         # The base URL is the whole endpoint. httpx gives it a trailing slash, which Fangraphs
         # answers with a 301, so request it absolutely without one.
-        self._url = str(client.base_url).rstrip("/")
-
-    def _getter(self, stats: Stats, season: int, page_items: int) -> Callable[[], Payload]:
+        url = str(client.base_url).rstrip("/")
         params: dict[str, str | int] = {
             "pos": "all",
             "stats": stats,
@@ -43,7 +48,7 @@ class FangraphsClient:
         }
 
         def fetch() -> Payload:
-            response = self._client.get(self._url, params=params)
+            response = client.get(url, params=params)
             response.raise_for_status()
             return response.json()
 

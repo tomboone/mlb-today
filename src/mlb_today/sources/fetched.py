@@ -27,19 +27,22 @@ class SourceUnavailable(Exception):
 
 def fetch_or_snapshot[T](
     source: str,
-    fetch_fn: Callable[[], Payload],
+    fetch_fn: Callable[[], Payload] | None,
     parse_fn: Callable[[Payload], T],
     store: SnapshotStore,
 ) -> Fetched[T]:
     """Fetch, parse, snapshot, and return fresh data; on any failure, parse the snapshot instead.
 
     `fetch_fn` must raise on failure: the HTTP client returns a 5xx that outlived its retries as
-    an ordinary response, so call `raise_for_status()` before returning the JSON.
+    an ordinary response, so call `raise_for_status()` before returning the JSON. A `None`
+    `fetch_fn` skips the network and reads the snapshot alone (`preview --from-snapshots`).
 
     The fresh payload is parsed before it is stored, so a response that does not parse never
     replaces a good snapshot. A snapshot that cannot be written is logged, not raised: the fresh
     data is still good (ADR-0002).
     """
+    if fetch_fn is None:
+        return _from_snapshot(source, parse_fn, store)
     try:
         payload = fetch_fn()
     except Exception:
@@ -57,6 +60,16 @@ def fetch_or_snapshot[T](
                 fetched_at = datetime.now(UTC)
             return Fetched(data, fetched_at, stale=False)
 
+    fetched = _from_snapshot(source, parse_fn, store)
+    log.warning(
+        "using snapshot", extra={"source": source, "fetched_at": fetched.fetched_at.isoformat()}
+    )
+    return fetched
+
+
+def _from_snapshot[T](
+    source: str, parse_fn: Callable[[Payload], T], store: SnapshotStore
+) -> Fetched[T]:
     snapshot = store.get(source)
     if snapshot is None:
         raise SourceUnavailable(source)
@@ -65,5 +78,4 @@ def fetch_or_snapshot[T](
         data = parse_fn(payload)
     except Exception as exc:
         raise SourceUnavailable(source) from exc
-    log.warning("using snapshot", extra={"source": source, "fetched_at": fetched_at.isoformat()})
     return Fetched(data, fetched_at, stale=True)

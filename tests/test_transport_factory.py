@@ -1,9 +1,11 @@
 import logging
+from datetime import date
 from pathlib import Path
 
 import pytest
 
 from mlb_today.settings import Settings, TransportName
+from mlb_today.transport.base import Message
 from mlb_today.transport.chain import ChainTransport
 from mlb_today.transport.factory import TransportConfigError, build_transport
 from mlb_today.transport.outbox import OutboxTransport
@@ -90,3 +92,11 @@ def test_incomplete_smtp_settings_skip_smtp_with_a_warning(
     [record] = caplog.records
     assert record.getMessage() == "transport not configured, skipping"
     assert vars(record)["transport"] == "smtp"
+
+
+def test_dry_run_day_names_the_outbox_files(tmp_path: Path) -> None:
+    message = Message(subject="s", html="<p>h</p>", text="t", to=["fan@example.com"], from_="")
+    transport = build_transport(_settings(tmp_path, ["smtp"], dry_run=True), day=date(2026, 6, 15))
+
+    assert isinstance(transport, OutboxTransport)
+    assert transport.send(message).message_id == str(tmp_path / "outbox" / "2026-06-15.html")

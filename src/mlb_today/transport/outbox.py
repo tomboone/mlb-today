@@ -1,7 +1,7 @@
 """The dry-run transport: write the digest to the data volume instead of sending it (spec §7)."""
 
 import logging
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -13,20 +13,22 @@ EASTERN = ZoneInfo("America/New_York")
 
 
 class OutboxTransport:
-    """Files `<directory>/<date>.html` and `<date>.txt`, `<date>` being the local send date.
+    """Files `<directory>/<date>.html` and `<date>.txt`.
 
-    A second send on the same date replaces the first.
+    `<date>` is `day` when given (the digest's date, so `send --date` backfills land under the
+    date they show), else the local send date. A second send on the same date replaces the first.
     """
 
     name = "outbox"
 
-    def __init__(self, directory: Path, *, tz: ZoneInfo = EASTERN) -> None:
+    def __init__(self, directory: Path, *, tz: ZoneInfo = EASTERN, day: date | None = None) -> None:
         self.directory = directory
         self._tz = tz
+        self._day = day
 
     def send(self, msg: Message) -> SendReceipt:
         sent_at = datetime.now(UTC)
-        day = sent_at.astimezone(self._tz).date().isoformat()
+        day = (self._day or sent_at.astimezone(self._tz).date()).isoformat()
         html_path = self.directory / f"{day}.html"
         try:
             self.directory.mkdir(parents=True, exist_ok=True)
