@@ -134,11 +134,12 @@ Digest
   date: date                     # Eastern
   kind: "full" | "scores_only"
   stale: dict[str, datetime]     # source name → snapshot time, when fallback used
+  unavailable: list[str]         # sources with no snapshot either; their sections are omitted
   matchups: list[Matchup]        # empty on scores_only
   results: list[Result]
   standings: list[DivisionStandings]   # 6, AL East … NL West
-  batting: Leaderboard
-  pitching: Leaderboard
+  batting: Leaderboard | None    # None when unavailable
+  pitching: Leaderboard | None
 
 Matchup: first_pitch, status, away: Side, home: Side, venue: str, tv: Broadcasts
 Side: abbr, wins, losses, probable: Probable
