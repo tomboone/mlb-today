@@ -51,9 +51,12 @@ src/mlb_today/
   settings.py            # pydantic-settings; all env in one place
   logging.py             # structlog or stdlib JSON formatter config
   scheduler.py           # daily loop: compute send time, sleep, dispatch
-  state.py               # last-sent marker + snapshot store on the data volume
+  state.py               # last-sent marker on the data volume
   clock.py               # Clock protocol (now(), sleep_until()) for testability
   sources/
+    http.py              # make_client: shared httpx.Client factory (timeout, retries, User-Agent)
+    snapshot.py          # SnapshotStore: last good raw response per source on the data volume
+    fetched.py           # Fetched[T] + fetch_or_snapshot: fetch, or fall back to the snapshot
     mlb.py               # MLB Stats API client: schedule, results, boxscore HRs, standings
     fangraphs.py         # Fangraphs leaders client
     models/              # pydantic models of raw payloads (one module per endpoint)
