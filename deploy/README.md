@@ -170,17 +170,3 @@ Watchtowers on the same host, such as nba-today's; `docker compose logs watchtow
 **Roll back** by pinning a commit: change the `image` tag in `docker-compose.yml` to `sha-<7>` and run
 `docker compose up -d`. Watchtower keeps following that tag, which never moves, so updates stop until you switch
 back.
-
-## Moving a `release/v2` checkout to `main`
-
-A Mini set up before cutover cloned `release/v2` and runs `edge`. Once `release/v2` has merged into `main` and
-`latest` is published, switch it over:
-
-```sh
-git restore docker-compose.yml   # drop any local tag pin first
-git fetch origin main
-git switch main
-docker compose up -d
-```
-
-`docker-compose.yml` on `main` reads `ghcr.io/tomboone/mlb-today:latest`, and Watchtower follows it from then on.
