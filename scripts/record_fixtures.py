@@ -4,7 +4,8 @@
 
 `--date` is the digest date: matchups come from that day, results from the day before.
 Each schedule keeps its first 3 games, plus the first non-final, extra-inning, and doubleheader
-game (with its other half) when the first 3 have none. Each Fangraphs table keeps its first
+game (with its other half) when the first 3 have none. Each final game's boxscore keeps its
+home-run hitters plus 2 players without one. Each Fangraphs table keeps its first
 30 players plus any `--keep-ids` (MLBAM ids, e.g. probables or decision pitchers in the kept games).
 Batting is requested with `pageItems=25` as the real client will (spec §5.2), so it holds
 at most 25 players and `--keep-ids` only reaches pitchers outside the top 30.
@@ -25,6 +26,7 @@ from mlb_today.sources.http import make_client
 FIXTURES = Path(__file__).resolve().parent.parent / "tests" / "fixtures"
 GAMES = 3
 PLAYERS = 30
+NON_HR_PLAYERS = 2
 FANGRAPHS_ALL = 2000
 
 type Payload = dict[str, Any]
@@ -88,15 +90,26 @@ def _schedule(client: httpx.Client, day: date, hydrate: str) -> Payload:
     return payload
 
 
+def _hit_home_run(player: Payload) -> bool:
+    return player["stats"].get("batting", {}).get("homeRuns", 0) > 0
+
+
 def _boxscore(client: httpx.Client, game_pk: int) -> Payload:
     payload = _get(client, f"/api/v1/game/{game_pk}/boxscore")
     # Only team identity and per-player stats are read (spec §5.1); the rest is bulk.
-    return {
-        "teams": {
-            side: {"team": team["team"], "players": team["players"]}
-            for side, team in payload["teams"].items()
-        }
-    }
+    # Keep every home-run hitter plus the first NON_HR_PLAYERS without one, across both sides.
+    spare = NON_HR_PLAYERS
+    teams: Payload = {}
+    for side, team in payload["teams"].items():
+        players: Payload = {}
+        for key, player in team["players"].items():
+            if _hit_home_run(player):
+                players[key] = player
+            elif spare:
+                players[key] = player
+                spare -= 1
+        teams[side] = {"team": team["team"], "players": players}
+    return {"teams": teams}
 
 
 def _leaders(
