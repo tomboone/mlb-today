@@ -8,6 +8,7 @@ from typing import Protocol
 
 from mlb_today.clock import Clock
 from mlb_today.digest.models import DigestKind
+from mlb_today.heartbeat import Heartbeat
 from mlb_today.settings import Settings
 from mlb_today.sources.models.schedule import ScheduleResponse
 from mlb_today.state import Marker, State
@@ -81,7 +82,8 @@ class Scheduler:
     already passed fires only if the marker does not cover today. A plan made without the
     schedules it needs is retried every `REPLAN_DELAY`, so an outage at `PLAN_TIME` delays the
     day's digest rather than skipping it. Setting `stop` ends the loop at the next sleep; a send
-    already under way finishes and records its marker first.
+    already under way finishes and records its marker first. `heartbeat` is pinged after each
+    recorded send, and pinged `/fail` when a send's retry fails too.
 
     Only `TransportError` is handled. Anything else is a bug and propagates: the container restarts
     and the next boot retries, since no marker was written.
@@ -93,6 +95,7 @@ class Scheduler:
         state: State,
         settings: Settings,
         pipeline: Pipeline,
+        heartbeat: Heartbeat,
         *,
         stop: threading.Event | None = None,
     ) -> None:
@@ -100,6 +103,7 @@ class Scheduler:
         self._state = state
         self._settings = settings
         self._pipeline = pipeline
+        self._heartbeat = heartbeat
         self._stop = stop or threading.Event()
 
     def run_forever(self) -> None:
@@ -133,17 +137,21 @@ class Scheduler:
         if marker is not None and marker.date == day:
             log.info("already sent today, skipping", extra={"date": day.isoformat()})
             return
-        if not self._sleep_until(send_at) or self._send(day, kind):
+        if not self._sleep_until(send_at) or self._send(day, kind) is None:
             return
         log.warning("retrying send", extra={"date": day.isoformat(), "in": str(RETRY_DELAY)})
-        if self._sleep_until(self._clock.now() + RETRY_DELAY) and not self._send(day, kind):
+        if not self._sleep_until(self._clock.now() + RETRY_DELAY):
+            return
+        if (error := self._send(day, kind)) is not None:
             log.error(
                 "send failed twice, giving up until the next plan",
                 extra={"date": day.isoformat()},
             )
+            self._heartbeat.fail(f"send for {day.isoformat()} failed twice: {error}")
 
-    def _send(self, day: date, kind: DigestKind) -> bool:
-        """Send the digest for `day` and record it in the marker; False if nothing delivered it.
+    def _send(self, day: date, kind: DigestKind) -> TransportError | None:
+        """Send the digest for `day`, record it in the marker and ping the heartbeat; the error if
+        nothing delivered it.
 
         A failed send leaves the marker alone, so a restart will try again (spec §4.2).
         """
@@ -151,7 +159,7 @@ class Scheduler:
             receipt = self._pipeline.send(day)
         except TransportError as exc:
             log.error("send failed", extra={"date": day.isoformat(), "error": str(exc)})
-            return False
+            return exc
         previous = self._state.read()
         self._state.write(
             Marker(
@@ -163,7 +171,8 @@ class Scheduler:
                 planned_at=previous.planned_at if previous else None,
             )
         )
-        return True
+        self._heartbeat.ok()
+        return None
 
     def _sleep_until(self, when: datetime) -> bool:
         """Sleep until `when`; False if `stop` was set, meaning the loop should wind down."""

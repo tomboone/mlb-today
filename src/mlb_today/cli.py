@@ -1,29 +1,36 @@
-"""Command-line entry point (spec §9). `health` is a stub until its ticket lands."""
+"""Command-line entry point (spec §9)."""
 
 import json
 import logging
 import signal
 import threading
+import time
 from dataclasses import asdict
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from types import FrameType
 from typing import Annotated
 
+import httpx
 import typer
 from pydantic import ValidationError
 
 from mlb_today.clock import SystemClock
+from mlb_today.heartbeat import Heartbeat
 from mlb_today.logging import configure_logging
 from mlb_today.pipeline import DigestPipeline, build, send_digest
 from mlb_today.scheduler import Scheduler
 from mlb_today.settings import Settings
+from mlb_today.sources.http import USER_AGENT
 from mlb_today.state import State
 from mlb_today.transport.base import Transport, TransportError
 from mlb_today.transport.factory import TransportConfigError, build_transport
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 log = logging.getLogger(__name__)
+
+# The scheduler touches the state file at least daily, at `PLAN_TIME`; two hours' slack (spec §4.4).
+HEALTHY_STATE_AGE = timedelta(hours=26)
 
 
 def _bootstrap() -> Settings:
@@ -60,12 +67,6 @@ def _transport(settings: Settings, day: date | None = None) -> Transport:
         raise typer.Exit(2) from exc
 
 
-def _not_implemented(command: str) -> None:
-    _bootstrap()
-    log.error("not implemented", extra={"command": command})
-    raise typer.Exit(1)
-
-
 @app.command()
 def run() -> None:
     """Run the scheduler loop (container entrypoint)."""
@@ -80,7 +81,9 @@ def run() -> None:
     for signum in (signal.SIGTERM, signal.SIGINT):
         signal.signal(signum, on_signal)
     state = State(settings.data_dir / "state.json")
-    Scheduler(SystemClock(stop), state, settings, pipeline, stop=stop).run_forever()
+    with httpx.Client(headers={"User-Agent": USER_AGENT}) as http:
+        heartbeat = Heartbeat(settings.healthchecks_url, http)
+        Scheduler(SystemClock(stop), state, settings, pipeline, heartbeat, stop=stop).run_forever()
     log.info("scheduler stopped")
 
 
@@ -126,5 +129,19 @@ def preview(
 
 @app.command()
 def health() -> None:
-    """Exit 0 if the scheduler has been active recently."""
-    _not_implemented("health")
+    """Exit 0 if the scheduler touched the state file in the last 26 hours, else 1."""
+    try:
+        settings = _bootstrap()
+    except typer.Exit as exc:
+        # Docker reserves health-check exit code 2; a config the scheduler cannot load is unhealthy.
+        raise typer.Exit(1) from exc
+    path = settings.data_dir / "state.json"
+    try:
+        age = timedelta(seconds=time.time() - path.stat().st_mtime)
+    except FileNotFoundError:
+        typer.echo(f"unhealthy: no state file at {path}")
+        raise typer.Exit(1) from None
+    if age > HEALTHY_STATE_AGE:
+        hours = age / timedelta(hours=1)
+        typer.echo(f"unhealthy: state file last updated {hours:.1f} hours ago")
+        raise typer.Exit(1)
