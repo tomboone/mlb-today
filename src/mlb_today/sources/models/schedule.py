@@ -92,6 +92,8 @@ class Decisions(_Model):
 class Game(_Model):
     game_pk: int
     game_date: datetime
+    # 2 for the second game of a doubleheader, whose `game_date` may repeat game 1's.
+    game_number: int = 1
     status: Status
     teams: GameTeams
     venue: Venue
