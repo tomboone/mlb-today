@@ -118,15 +118,24 @@ def test_pitching_parses_fixture_including_mlb_fixture_pitchers(
     assert top.era == pytest.approx(1.80, abs=1e-2)
     assert top.xfip == pytest.approx(2.29, abs=1e-2)
     # Every probable and decision pitcher in the MLB fixtures is in the table.
-    schedule = json.loads((MLB_FIXTURES / "schedule_matchups.json").read_text())
+    matchups = json.loads((MLB_FIXTURES / "schedule_matchups.json").read_text())
+    results = json.loads((MLB_FIXTURES / "schedule_results.json").read_text())
     probables = {
         game["teams"][side]["probablePitcher"]["id"]
-        for day in schedule["dates"]
+        for day in matchups["dates"]
         for game in day["games"]
         for side in ("away", "home")
         if "probablePitcher" in game["teams"][side]
     }
-    assert probables <= {p.mlbam_id for p in fetched.data}
+    deciders = {
+        pitcher["id"]
+        for day in results["dates"]
+        for game in day["games"]
+        for pitcher in game.get("decisions", {}).values()
+    }
+    assert probables
+    assert deciders
+    assert probables | deciders <= {p.mlbam_id for p in fetched.data}
 
 
 @pytest.mark.parametrize(
