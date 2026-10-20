@@ -6,7 +6,8 @@
 Each schedule keeps its first 3 games, plus the first non-final, extra-inning, and doubleheader
 game (with its other half) when the first 3 have none. Each final game's boxscore keeps its
 home-run hitters plus 2 players without one. Each Fangraphs table keeps its first
-30 players plus any `--keep-ids` (MLBAM ids, e.g. probables or decision pitchers in the kept games).
+30 players plus any `--keep-ids` (MLBAM ids, e.g. probables or decision pitchers in the kept games),
+and only the fields spec §5.2 reads from either table.
 Batting is requested with `pageItems=25` as the real client will (spec §5.2), so it holds
 at most 25 players and `--keep-ids` only reaches pitchers outside the top 30.
 """
@@ -28,6 +29,24 @@ GAMES = 3
 PLAYERS = 30
 NON_HR_PLAYERS = 2
 FANGRAPHS_ALL = 2000
+# The Fangraphs fields spec §5.2 reads; each row carries ~500 others.
+FANGRAPHS_FIELDS = (
+    "PlayerName",
+    "TeamNameAbb",
+    "xMLBAMID",
+    "AVG",
+    "HR",
+    "OBP",
+    "SLG",
+    "OPS",
+    "BABIP",
+    "W",
+    "L",
+    "SV",
+    "ERA",
+    "xFIP",
+    "WAR",
+)
 
 type Payload = dict[str, Any]
 
@@ -130,10 +149,13 @@ def _leaders(
         },
     )
     rows: list[Payload] = payload["data"]
-    payload["data"] = [
-        row for i, row in enumerate(rows) if i < PLAYERS or row.get("xMLBAMID") in keep
-    ]
-    return payload
+    return {
+        "data": [
+            {k: row[k] for k in FANGRAPHS_FIELDS if k in row}
+            for i, row in enumerate(rows)
+            if i < PLAYERS or row.get("xMLBAMID") in keep
+        ]
+    }
 
 
 def _write(path: Path, payload: Payload) -> None:
