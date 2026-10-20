@@ -1,5 +1,7 @@
 import json
 import re
+import signal
+from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -10,6 +12,7 @@ import respx
 from typer.testing import CliRunner
 
 from mlb_today.cli import app
+from mlb_today.scheduler import Scheduler
 from mlb_today.settings import Settings
 from mlb_today.sources.snapshot import SnapshotStore
 from tests.mocked_sources import mock_sources, seed_snapshots
@@ -17,7 +20,7 @@ from tests.mocked_sources import mock_sources, seed_snapshots
 runner = CliRunner()
 
 COMMANDS = ["run", "send", "preview", "health"]
-STUBS = ["run", "health"]
+STUBS = ["health"]
 ANSI_ESCAPE = re.compile(r"\x1b\[[0-9;]*m")
 
 
@@ -120,3 +123,36 @@ def test_preview_from_snapshots_writes_html_and_text_without_network(env: Path) 
     assert "<html" in out.read_text()
     assert "MLB Today" in out.with_suffix(".txt").read_text()
     assert not (env / "outbox").exists()
+
+
+def test_run_without_a_configured_transport_exits_2(env: Path) -> None:
+    result = runner.invoke(app, ["run"])
+
+    assert result.exit_code == 2
+    assert "no transport is configured" in result.output
+
+
+def test_run_stops_cleanly_on_sigterm(env: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("DRY_RUN", "true")
+    handlers: dict[int, Callable[[int, object], None]] = {}
+
+    def record(signum: int, handler: Callable[[int, object], None]) -> None:
+        handlers[signum] = handler
+
+    def no_cycle(self: Scheduler) -> None:
+        raise AssertionError("the scheduler planned after SIGTERM")
+
+    real_run_forever = Scheduler.run_forever
+
+    def sigterm_then_run(self: Scheduler) -> None:
+        handlers[signal.SIGTERM](signal.SIGTERM, None)
+        real_run_forever(self)
+
+    monkeypatch.setattr("mlb_today.cli.signal.signal", record)
+    monkeypatch.setattr(Scheduler, "cycle", no_cycle)
+    monkeypatch.setattr(Scheduler, "run_forever", sigterm_then_run)
+
+    result = runner.invoke(app, ["run"])
+
+    assert result.exit_code == 0, result.output
+    assert '"msg": "scheduler stopped"' in result.output

@@ -1,17 +1,18 @@
+import json
 import logging
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 import httpx
 import pytest
 import respx
 
-from mlb_today.pipeline import build, send_digest
+from mlb_today.pipeline import DigestPipeline, build, send_digest
 from mlb_today.settings import Settings
 from mlb_today.sources.snapshot import SnapshotStore
-from mlb_today.transport.outbox import OutboxTransport
+from mlb_today.transport.outbox import EASTERN, OutboxTransport
 from tests.bundles import BOXSCORE_PKS
-from tests.mocked_sources import SOURCES, mock_sources, seed_snapshots
+from tests.mocked_sources import FIXTURES, SOURCES, mock_sources, seed_snapshots
 
 DAY = date(2026, 9, 23)
 
@@ -109,3 +110,63 @@ def test_offline_without_snapshots_builds_a_digest_saying_so(settings: Settings)
         "fangraphs.batting",
         "fangraphs.pitching",
     ]
+
+
+def _seed_schedules(settings: Settings, fetched_at: datetime) -> None:
+    """Today's and yesterday's schedule snapshots, recorded as taken at `fetched_at`."""
+    for source in ("mlb.schedule.today", "mlb.schedule.yesterday"):
+        payload = json.loads((FIXTURES / f"{SOURCES[source]}.json").read_text())
+        stored = {"fetched_at": fetched_at.isoformat(), "payload": payload}
+        path = settings.data_dir / "snapshots" / f"{source}.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(stored))
+
+
+def _schedules_down(router: respx.MockRouter) -> None:
+    routes = mock_sources(router)
+    routes["mlb.schedule.today"].return_value = httpx.Response(503)
+    routes["mlb.schedule.yesterday"].return_value = httpx.Response(503)
+
+
+def test_schedules_fetches_today_and_yesterday(settings: Settings) -> None:
+    with respx.mock(assert_all_called=False) as router:
+        routes = mock_sources(router)
+        pipeline = DigestPipeline(settings, OutboxTransport(settings.data_dir))
+        today, yesterday = pipeline.schedules(DAY)
+
+    assert today is not None
+    assert today.games
+    assert yesterday is not None
+    assert yesterday.games
+    params = routes["mlb.schedule.yesterday"].calls.last.request.url.params
+    assert params["startDate"] == "2026-09-22"
+
+
+def test_schedules_uses_a_snapshot_taken_today(settings: Settings) -> None:
+    _seed_schedules(settings, datetime(2026, 9, 23, 3, tzinfo=EASTERN))
+
+    with respx.mock(assert_all_called=False) as router:
+        _schedules_down(router)
+        pipeline = DigestPipeline(settings, OutboxTransport(settings.data_dir))
+        today, yesterday = pipeline.schedules(DAY)
+
+    assert today is not None
+    assert yesterday is not None
+
+
+def test_schedules_rejects_a_snapshot_from_another_day(
+    settings: Settings, caplog: pytest.LogCaptureFixture
+) -> None:
+    # 23:59 Eastern on the 22nd is already the 23rd in UTC; the local date decides.
+    _seed_schedules(settings, datetime(2026, 9, 22, 23, 59, tzinfo=EASTERN))
+
+    with (
+        respx.mock(assert_all_called=False) as router,
+        caplog.at_level(logging.ERROR, logger="mlb_today.pipeline"),
+    ):
+        _schedules_down(router)
+        pipeline = DigestPipeline(settings, OutboxTransport(settings.data_dir))
+        schedules = pipeline.schedules(DAY)
+
+    assert schedules == (None, None)
+    assert caplog.messages.count("schedule snapshot is from another day") == 2

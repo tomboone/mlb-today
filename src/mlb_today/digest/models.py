@@ -130,9 +130,12 @@ class Leaderboard(_Model):
     as_of: datetime
 
 
+type DigestKind = Literal["full", "scores_only"]
+
+
 class Digest(_Model):
     date: date
-    kind: Literal["full", "scores_only"]
+    kind: DigestKind
     # Source name → snapshot time, for each source that fell back to its snapshot.
     stale: dict[str, datetime] = {}
     # Sources with no snapshot either; their sections are omitted and the digest says so.

@@ -2,11 +2,11 @@
 
 import json
 import logging
-import os
-import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+
+from mlb_today.atomic import write_atomic
 
 type Payload = dict[str, Any]
 
@@ -38,16 +38,5 @@ class SnapshotStore:
         """Store `payload` as the latest snapshot, atomically; return the `fetched_at` recorded."""
         fetched_at = datetime.now(UTC)
         body = json.dumps({"fetched_at": fetched_at.isoformat(), "payload": payload})
-        self._dir.mkdir(parents=True, exist_ok=True)
-        # Write beside the target and rename over it, so a crash never leaves a torn file.
-        fd, tmp = tempfile.mkstemp(dir=self._dir, prefix=f".{source}.", suffix=".tmp")
-        try:
-            with os.fdopen(fd, "w") as f:
-                f.write(body)
-                f.flush()
-                os.fsync(f.fileno())
-            os.replace(tmp, self._path(source))
-        except BaseException:
-            Path(tmp).unlink(missing_ok=True)
-            raise
+        write_atomic(self._path(source), body)
         return fetched_at
