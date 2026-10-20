@@ -8,6 +8,7 @@ import pytest
 import respx
 
 from mlb_today.sources.mlb import MlbClient
+from mlb_today.sources.models.boxscore import HomeRunRaw
 from mlb_today.sources.snapshot import Payload, SnapshotStore
 
 BASE = "https://statsapi.mlb.com"
@@ -172,3 +173,120 @@ def test_http_error_falls_back_to_that_hydrations_snapshot(
     assert fetched.stale is True
     assert fetched.fetched_at == snapshot_at
     assert len(fetched.data.games) == 5
+
+
+@respx.mock
+def test_boxscore_home_runs_keeps_only_players_who_homered(
+    mlb: MlbClient, store: SnapshotStore
+) -> None:
+    route = respx.get(f"{BASE}/api/v1/game/824222/boxscore").mock(
+        return_value=httpx.Response(200, json=_fixture("boxscore_824222"))
+    )
+
+    fetched = mlb.boxscore_home_runs(824222)
+
+    assert route.called
+    assert fetched.stale is False
+    assert store.get("mlb.boxscore.824222") is not None
+    # The fixture also holds two players who did not homer, one of whom did not bat at all.
+    assert fetched.data == [
+        HomeRunRaw(side="away", player_id=682928, name="CJ Abrams", home_runs=2, season_total=33)
+    ]
+
+
+@respx.mock
+def test_boxscore_home_runs_tags_the_hitters_side(mlb: MlbClient) -> None:
+    respx.get(f"{BASE}/api/v1/game/823543/boxscore").mock(
+        return_value=httpx.Response(200, json=_fixture("boxscore_823543"))
+    )
+
+    home_runs = mlb.boxscore_home_runs(823543).data
+
+    assert [(hr.side, hr.name, hr.home_runs, hr.season_total) for hr in home_runs] == [
+        ("home", "Cody Bellinger", 1, 17)
+    ]
+
+
+@respx.mock
+def test_boxscore_without_a_home_run_is_empty(mlb: MlbClient) -> None:
+    respx.get(f"{BASE}/api/v1/game/823494/boxscore").mock(
+        return_value=httpx.Response(200, json=_fixture("boxscore_823494"))
+    )
+
+    assert mlb.boxscore_home_runs(823494).data == []
+
+
+@respx.mock
+def test_boxscore_snapshots_are_kept_per_game(mlb: MlbClient, store: SnapshotStore) -> None:
+    snapshot_at = store.put("mlb.boxscore.824222", _fixture("boxscore_824222"))
+    store.put("mlb.boxscore.823543", _fixture("boxscore_823543"))
+    respx.get(f"{BASE}/api/v1/game/824222/boxscore").mock(return_value=httpx.Response(503))
+
+    fetched = mlb.boxscore_home_runs(824222)
+
+    assert fetched.stale is True
+    assert fetched.fetched_at == snapshot_at
+    assert [hr.name for hr in fetched.data] == ["CJ Abrams"]
+
+
+@respx.mock
+def test_standings_sends_exact_query_params(mlb: MlbClient, store: SnapshotStore) -> None:
+    route = respx.get(f"{BASE}/api/v1/standings").mock(
+        return_value=httpx.Response(200, json=_fixture("standings"))
+    )
+
+    mlb.standings(2026)
+
+    assert dict(route.calls.last.request.url.params) == {
+        "leagueId": "103,104",
+        "season": "2026",
+        "standingsTypes": "regularSeason",
+        "hydrate": "team,division",
+    }
+    assert store.get("mlb.standings") is not None
+
+
+@respx.mock
+def test_standings_parse_divisions_and_team_records(mlb: MlbClient) -> None:
+    respx.get(f"{BASE}/api/v1/standings").mock(
+        return_value=httpx.Response(200, json=_fixture("standings"))
+    )
+
+    records = mlb.standings(2026).data.records
+
+    assert [(r.league.id, r.division.name_short) for r in records] == [
+        (103, "AL East"),
+        (103, "AL Central"),
+        (103, "AL West"),
+        (104, "NL East"),
+        (104, "NL Central"),
+        (104, "NL West"),
+    ]
+    assert all(len(r.team_records) == 5 for r in records)
+    nyy = records[0].team_records[1]
+    assert nyy.team.abbreviation == "NYY"
+    assert (nyy.wins, nyy.losses, nyy.winning_percentage) == (93, 68, ".578")
+    assert nyy.games_back == "4.5"
+    assert nyy.streak is not None
+    assert nyy.streak.streak_code == "W1"
+    assert nyy.last_ten is not None
+    assert (nyy.last_ten.wins, nyy.last_ten.losses) == (5, 5)
+
+
+@respx.mock
+def test_standings_division_leaders_have_games_back_dash(mlb: MlbClient) -> None:
+    respx.get(f"{BASE}/api/v1/standings").mock(
+        return_value=httpx.Response(200, json=_fixture("standings"))
+    )
+
+    records = mlb.standings(2026).data.records
+
+    leaders = [(r.team_records[0].team.abbreviation, r.team_records[0].games_back) for r in records]
+    assert leaders == [
+        ("TB", "-"),
+        ("CLE", "-"),
+        ("HOU", "-"),
+        ("ATL", "-"),
+        ("MIL", "-"),
+        ("LAD", "-"),
+    ]
