@@ -7,6 +7,7 @@ from mlb_today.settings import Settings, TransportName
 from mlb_today.transport.base import Transport
 from mlb_today.transport.chain import ChainTransport
 from mlb_today.transport.outbox import OutboxTransport
+from mlb_today.transport.resend import ResendTransport
 from mlb_today.transport.smtp import SmtpTransport
 
 log = logging.getLogger(__name__)
@@ -14,6 +15,12 @@ log = logging.getLogger(__name__)
 
 class TransportConfigError(Exception):
     """No transport in `TRANSPORTS` is configured, so nothing could ever be sent."""
+
+
+def _resend(settings: Settings) -> Transport | None:
+    if settings.resend_api_key is None or settings.resend_from is None:
+        return None
+    return ResendTransport(settings.resend_api_key.get_secret_value(), settings.resend_from)
 
 
 def _smtp(settings: Settings) -> Transport | None:
@@ -32,9 +39,11 @@ def _smtp(settings: Settings) -> Transport | None:
     )
 
 
-# Each builder returns None when its settings are incomplete. Resend has no builder until
-# NEU-1756, so naming it in TRANSPORTS skips it.
-_BUILDERS: dict[TransportName, Callable[[Settings], Transport | None]] = {"smtp": _smtp}
+# Each builder returns None when its settings are incomplete.
+_BUILDERS: dict[TransportName, Callable[[Settings], Transport | None]] = {
+    "resend": _resend,
+    "smtp": _smtp,
+}
 
 
 def build_transport(settings: Settings) -> Transport:
@@ -47,10 +56,7 @@ def build_transport(settings: Settings) -> Transport:
         return OutboxTransport(settings.data_dir / "outbox", tz=settings.tz_local)
     transports: list[Transport] = []
     for name in settings.transports:
-        builder = _BUILDERS.get(name)
-        if builder is None:
-            log.warning("transport not available, skipping", extra={"transport": name})
-        elif (transport := builder(settings)) is None:
+        if (transport := _BUILDERS[name](settings)) is None:
             log.warning("transport not configured, skipping", extra={"transport": name})
         else:
             transports.append(transport)
