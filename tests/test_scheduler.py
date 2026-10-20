@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from mlb_today.scheduler import NOTHING, RETRY_DELAY, Plan, Scheduler, plan
+from mlb_today.scheduler import NOTHING, REPLAN_DELAY, RETRY_DELAY, Plan, Scheduler, plan
 from mlb_today.settings import Settings
 from mlb_today.sources.models.schedule import ScheduleResponse
 from mlb_today.state import Marker, State
@@ -52,13 +52,13 @@ class StubPipeline:
         self, clock: FakeClock, schedules: dict[date, ScheduleResponse | None], failures: int = 0
     ) -> None:
         self.clock = clock
-        self._schedules = schedules
+        self.by_date = schedules
         self.failures = failures
         self.sends: list[datetime] = []
 
     def schedules(self, day: date) -> tuple[ScheduleResponse | None, ScheduleResponse | None]:
         yesterday = day - timedelta(days=1)
-        return self._schedules.get(day, NO_GAMES), self._schedules.get(yesterday, NO_GAMES)
+        return self.by_date.get(day, NO_GAMES), self.by_date.get(yesterday, NO_GAMES)
 
     def send(self, day: date) -> SendReceipt:
         self.sends.append(self.clock.now())
@@ -204,13 +204,50 @@ def test_no_games_either_day_sleeps_until_the_next_plan(state: State, settings: 
     assert state.read() == Marker(planned_at=at(3))
 
 
-def test_unavailable_schedule_sends_nothing(state: State, settings: Settings) -> None:
+def test_unavailable_schedule_sends_nothing_and_plans_again_soon(
+    state: State, settings: Settings
+) -> None:
     clock = FakeClock(at(3))
     pipeline = StubPipeline(clock, {DAY: None, YESTERDAY: schedule(at(19, 5, YESTERDAY))})
 
     scheduler(clock, state, settings, pipeline).cycle()
 
     assert pipeline.sends == []
+    assert clock.sleeps == [at(3) + REPLAN_DELAY]
+
+
+def test_unavailable_yesterday_on_a_no_game_day_plans_again_soon(
+    state: State, settings: Settings
+) -> None:
+    clock = FakeClock(at(3))
+    pipeline = StubPipeline(clock, {YESTERDAY: None})
+
+    scheduler(clock, state, settings, pipeline).cycle()
+
+    assert clock.sleeps == [at(3) + REPLAN_DELAY]
+
+
+def test_outage_at_plan_time_delays_the_digest_rather_than_skipping_it(
+    state: State, settings: Settings
+) -> None:
+    clock = FakeClock(at(3))
+    pipeline = StubPipeline(clock, {DAY: None})
+    loop = scheduler(clock, state, settings, pipeline)
+
+    loop.cycle()
+    pipeline.by_date[DAY] = schedule(at(13, 5))
+    loop.cycle()
+
+    assert pipeline.sends == [at(12, 35)]
+
+
+def test_replan_never_overshoots_the_next_plan_time(state: State, settings: Settings) -> None:
+    clock = FakeClock(at(2, 50))
+    pipeline = StubPipeline(clock, {DAY: None})
+
+    scheduler(clock, state, settings, pipeline).cycle()
+
+    assert clock.sleeps == [at(3)]
 
 
 def test_early_international_game_plan_sleeps_two_hours_forty(

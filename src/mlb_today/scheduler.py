@@ -16,6 +16,8 @@ from mlb_today.transport.base import SendReceipt, TransportError
 log = logging.getLogger(__name__)
 
 RETRY_DELAY = timedelta(minutes=10)
+# How soon to plan again when a schedule the plan needs was unavailable.
+REPLAN_DELAY = timedelta(minutes=30)
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,12 +65,26 @@ def plan(
     return NOTHING
 
 
+def _decidable(
+    schedule_today: ScheduleResponse | None, schedule_yesterday: ScheduleResponse | None
+) -> bool:
+    """Whether `plan()` had every schedule it needed; without them "nothing" is only a guess."""
+    if schedule_today is None:
+        return False
+    return bool(schedule_today.games) or schedule_yesterday is not None
+
+
 class Scheduler:
     """Plans at boot and at every `PLAN_TIME`, and sends each day's digest at most once.
 
     The marker in `state` is what makes "at most once" survive a restart: a send time that has
-    already passed fires only if the marker does not cover today. Setting `stop` ends the loop at
-    the next sleep; a send already under way finishes and records its marker first.
+    already passed fires only if the marker does not cover today. A plan made without the
+    schedules it needs is retried every `REPLAN_DELAY`, so an outage at `PLAN_TIME` delays the
+    day's digest rather than skipping it. Setting `stop` ends the loop at the next sleep; a send
+    already under way finishes and records its marker first.
+
+    Only `TransportError` is handled. Anything else is a bug and propagates: the container restarts
+    and the next boot retries, since no marker was written.
     """
 
     def __init__(
@@ -94,7 +110,8 @@ class Scheduler:
         """Plan today, send if a send is due, then sleep until the next `PLAN_TIME`."""
         now = self._clock.now()
         today = now.astimezone(self._settings.tz_local).date()
-        day_plan = plan(today, *self._pipeline.schedules(today), self._settings)
+        schedule_today, schedule_yesterday = self._pipeline.schedules(today)
+        day_plan = plan(today, schedule_today, schedule_yesterday, self._settings)
         self._state.touch_planned(now)
         log.info(
             "planned",
@@ -102,7 +119,14 @@ class Scheduler:
         )
         if day_plan.kind is not None and day_plan.send_at is not None:
             self._dispatch(today, day_plan.kind, day_plan.send_at)
-        self._sleep_until(self._next_plan_time())
+        wake = self._next_plan_time()
+        if not _decidable(schedule_today, schedule_yesterday):
+            wake = min(wake, self._clock.now() + REPLAN_DELAY)
+            log.warning(
+                "schedule unavailable, planning again",
+                extra={"date": today.isoformat(), "at": wake},
+            )
+        self._sleep_until(wake)
 
     def _dispatch(self, day: date, kind: DigestKind, send_at: datetime) -> None:
         marker = self._state.read()
