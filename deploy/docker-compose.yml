@@ -2,8 +2,8 @@ name: mlb-today
 
 services:
   mlb-today:
-    # `edge` tracks release/v2; switch to `latest` after cutover (README).
-    image: ghcr.io/tomboone/mlb-today:edge
+    # `latest` tracks main; pin `sha-<7>` to roll back (README).
+    image: ghcr.io/tomboone/mlb-today:latest
     env_file: .env
     volumes:
       - ./data:/data

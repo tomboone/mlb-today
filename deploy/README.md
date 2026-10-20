@@ -69,7 +69,7 @@ Only `deploy/` is needed on the Mini. A sparse clone fetches that directory (plu
 git always includes) without the source tree:
 
 ```sh
-git clone --filter=blob:none --sparse --branch release/v2 https://github.com/tomboone/mlb-today.git
+git clone --filter=blob:none --sparse --branch main https://github.com/tomboone/mlb-today.git
 cd mlb-today
 git sparse-checkout set deploy
 cd deploy
@@ -169,15 +169,16 @@ labelled `com.centurylinklabs.watchtower.enable=true`) on the new image, removin
 `docker compose up -d`. Watchtower keeps following that tag, which never moves, so updates stop until you switch
 back.
 
-## After cutover
+## Moving a `release/v2` checkout to `main`
 
-Once `release/v2` has merged into `main`, move the Mini from `edge` to `latest`:
+A Mini set up before cutover cloned `release/v2` and runs `edge`. Once `release/v2` has merged into `main` and
+`latest` is published, switch it over:
 
 ```sh
 git restore docker-compose.yml   # drop any local tag pin first
 git fetch origin main
 git switch main
+docker compose up -d
 ```
 
-If the `image` line in `docker-compose.yml` does not already read `ghcr.io/tomboone/mlb-today:latest`, change it.
-Then `docker compose up -d`. Watchtower follows `latest` from then on.
+`docker-compose.yml` on `main` reads `ghcr.io/tomboone/mlb-today:latest`, and Watchtower follows it from then on.
