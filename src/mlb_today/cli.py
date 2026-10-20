@@ -1,10 +1,13 @@
-"""Command-line entry point (spec §9). `run` and `health` are stubs until their tickets land."""
+"""Command-line entry point (spec §9). `health` is a stub until its ticket lands."""
 
 import json
 import logging
+import signal
+import threading
 from dataclasses import asdict
 from datetime import date, datetime
 from pathlib import Path
+from types import FrameType
 from typing import Annotated
 
 import typer
@@ -12,9 +15,11 @@ from pydantic import ValidationError
 
 from mlb_today.clock import SystemClock
 from mlb_today.logging import configure_logging
-from mlb_today.pipeline import build, send_digest
+from mlb_today.pipeline import DigestPipeline, build, send_digest
+from mlb_today.scheduler import Scheduler
 from mlb_today.settings import Settings
-from mlb_today.transport.base import TransportError
+from mlb_today.state import State
+from mlb_today.transport.base import Transport, TransportError
 from mlb_today.transport.factory import TransportConfigError, build_transport
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
@@ -46,6 +51,15 @@ def _day(option: datetime | None, settings: Settings) -> date:
     return SystemClock().now().astimezone(settings.tz_local).date()
 
 
+def _transport(settings: Settings, day: date | None = None) -> Transport:
+    """The configured transport; exits 2 if none is."""
+    try:
+        return build_transport(settings, day=day)
+    except TransportConfigError as exc:
+        log.error("invalid configuration", extra={"error": str(exc)})
+        raise typer.Exit(2) from exc
+
+
 def _not_implemented(command: str) -> None:
     _bootstrap()
     log.error("not implemented", extra={"command": command})
@@ -55,7 +69,19 @@ def _not_implemented(command: str) -> None:
 @app.command()
 def run() -> None:
     """Run the scheduler loop (container entrypoint)."""
-    _not_implemented("run")
+    settings = _bootstrap()
+    pipeline = DigestPipeline(settings, _transport(settings))
+    stop = threading.Event()
+
+    def on_signal(signum: int, frame: FrameType | None) -> None:
+        stop.set()
+
+    # Docker stops a container with SIGTERM; finish any send under way, then exit 0.
+    for signum in (signal.SIGTERM, signal.SIGINT):
+        signal.signal(signum, on_signal)
+    state = State(settings.data_dir / "state.json")
+    Scheduler(SystemClock(stop), state, settings, pipeline, stop=stop).run_forever()
+    log.info("scheduler stopped")
 
 
 @app.command()
@@ -70,11 +96,7 @@ def send(
     if dry_run:
         settings = settings.model_copy(update={"dry_run": True})
     digest_day = _day(day, settings)
-    try:
-        transport = build_transport(settings, day=digest_day)
-    except TransportConfigError as exc:
-        log.error("invalid configuration", extra={"error": str(exc)})
-        raise typer.Exit(2) from exc
+    transport = _transport(settings, digest_day)
     try:
         receipt = send_digest(digest_day, settings, transport)
     except TransportError as exc:

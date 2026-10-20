@@ -14,6 +14,7 @@ from mlb_today.sources.fangraphs import FangraphsClient
 from mlb_today.sources.fetched import Fetched, SourceUnavailable
 from mlb_today.sources.http import make_client
 from mlb_today.sources.mlb import MlbClient
+from mlb_today.sources.models.schedule import ScheduleResponse
 from mlb_today.sources.snapshot import SnapshotStore
 from mlb_today.transport.base import Message, SendReceipt, Transport
 
@@ -82,6 +83,41 @@ def send_digest(day: date, settings: Settings, transport: Transport) -> SendRece
         },
     )
     return receipt
+
+
+class DigestPipeline:
+    """The pipeline as the scheduler drives it: the schedules a plan needs, and a send."""
+
+    def __init__(self, settings: Settings, transport: Transport) -> None:
+        self._settings = settings
+        self._transport = transport
+
+    def schedules(self, day: date) -> tuple[ScheduleResponse | None, ScheduleResponse | None]:
+        """The schedules for `day` and the day before, each fresh or from a snapshot taken today.
+
+        A source's snapshot is whatever it last fetched, so one taken on an earlier day describes
+        an earlier day's games; it counts as unavailable rather than as today's schedule.
+        """
+        with _clients(self._settings, offline=False) as (mlb, _):
+            today = _available(lambda: mlb.schedule(day, hydrate="matchups"))
+            yesterday = _available(lambda: mlb.schedule(day - timedelta(days=1), hydrate="results"))
+        return self._taken_on(day, today), self._taken_on(day, yesterday)
+
+    def send(self, day: date) -> SendReceipt:
+        return send_digest(day, self._settings, self._transport)
+
+    def _taken_on(
+        self, day: date, fetched: Fetched[ScheduleResponse] | None
+    ) -> ScheduleResponse | None:
+        if fetched is None:
+            return None
+        if fetched.stale and fetched.fetched_at.astimezone(self._settings.tz_local).date() != day:
+            log.error(
+                "schedule snapshot is from another day",
+                extra={"date": day.isoformat(), "fetched_at": fetched.fetched_at.isoformat()},
+            )
+            return None
+        return fetched.data
 
 
 def _available[T](fetch: Callable[[], Fetched[T]]) -> Fetched[T] | None:

@@ -1,3 +1,5 @@
+import threading
+import time
 from datetime import UTC, datetime, timedelta
 
 from mlb_today.clock import Clock, SystemClock
@@ -22,3 +24,14 @@ def test_fake_clock_sleep_jumps_forward_never_back() -> None:
 
     clock.sleep_until(start)
     assert clock.now() == start + timedelta(minutes=30)
+
+
+def test_system_clock_stop_cuts_a_sleep_short() -> None:
+    stop = threading.Event()
+    stop.set()
+    clock = SystemClock(stop)
+
+    started = time.monotonic()
+    clock.sleep_until(clock.now() + timedelta(hours=1))
+
+    assert time.monotonic() - started < 1
