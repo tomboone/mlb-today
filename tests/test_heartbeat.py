@@ -61,8 +61,11 @@ def test_unset_url_sends_nothing(
 
 
 @pytest.mark.parametrize(
-    "response",
-    [httpx.Response(404, text="not found"), httpx.ConnectError("refused")],
+    ("response", "error"),
+    [
+        (httpx.Response(404, text="not found"), "HTTP 404"),
+        (httpx.ConnectError("refused"), "refused"),
+    ],
     ids=["error-status", "connect-error"],
 )
 @respx.mock
@@ -70,13 +73,17 @@ def test_ping_failures_are_logged_not_raised(
     client: httpx.Client,
     caplog: pytest.LogCaptureFixture,
     response: httpx.Response | Exception,
+    error: str,
 ) -> None:
     respx.get(URL).mock(side_effect=[response])
 
     with caplog.at_level(logging.WARNING, logger="mlb_today.heartbeat"):
         Heartbeat(URL, client).ok()
 
-    assert caplog.messages == ["heartbeat ping failed"]
+    [record] = caplog.records
+    assert record.getMessage() == "heartbeat ping failed"
+    assert URL not in str(vars(record))
+    assert vars(record)["error"] == error
 
 
 def test_malformed_url_is_logged_not_raised(
