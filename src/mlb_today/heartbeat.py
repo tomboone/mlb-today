@@ -39,4 +39,10 @@ class Heartbeat:
             response.raise_for_status()
         # `InvalidURL` is not an `HTTPError`; a malformed `HEALTHCHECKS_URL` must not crash a send.
         except (httpx.HTTPError, httpx.InvalidURL) as exc:
-            log.warning("heartbeat ping failed", extra={"ping": suffix or "ok", "error": str(exc)})
+            # A status error's message quotes the URL, so log only its status code.
+            error = (
+                f"HTTP {exc.response.status_code}"
+                if isinstance(exc, httpx.HTTPStatusError)
+                else str(exc)
+            )
+            log.warning("heartbeat ping failed", extra={"ping": suffix or "ok", "error": error})
