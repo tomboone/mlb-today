@@ -14,7 +14,8 @@ from mlb_today.sources.models.schedule import (
     ScheduleResponse,
 )
 
-FINAL = "Final"
+# `Final`, `Final: Tied`, and `Completed Early: Rain` (an official, shortened game) are all final.
+FINAL_PREFIXES = ("Final", "Completed Early")
 REGULATION_INNINGS = 9
 
 
@@ -25,14 +26,16 @@ def build_results(
 ) -> list[Result]:
     """One result per game, ordered by first pitch, then game pk (doubleheaders keep both).
 
-    Only a `Final` game carries a score, innings, decisions and home runs; any other status
+    Only a final game carries a score, innings, decisions and home runs; any other status
     (postponed, suspended, …) carries the status and the teams alone. A final game with no
     `boxscores` entry has no home runs rather than failing. `pitching` is `None` when Fangraphs
     and its snapshot were both unavailable: every decision then has `None` records, as does any
     pitcher with no Fangraphs row.
     """
     records = _records(pitching or [])
-    games = sorted(schedule.games, key=lambda game: (game.game_date, game.game_pk))
+    games = sorted(
+        schedule.games, key=lambda game: (game.game_date, game.game_number, game.game_pk)
+    )
     return [_result(game, boxscores.get(game.game_pk, []), records) for game in games]
 
 
@@ -47,7 +50,7 @@ def _records(pitching: list[PitcherRaw]) -> dict[int, PitcherRaw]:
 def _result(game: Game, home_runs: list[HomeRunRaw], records: dict[int, PitcherRaw]) -> Result:
     status = game.status.detailed_state
     linescore = game.linescore
-    if status != FINAL or linescore is None or linescore.teams is None:
+    if not status.startswith(FINAL_PREFIXES) or linescore is None or linescore.teams is None:
         return Result(
             status=status,
             innings=None,

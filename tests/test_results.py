@@ -13,8 +13,9 @@ from mlb_today.sources.snapshot import Payload
 
 FIXTURES = Path(__file__).parent / "fixtures"
 BOXSCORE_PKS = (823494, 823543, 824222, 824624)
-POSTPONED_PK = 824785
+NINE_INNING_PK = 824222
 EXTRA_INNING_PK = 824624
+DOUBLEHEADER_PKS = (823543, 823494)
 
 
 def _fixture(name: str) -> Payload:
@@ -139,10 +140,63 @@ def test_doubleheader_keeps_both_games_in_first_pitch_order(
     assert [r.away.abbr for r in results] == ["TB", "TOR", "WSH", "TB", "MIA"]
 
 
+def test_doubleheader_with_shared_first_pitch_orders_by_game_number(
+    payload: Payload, boxscores: dict[int, list[HomeRunRaw]], pitching: list[PitcherRaw]
+) -> None:
+    game_one, game_two = (_game(payload, pk) for pk in DOUBLEHEADER_PKS)
+    game_two["gameDate"] = game_one["gameDate"]
+    game_one["gamePk"], game_two["gamePk"] = game_two["gamePk"], game_one["gamePk"]
+
+    first, second = _by_abbrs(build_results(_schedule(payload), boxscores, pitching), "TB", "NYY")
+
+    assert (first.away.runs, first.home.runs) == (0, 2)
+    assert (second.away.runs, second.home.runs) == (6, 1)
+
+
+def test_completed_early_game_is_final(
+    payload: Payload, boxscores: dict[int, list[HomeRunRaw]], pitching: list[PitcherRaw]
+) -> None:
+    _game(payload, NINE_INNING_PK)["status"]["detailedState"] = "Completed Early: Rain"
+
+    (wsh_det,) = _by_abbrs(build_results(_schedule(payload), boxscores, pitching), "WSH", "DET")
+
+    assert wsh_det.status == "Completed Early: Rain"
+    assert (wsh_det.away.runs, wsh_det.home.runs) == (3, 1)
+    assert wsh_det.decisions is not None
+
+
+def test_home_runs_split_by_side_in_boxscore_order(
+    payload: Payload, boxscores: dict[int, list[HomeRunRaw]], pitching: list[PitcherRaw]
+) -> None:
+    boxscores[NINE_INNING_PK] = [
+        HomeRunRaw(side="away", player_id=1, name="Away One", home_runs=1, season_total=10),
+        HomeRunRaw(side="home", player_id=2, name="Home One", home_runs=1, season_total=20),
+        HomeRunRaw(side="away", player_id=3, name="Away Two", home_runs=2, season_total=30),
+    ]
+
+    (wsh_det,) = _by_abbrs(build_results(_schedule(payload), boxscores, pitching), "WSH", "DET")
+
+    assert wsh_det.away.home_runs == [
+        HomeRun(player="Away One", season_total=10),
+        HomeRun(player="Away Two", season_total=30),
+    ]
+    assert wsh_det.home.home_runs == [HomeRun(player="Home One", season_total=20)]
+
+
+def test_final_game_without_linescore_has_no_score(
+    payload: Payload, boxscores: dict[int, list[HomeRunRaw]], pitching: list[PitcherRaw]
+) -> None:
+    del _game(payload, NINE_INNING_PK)["linescore"]
+
+    (wsh_det,) = _by_abbrs(build_results(_schedule(payload), boxscores, pitching), "WSH", "DET")
+
+    assert (wsh_det.status, wsh_det.away.runs, wsh_det.decisions) == ("Final", None, None)
+
+
 def test_final_game_without_boxscore_has_no_home_runs(
     payload: Payload, boxscores: dict[int, list[HomeRunRaw]], pitching: list[PitcherRaw]
 ) -> None:
-    del boxscores[824222]
+    del boxscores[NINE_INNING_PK]
 
     (wsh_det,) = _by_abbrs(build_results(_schedule(payload), boxscores, pitching), "WSH", "DET")
 
@@ -166,7 +220,7 @@ def test_game_without_save_has_no_save_decision(
 def test_pitcher_without_fangraphs_row_has_no_record(
     payload: Payload, boxscores: dict[int, list[HomeRunRaw]], pitching: list[PitcherRaw]
 ) -> None:
-    decisions = _game(payload, 824222)["decisions"]
+    decisions = _game(payload, NINE_INNING_PK)["decisions"]
     decisions["winner"]["id"] = 1
     decisions["save"]["id"] = 2
 
