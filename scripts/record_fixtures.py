@@ -3,14 +3,16 @@
     uv run scripts/record_fixtures.py --date 2026-09-15 [--keep-ids 592450,669203]
 
 `--date` is the digest date: matchups come from that day, results from the day before.
-Each schedule keeps its first 3 games; each Fangraphs table keeps its first 30 players
-plus any `--keep-ids` (MLBAM ids, e.g. probables or decision pitchers in the kept games).
+Each schedule keeps its first 3 games, plus the first non-final, extra-inning, and doubleheader
+game (with its other half) when the first 3 have none. Each Fangraphs table keeps its first
+30 players plus any `--keep-ids` (MLBAM ids, e.g. probables or decision pitchers in the kept games).
 Batting is requested with `pageItems=25` as the real client will (spec §5.2), so it holds
 at most 25 players and `--keep-ids` only reaches pitchers outside the top 30.
 """
 
 import argparse
 import json
+from collections.abc import Callable
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
@@ -38,6 +40,36 @@ def _get(client: httpx.Client, url: str, params: dict[str, str | int] | None = N
     return response.json()
 
 
+def _teams(game: Payload) -> tuple[int, int]:
+    return game["teams"]["away"]["team"]["id"], game["teams"]["home"]["team"]["id"]
+
+
+def _is_doubleheader(game: Payload) -> bool:
+    return game.get("doubleHeader", "N") != "N"
+
+
+EDGE_CASES: tuple[Callable[[Payload], bool], ...] = (
+    lambda g: g["status"]["detailedState"] != "Final",
+    lambda g: g.get("linescore", {}).get("currentInning", 0) > 9,
+    _is_doubleheader,
+)
+
+
+def _trim(games: list[Payload]) -> list[Payload]:
+    """The first GAMES games plus one of each edge case they lack (spec §10), in original order."""
+    kept = set(range(min(GAMES, len(games))))
+    for is_case in EDGE_CASES:
+        if any(is_case(games[i]) for i in kept):
+            continue
+        first = next((i for i, g in enumerate(games) if is_case(g)), None)
+        if first is not None:
+            kept.add(first)
+    # A doubleheader is only useful as a fixture with both halves.
+    halves = {_teams(games[i]) for i in kept if _is_doubleheader(games[i])}
+    kept |= {i for i, g in enumerate(games) if _is_doubleheader(g) and _teams(g) in halves}
+    return [g for i, g in enumerate(games) if i in kept]
+
+
 def _schedule(client: httpx.Client, day: date, hydrate: str) -> Payload:
     payload = _get(
         client,
@@ -52,7 +84,7 @@ def _schedule(client: httpx.Client, day: date, hydrate: str) -> Payload:
         },
     )
     for day_entry in payload.get("dates", []):
-        day_entry["games"] = day_entry["games"][:GAMES]
+        day_entry["games"] = _trim(day_entry["games"])
     return payload
 
 
