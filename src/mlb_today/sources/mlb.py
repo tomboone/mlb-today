@@ -34,15 +34,21 @@ LEAGUE_IDS = "103,104"
 
 
 class MlbClient:
-    def __init__(self, client: httpx.Client, store: SnapshotStore) -> None:
+    """Each source fetched through `client`, or, with no client, read from its snapshot alone."""
+
+    def __init__(self, client: httpx.Client | None, store: SnapshotStore) -> None:
         self._client = client
         self._store = store
 
     def _getter(
         self, path: str, params: dict[str, str | int] | None = None
-    ) -> Callable[[], Payload]:
+    ) -> Callable[[], Payload] | None:
+        client = self._client
+        if client is None:
+            return None
+
         def fetch() -> Payload:
-            response = self._client.get(path, params=params)
+            response = client.get(path, params=params)
             response.raise_for_status()
             return response.json()
 

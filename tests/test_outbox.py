@@ -1,5 +1,5 @@
 import logging
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -55,3 +55,10 @@ def test_unwritable_directory_is_a_transport_error(tmp_path: Path) -> None:
 
     with pytest.raises(TransportError, match="outbox"):
         OutboxTransport(blocker).send(MESSAGE)
+
+
+def test_a_given_day_names_the_files_instead_of_the_send_date(tmp_path: Path) -> None:
+    receipt = OutboxTransport(tmp_path, day=date(2026, 6, 15)).send(MESSAGE)
+
+    assert receipt.message_id == str(tmp_path / "2026-06-15.html")
+    assert (tmp_path / "2026-06-15.txt").read_text() == "digest"

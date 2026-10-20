@@ -55,7 +55,7 @@ def build_digest(day: date, bundle: SourceBundle) -> Digest:
             if bundle.results is None
             else build_results(
                 bundle.results.data,
-                {pk: hrs.data for pk, hrs in bundle.home_runs.items()},
+                {pk: hrs.data for pk, hrs in bundle.home_runs.items() if hrs is not None},
                 pitching,
             )
         ),

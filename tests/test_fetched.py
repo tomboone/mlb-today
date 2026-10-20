@@ -78,3 +78,16 @@ def test_snapshot_write_failure_still_returns_fresh_data(
 
     assert result.data == [7]
     assert result.stale is False
+
+
+def test_no_fetch_fn_reads_the_snapshot_alone(store: SnapshotStore) -> None:
+    snapshot_at = store.put("mlb", {"games": [{"gamePk": 3}]})
+
+    result = fetch_or_snapshot("mlb", None, _games, store)
+
+    assert (result.data, result.fetched_at, result.stale) == ([3], snapshot_at, True)
+
+
+def test_no_fetch_fn_without_snapshot_raises_source_unavailable(store: SnapshotStore) -> None:
+    with pytest.raises(SourceUnavailable):
+        fetch_or_snapshot("mlb", None, _games, store)

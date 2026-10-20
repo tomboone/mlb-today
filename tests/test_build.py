@@ -52,7 +52,9 @@ def test_stale_sources_are_keyed_by_source_name_with_their_snapshot_time(
 ) -> None:
     assert full.standings is not None
     pk = BOXSCORE_PKS[0]
-    stale_hrs = Fetched(full.home_runs[pk].data, SNAPSHOT_AT, stale=True)
+    hrs = full.home_runs[pk]
+    assert hrs is not None
+    stale_hrs = Fetched(hrs.data, SNAPSHOT_AT, stale=True)
     bundle = replace(
         full,
         standings=Fetched(full.standings.data, SNAPSHOT_AT, stale=True),
@@ -96,3 +98,14 @@ def test_no_games_yesterday_build_a_full_digest_without_results(full: SourceBund
     assert digest.matchups
     assert digest.results == []
     assert digest.unavailable == []
+
+
+def test_missing_box_score_is_unavailable_and_drops_only_its_home_runs(
+    full: SourceBundle,
+) -> None:
+    pk = BOXSCORE_PKS[0]
+
+    digest = build_digest(DAY, replace(full, home_runs={**full.home_runs, pk: None}))
+
+    assert digest.unavailable == [f"mlb.boxscore.{pk}"]
+    assert len(digest.results) == len(build_digest(DAY, full).results)

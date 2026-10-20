@@ -155,9 +155,9 @@ class SourceBundle:
 
     matchups: Fetched[ScheduleResponse] | None = None
     results: Fetched[ScheduleResponse] | None = None
-    # Keyed by game pk; only final games have an entry.
-    home_runs: dict[int, Fetched[list[HomeRunRaw]]] = field(
-        default_factory=dict[int, Fetched[list[HomeRunRaw]]]
+    # Keyed by game pk; only final games have an entry, `None` where its box score had no snapshot.
+    home_runs: dict[int, Fetched[list[HomeRunRaw]] | None] = field(
+        default_factory=dict[int, Fetched[list[HomeRunRaw]] | None]
     )
     standings: Fetched[StandingsResponse] | None = None
     batting: Fetched[list[BatterRaw]] | None = None
