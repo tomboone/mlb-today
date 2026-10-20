@@ -7,6 +7,7 @@ from mlb_today.settings import Settings, TransportName
 from mlb_today.transport.chain import ChainTransport
 from mlb_today.transport.factory import TransportConfigError, build_transport
 from mlb_today.transport.outbox import OutboxTransport
+from mlb_today.transport.resend import ResendTransport
 from mlb_today.transport.smtp import SmtpTransport
 
 
@@ -48,10 +49,23 @@ def test_configured_smtp_builds_a_chain(tmp_path: Path) -> None:
     assert isinstance(smtp, SmtpTransport)
 
 
-def test_skips_a_transport_with_no_builder_yet(
+@pytest.mark.parametrize("order", [["resend", "smtp"], ["smtp", "resend"]])
+def test_configured_transports_chain_in_transports_order(
+    tmp_path: Path, order: list[TransportName]
+) -> None:
+    settings = _settings(tmp_path, order, resend_api_key="key", resend_from="mlb@example.com")
+
+    transport = build_transport(settings)
+
+    assert isinstance(transport, ChainTransport)
+    assert [t.name for t in transport.transports] == order
+    assert {type(t) for t in transport.transports} == {ResendTransport, SmtpTransport}
+
+
+def test_resend_without_a_sender_is_skipped_with_a_warning(
     tmp_path: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
-    settings = _settings(tmp_path, ["resend", "smtp"], resend_api_key="key", resend_from="a@b.c")
+    settings = _settings(tmp_path, ["resend", "smtp"], resend_api_key="key")
 
     with caplog.at_level(logging.WARNING, logger="mlb_today.transport.factory"):
         transport = build_transport(settings)
@@ -59,7 +73,7 @@ def test_skips_a_transport_with_no_builder_yet(
     assert isinstance(transport, ChainTransport)
     assert [t.name for t in transport.transports] == ["smtp"]
     [record] = caplog.records
-    assert record.getMessage() == "transport not available, skipping"
+    assert record.getMessage() == "transport not configured, skipping"
     assert vars(record)["transport"] == "resend"
 
 
