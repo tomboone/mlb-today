@@ -1,0 +1,16 @@
+.venv
+azurite-data
+*.log
+logs/
+.git
+.idea
+tests/
+
+# Local secrets, caches, and editor state that have no place in the build context.
+.env
+local.settings.json
+.vscode
+.DS_Store
+**/__pycache__
+.pytest_cache
+.ruff_cache
