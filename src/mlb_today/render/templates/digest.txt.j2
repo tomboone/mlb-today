@@ -1,0 +1,100 @@
+{#- The digest's plain-text alternative: the same sections as `digest.mjml.j2`, in the same order. -#}
+{{ "MLB Today" if digest.kind == "full" else "MLB Scores" }} — {{ digest.date | long_date }}
+{% for label, when in stale %}
+
+! {{ label }} could not be fetched; showing its snapshot from {{ when | stamp }}.
+{% endfor %}
+{% if unavailable %}
+
+! Not available today: {{ unavailable | join(", ") }}.
+{% endif %}
+{% if digest.kind == "full" and digest.matchups %}
+
+
+TODAY'S MATCHUPS
+{% for first_pitch, matchups in digest.matchups | groupby("first_pitch") %}
+
+{{ first_pitch | ampm }}
+{% for m in matchups %}
+{% for s in (m.away, m.home) %}
+  {{ "@ " if loop.last else "" }}{{ s.abbr }} ({{ s.wins }}-{{ s.losses }}): {{ s.probable.name }}
+{%- if s.probable.line %}, {{ s.probable.line.w | dash }}-{{ s.probable.line.l | dash }}, {{ s.probable.line.era | era }} ERA, {{ s.probable.line.xfip | era }} xFIP, {{ s.probable.line.war | war }} WAR{% endif %}
+
+{% endfor %}
+    {{ m.venue if m.status in scheduled_statuses else m.status ~ " · " ~ m.venue }}
+{% set tv = [] %}
+{% if m.tv.national %}{% set _ = tv.append("National: " ~ m.tv.national | join(", ")) %}{% endif %}
+{% if m.tv.home %}{% set _ = tv.append(m.home.abbr ~ ": " ~ m.tv.home | join(", ")) %}{% endif %}
+{% if m.tv.away %}{% set _ = tv.append(m.away.abbr ~ ": " ~ m.tv.away | join(", ")) %}{% endif %}
+{% if m.tv.misc %}{% set _ = tv.append("Other: " ~ m.tv.misc | join(", ")) %}{% endif %}
+{% if tv %}
+    TV: {{ tv | join(" · ") }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endif %}
+{% if digest.results %}
+
+
+YESTERDAY'S RESULTS
+{% for r in digest.results %}
+
+{% if r.away.runs is not none %}
+{% set note = r | score_note %}
+{{ r.away.abbr }} {{ r.away.runs }}, {{ r.home.abbr }} {{ r.home.runs }}{% if note %} ({{ note }}){% endif %}
+
+  R/H/E: {{ r.away.abbr }} {{ r.away.runs | dash }}-{{ r.away.hits | dash }}-{{ r.away.errors | dash }} · {{ r.home.abbr }} {{ r.home.runs | dash }}-{{ r.home.hits | dash }}-{{ r.home.errors | dash }}
+{% if r.decisions %}
+{% set w, l, sv = r.decisions.winner, r.decisions.loser, r.decisions.save %}
+  W: {{ w.name }}{% if w.wins is not none and w.losses is not none %} ({{ w.wins }}-{{ w.losses }}){% endif %} · L: {{ l.name }}{% if l.wins is not none and l.losses is not none %} ({{ l.wins }}-{{ l.losses }}){% endif %}{% if sv %} · S: {{ sv.name }}{% if sv.saves is not none %} ({{ sv.saves }}){% endif %}{% endif %}
+
+{% endif %}
+{% if r.away.home_runs or r.home.home_runs %}
+  HR:{% for s in (r.away, r.home) if s.home_runs %} {{ s.abbr }}: {% for hr in s.home_runs %}{{ hr.player }} ({{ hr.season_total }}){{ ", " if not loop.last }}{% endfor %}{{ ";" if not loop.last }}{% endfor %}
+
+{% endif %}
+{% if r.stale_note %}
+  {{ r.stale_note }}
+{% endif %}
+{% else %}
+{{ r.away.abbr }} @ {{ r.home.abbr }}: {{ r.status }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if digest.standings %}
+
+
+STANDINGS
+{% for division in digest.standings %}
+
+{{ division.league }} {{ division.division }}
+{{ "%-5s %4s %4s %5s %5s %5s %5s" | format("", "W", "L", "PCT", "GB", "L10", "STRK") }}
+{% for row in division.rows %}
+{{ "%-5s %4s %4s %5s %5s %5s %5s" | format(row.abbr, row.w, row.l, row.pct, row.gb, row.last_ten, row.streak) }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+{% if digest.batting %}
+
+
+BATTING LEADERS (top 25 by WAR · Fangraphs, as of {{ digest.batting.as_of | stamp }})
+
+{{ "%3s  %-24s %-5s %5s %3s %5s %5s" | format("", "Player", "Team", "AVG", "HR", "OPS", "WAR") }}
+{% for row in digest.batting.rows %}
+{{ "%3s  %-24s %-5s %5s %3s %5s %5s" | format(loop.index, row.player, row.team, row.avg | pct, row.hr | dash, row.ops | pct, row.war | war) }}
+{% endfor %}
+{% endif %}
+{% if digest.pitching %}
+
+
+PITCHING LEADERS (top 25 by WAR · Fangraphs, as of {{ digest.pitching.as_of | stamp }})
+
+{{ "%3s  %-24s %-5s %5s %5s %5s %5s" | format("", "Player", "Team", "W-L", "ERA", "xFIP", "WAR") }}
+{% for row in digest.pitching.rows %}
+{{ "%3s  %-24s %-5s %5s %5s %5s %5s" | format(loop.index, row.player, row.team, (row.wins | dash) ~ "-" ~ (row.losses | dash), row.era | era, row.xfip | era, row.war | war) }}
+{% endfor %}
+{% endif %}
+
+
+--
+Schedule, scores and standings from the MLB Stats API; leaderboards and pitcher lines from Fangraphs. mlb-today is a personal project, not affiliated with or endorsed by Major League Baseball or Fangraphs. MLB data © MLB Advanced Media, L.P.

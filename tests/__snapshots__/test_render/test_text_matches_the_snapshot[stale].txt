@@ -1,0 +1,163 @@
+MLB Today — Monday, September 28, 2026
+
+! Fangraphs pitching could not be fetched; showing its snapshot from Sep 27, 9:00 AM ET.
+
+
+TODAY'S MATCHUPS
+
+1:10 PM
+  WSH (75-84): Richard Lovelady, 3-4, 4.11 ERA, 5.19 xFIP, -0.5 WAR
+  @ DET (74-85): Framber Valdez, 10-12, 4.03 ERA, 4.13 xFIP, 2.0 WAR
+    Final · Comerica Park, Detroit, MI
+    TV: DET: DSN · WSH: NATS
+
+1:35 PM
+  TOR (77-81): Max Scherzer, 4-9, 5.74 ERA, 5.19 xFIP, 0.3 WAR
+  @ BAL (77-81): Chris Bassitt, 9-5, 4.41 ERA, 4.69 xFIP, 1.0 WAR
+    Final · Oriole Park at Camden Yards, Baltimore, MD
+    TV: BAL: MASN · TOR: Sportsnet, TVA (Fr)
+
+6:35 PM
+  TOR (77-82): CJ Van Eyk, 0-2, 5.40 ERA, 6.20 xFIP, -0.1 WAR
+  @ BAL (78-81): Trey Gibson, 2-3, 6.13 ERA, 4.46 xFIP, -0.2 WAR
+    Final · Oriole Park at Camden Yards, Baltimore, MD
+    TV: BAL: MASN · TOR: Sportsnet, TVA (Fr)
+
+
+YESTERDAY'S RESULTS
+
+TB 0, NYY 2
+  R/H/E: TB 0-3-0 · NYY 2-5-0
+  W: Carlos Rodón (7-3) · L: Nick Martinez (15-6) · S: David Bednar (35)
+  HR: NYY: Cody Bellinger (17)
+
+TOR @ BAL: Postponed
+
+WSH 3, DET 1
+  R/H/E: WSH 3-7-0 · DET 1-7-0
+  W: Jackson Kent (2-4) · L: Drew Anderson (5-7) · S: Erik Tolman (5)
+  HR: WSH: CJ Abrams (33)
+
+TB 6, NYY 1
+  R/H/E: TB 6-11-0 · NYY 1-3-0
+  W: Drew Rasmussen (16-5) · L: Max Fried (5-5)
+
+MIA 8, CHC 2 (F/12)
+  R/H/E: MIA 8-11-1 · CHC 2-7-0
+  W: Josh Ekness (3-4) · L: Caleb Thielbar (3-4)
+  HR: MIA: Kyle Stowers (20)
+
+
+STANDINGS
+
+AL East
+         W    L   PCT    GB   L10  STRK
+TB      98   64  .605     -   5-5    L1
+NYY     93   68  .578   4.5   5-5    W1
+BOS     87   75  .537  11.0   5-5    L1
+BAL     79   82  .491  18.5   6-4    L1
+TOR     79   83  .488  19.0   4-6    W1
+
+AL Central
+         W    L   PCT    GB   L10  STRK
+CLE     85   77  .525     -   8-2    L1
+CWS     84   78  .519   1.0   7-3    W1
+MIN     77   85  .475   8.0   6-4    W1
+DET     76   86  .469   9.0   4-6    L1
+KC      69   93  .426  16.0   2-8    W1
+
+AL West
+         W    L   PCT    GB   L10  STRK
+HOU     81   81  .500     -   5-5    W2
+TEX     80   82  .494   1.0   4-6    L1
+SEA     76   86  .469   5.0   6-4    W2
+ATH     64   98  .395  17.0   3-7    L2
+LAA     62  100  .383  19.0   4-6    L2
+
+NL East
+         W    L   PCT    GB   L10  STRK
+ATL     94   68  .580     -   5-5    L1
+PHI     88   74  .543   6.0   4-6    W1
+MIA     80   82  .494  14.0   5-5    W1
+WSH     77   85  .475  17.0   6-4    W1
+NYM     74   88  .457  20.0   5-5    L1
+
+NL Central
+         W    L   PCT    GB   L10  STRK
+MIL    103   59  .636     -   8-2    W5
+CHC     89   73  .549  14.0   5-5    W1
+PIT     82   80  .506  21.0   7-3    W1
+STL     77   85  .475  26.0   2-8    L4
+CIN     75   87  .463  28.0   4-6    L1
+
+NL West
+         W    L   PCT    GB   L10  STRK
+LAD    100   62  .617     -   8-2    W3
+SD      91   71  .562   9.0   8-2    W2
+AZ      86   76  .531  14.0   6-4    L2
+SF      65   97  .401  35.0   2-8    L5
+COL     58  104  .358  42.0   2-8    L1
+
+
+BATTING LEADERS (top 25 by WAR · Fangraphs, as of Sep 28, 9:00 AM ET)
+
+     Player                   Team    AVG  HR   OPS   WAR
+  1  Pete Crow-Armstrong      CHC    .280  45  .943  10.6
+  2  Bobby Witt Jr.           KCR    .281  18  .800   7.0
+  3  Yordan Alvarez           HOU    .316  42 1.033   6.8
+  4  Elly De La Cruz          CIN    .283  30  .880   6.4
+  5  Brice Turang             MIL    .268  21  .816   5.9
+  6  Otto Lopez               MIA    .305  11  .786   5.9
+  7  Alex Bregman             CHC    .265  28  .819   5.5
+  8  Randy Arozarena          SEA    .281  26  .865   5.5
+  9  Fernando Tatis Jr.       SDP    .289  25  .828   5.4
+ 10  Kevin McGonigle          DET    .278  18  .806   5.4
+ 11  Gabriel Moreno           ARI    .311  16  .874   5.4
+ 12  Junior Caminero          TBR    .276  42  .885   5.3
+ 13  Miguel Vargas            CHW    .250  33  .837   5.3
+ 14  Geraldo Perdomo          ARI    .262   9  .747   5.0
+ 15  Pete Alonso              BAL    .267  43  .884   5.0
+ 16  Dillon Dingler           DET    .243  27  .749   5.0
+ 17  Brandon Lowe             PIT    .260  35  .824   4.9
+ 18  Jackson Chourio          MIL    .291  25  .837   4.6
+ 19  Seiya Suzuki             CHC    .270  26  .841   4.6
+ 20  JJ Wetherholt            STL    .242  17  .704   4.6
+ 21  Michael Harris II        ATL    .294  26  .812   4.5
+ 22  Andy Pages               LAD    .274  23  .811   4.5
+ 23  Chase Meidroth           CHW    .276  16  .765   4.5
+ 24  Isaac Paredes            HOU    .262  25  .806   4.4
+ 25  Ezequiel Duran           TEX    .260  17  .740   4.4
+
+
+PITCHING LEADERS (top 25 by WAR · Fangraphs, as of Sep 27, 9:00 AM ET)
+
+     Player                   Team    W-L   ERA  xFIP   WAR
+  1  Jacob Misiorowski        MIL    16-5  1.80  2.29   6.6
+  2  Cristopher Sánchez       PHI    18-7  2.91  2.65   6.2
+  3  Cam Schlittler           NYY    14-6  1.95  2.86   6.2
+  4  Chris Sale               ATL    14-9  2.16  2.82   5.8
+  5  Jesús Luzardo            PHI    14-5  2.86  2.94   5.5
+  6  Dylan Cease              TOR    11-6  2.40  2.92   5.5
+  7  Tarik Skubal             2 Tms  12-7  2.72  2.70   5.2
+  8  Drew Rasmussen           TBR    16-5  2.67  3.21   5.0
+  9  Parker Messick           CLE    12-9  2.56  3.36   4.9
+ 10  Reid Detmers             LAA     7-8  3.36  3.37   4.9
+ 11  Yoshinobu Yamamoto       LAD    14-9  2.53  3.28   4.7
+ 12  Jacob deGrom             TEX   11-11  4.20  3.14   4.3
+ 13  Chase Burns              CIN    15-3  2.86  3.44   4.3
+ 14  Paul Skenes              PIT   10-11  3.82  3.41   4.2
+ 15  Payton Tolle             BOS     9-6  3.03  3.55   4.1
+ 16  Bryan Woo                SEA   12-10  4.01  3.64   4.1
+ 17  Zack Wheeler             PHI    14-5  3.00  3.03   4.0
+ 18  Trevor Rogers            BAL   10-11  4.03  3.92   4.0
+ 19  Cade Cavalli             WSN    13-5  3.02  3.13   3.9
+ 20  Ranger Suarez            BOS     8-5  3.22  3.69   3.8
+ 21  Mason Miller             SDP     5-2  1.67  1.54   3.7
+ 22  Braxton Ashcraft         PIT    14-6  3.65  3.18   3.5
+ 23  Gavin Williams           CLE    14-8  3.76  2.85   3.5
+ 24  Max Fried                NYY     5-5  2.80  3.59   3.5
+ 25  Nolan McLean             NYM   12-10  3.16  3.69   3.5
+
+
+--
+Schedule, scores and standings from the MLB Stats API; leaderboards and pitcher lines from Fangraphs. mlb-today is a personal project, not affiliated with or endorsed by Major League Baseball or Fangraphs. MLB data © MLB Advanced Media, L.P.

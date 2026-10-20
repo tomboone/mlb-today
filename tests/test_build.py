@@ -1,24 +1,14 @@
-import json
 from dataclasses import replace
-from datetime import UTC, date, datetime
-from pathlib import Path
+from datetime import date
 
 import pytest
 
 from mlb_today.digest.build import build_digest
 from mlb_today.digest.models import SourceBundle
 from mlb_today.sources.fetched import Fetched
-from mlb_today.sources.models.boxscore import BoxscoreResponse, HomeRunRaw
-from mlb_today.sources.models.fangraphs import BattingResponse, PitchingResponse
-from mlb_today.sources.models.schedule import ScheduleResponse
-from mlb_today.sources.models.standings import StandingsResponse
-from mlb_today.sources.snapshot import Payload
+from tests.bundles import BOXSCORE_PKS, FETCHED_AT, SNAPSHOT_AT, full_bundle, schedule
 
-FIXTURES = Path(__file__).parent / "fixtures"
-BOXSCORE_PKS = (823494, 823543, 824222, 824624)
 DAY = date(2026, 9, 28)
-FETCHED_AT = datetime(2026, 9, 28, 13, 0, tzinfo=UTC)
-SNAPSHOT_AT = datetime(2026, 9, 27, 13, 0, tzinfo=UTC)
 DIVISIONS = [
     ("AL", "East"),
     ("AL", "Central"),
@@ -29,32 +19,9 @@ DIVISIONS = [
 ]
 
 
-def _fixture(name: str) -> Payload:
-    return json.loads((FIXTURES / f"{name}.json").read_text())
-
-
-def _fresh[T](data: T) -> Fetched[T]:
-    return Fetched(data, FETCHED_AT, stale=False)
-
-
-def _schedule(name: str) -> Fetched[ScheduleResponse]:
-    return _fresh(ScheduleResponse.model_validate(_fixture(f"mlb/{name}")))
-
-
-def _home_runs(pk: int) -> Fetched[list[HomeRunRaw]]:
-    return _fresh(BoxscoreResponse.model_validate(_fixture(f"mlb/boxscore_{pk}")).home_runs())
-
-
 @pytest.fixture
 def full() -> SourceBundle:
-    return SourceBundle(
-        matchups=_schedule("schedule_matchups"),
-        results=_schedule("schedule_results"),
-        home_runs={pk: _home_runs(pk) for pk in BOXSCORE_PKS},
-        standings=_fresh(StandingsResponse.model_validate(_fixture("mlb/standings"))),
-        batting=_fresh(BattingResponse.model_validate(_fixture("fangraphs/batting")).data),
-        pitching=_fresh(PitchingResponse.model_validate(_fixture("fangraphs/pitching")).data),
-    )
+    return full_bundle()
 
 
 def test_games_today_build_a_full_digest_with_every_section(full: SourceBundle) -> None:
@@ -71,7 +38,7 @@ def test_games_today_build_a_full_digest_with_every_section(full: SourceBundle) 
 
 
 def test_no_games_today_build_a_scores_only_digest(full: SourceBundle) -> None:
-    bundle = replace(full, matchups=_schedule("schedule_empty"))
+    bundle = replace(full, matchups=schedule("schedule_empty"))
 
     digest = build_digest(DAY, bundle)
 
@@ -123,7 +90,7 @@ def test_missing_schedules_build_a_scores_only_digest_without_games(full: Source
 
 
 def test_no_games_yesterday_build_a_full_digest_without_results(full: SourceBundle) -> None:
-    digest = build_digest(DAY, replace(full, results=_schedule("schedule_empty"), home_runs={}))
+    digest = build_digest(DAY, replace(full, results=schedule("schedule_empty"), home_runs={}))
 
     assert digest.kind == "full"
     assert digest.matchups
