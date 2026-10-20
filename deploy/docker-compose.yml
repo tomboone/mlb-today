@@ -2,8 +2,22 @@ name: mlb-today
 
 services:
   mlb-today:
+    # `edge` tracks release/v2; switch to `latest` after cutover (README).
     image: ghcr.io/tomboone/mlb-today:edge
     env_file: .env
     volumes:
       - ./data:/data
+    restart: unless-stopped
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
+  # Polls GHCR every 5 minutes and restarts only containers carrying the enable label.
+  watchtower:
+    image: containrrr/watchtower:1.7.1
+    command: ["--label-enable", "--interval", "300", "--cleanup"]
+    environment:
+      # Watchtower's client defaults to API 1.25, which Docker Engine 29+ rejects.
+      DOCKER_API_VERSION: "1.44"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
