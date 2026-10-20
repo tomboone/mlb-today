@@ -5,13 +5,12 @@ GHCR. This walks from a fresh Ubuntu install to a running digest. Besides Docker
 only outside accounts to set up are [Resend](https://resend.com) (email) and [healthchecks.io](https://healthchecks.io)
 (alerting).
 
-Images are published by `.github/workflows/image.yml`:
+Each push to `main` publishes two tags via `.github/workflows/image.yml`:
 
-| Tag | Published on push to | Use |
-|---|---|---|
-| `edge` | `release/v2` | the Mini until cutover |
-| `latest` | `main` | the Mini after cutover |
-| `sha-<7>` | both | pinning or rolling back to one commit |
+| Tag | Use |
+|---|---|
+| `latest` | what the Mini runs |
+| `sha-<7>` | pinning or rolling back to one commit |
 
 ## 1. Install Docker
 
