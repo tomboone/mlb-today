@@ -5,6 +5,8 @@
 `--date` is the digest date: matchups come from that day, results from the day before.
 Each schedule keeps its first 3 games; each Fangraphs table keeps its first 30 players
 plus any `--keep-ids` (MLBAM ids, e.g. probables or decision pitchers in the kept games).
+Batting is requested with `pageItems=25` as the real client will (spec §5.2), so it holds
+at most 25 players and `--keep-ids` only reaches pitchers outside the top 30.
 """
 
 import argparse

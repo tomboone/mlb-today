@@ -3,7 +3,7 @@
 import logging
 from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime
 
 from mlb_today.sources.snapshot import Payload, SnapshotStore
 
@@ -33,16 +33,29 @@ def fetch_or_snapshot[T](
 ) -> Fetched[T]:
     """Fetch, parse, snapshot, and return fresh data; on any failure, parse the snapshot instead.
 
+    `fetch_fn` must raise on failure: the HTTP client returns a 5xx that outlived its retries as
+    an ordinary response, so call `raise_for_status()` before returning the JSON.
+
     The fresh payload is parsed before it is stored, so a response that does not parse never
-    replaces a good snapshot.
+    replaces a good snapshot. A snapshot that cannot be written is logged, not raised: the fresh
+    data is still good (ADR-0002).
     """
     try:
         payload = fetch_fn()
-        data = parse_fn(payload)
     except Exception:
-        log.warning("source failed, using snapshot", extra={"source": source}, exc_info=True)
+        log.warning("source fetch failed", extra={"source": source}, exc_info=True)
     else:
-        return Fetched(data, store.put(source, payload), stale=False)
+        try:
+            data = parse_fn(payload)
+        except Exception:
+            log.error("source payload did not parse", extra={"source": source}, exc_info=True)
+        else:
+            try:
+                fetched_at = store.put(source, payload)
+            except OSError:
+                log.error("snapshot write failed", extra={"source": source}, exc_info=True)
+                fetched_at = datetime.now(UTC)
+            return Fetched(data, fetched_at, stale=False)
 
     snapshot = store.get(source)
     if snapshot is None:
@@ -52,4 +65,5 @@ def fetch_or_snapshot[T](
         data = parse_fn(payload)
     except Exception as exc:
         raise SourceUnavailable(source) from exc
+    log.warning("using snapshot", extra={"source": source, "fetched_at": fetched_at.isoformat()})
     return Fetched(data, fetched_at, stale=True)

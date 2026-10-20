@@ -64,3 +64,17 @@ def test_unparseable_snapshot_raises_source_unavailable(store: SnapshotStore) ->
 
     with pytest.raises(SourceUnavailable):
         fetch_or_snapshot("mlb", _fails, _games, store)
+
+
+def test_snapshot_write_failure_still_returns_fresh_data(
+    store: SnapshotStore, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def full_disk(source: str, payload: Payload) -> datetime:
+        raise OSError(28, "No space left on device")
+
+    monkeypatch.setattr(store, "put", full_disk)
+
+    result = fetch_or_snapshot("mlb", lambda: {"games": [{"gamePk": 7}]}, _games, store)
+
+    assert result.data == [7]
+    assert result.stale is False
