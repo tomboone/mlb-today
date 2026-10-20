@@ -25,29 +25,14 @@ build-backend = "uv_build"
 [tool.ruff]
 line-length = 100
 target-version = "py313"
-# Azure Functions code, kept until the cutover removes it (spec §12).
-extend-exclude = [
-    ".claude",
-    "function_app.py",
-    "src/mlb_today/blueprints",
-    "src/mlb_today/services",
-    "src/mlb_today/config.py",
-    "src/mlb_today/logger.py",
-]
+extend-exclude = [".claude"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
 
 [tool.pyright]
 include = ["src", "tests", "scripts"]
-exclude = [
-    "**/__pycache__",
-    "function_app.py",
-    "src/mlb_today/blueprints",
-    "src/mlb_today/services",
-    "src/mlb_today/config.py",
-    "src/mlb_today/logger.py",
-]
+exclude = ["**/__pycache__"]
 pythonVersion = "3.13"
 typeCheckingMode = "strict"
 venvPath = "."

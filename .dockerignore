@@ -1,5 +1,4 @@
 .venv
-azurite-data
 *.log
 logs/
 .git

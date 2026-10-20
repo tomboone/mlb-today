@@ -9,10 +9,10 @@ Daily MLB digest email. See `CONTEXT.md` for the glossary, `docs/adr/` for decis
 - linear_team: NEU
 - linear_repo: mlb-today
 
-## Branch flow (v2 refactor, Linear project P-NEU-99)
+## Branch flow
 
-- Work branches are cut from `release/v2` and PRs target `release/v2`, not `main`.
-- `main` still deploys the Azure Functions app until the final cutover PR (NEU-1762) merges `release/v2` into it.
+- Work branches are cut from `main` and PRs target `main`.
+- Every push to `main` publishes `ghcr.io/tomboone/mlb-today:latest`, which Watchtower deploys to the Mini.
 
 ## Toolchain (v2)
 
