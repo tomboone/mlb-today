@@ -1,0 +1,9 @@
+name: mlb-today
+
+services:
+  mlb-today:
+    image: ghcr.io/tomboone/mlb-today:edge
+    env_file: .env
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
