@@ -135,6 +135,8 @@ class Digest(_Model):
     kind: Literal["full", "scores_only"]
     # Source name → snapshot time, for each source that fell back to its snapshot.
     stale: dict[str, datetime] = {}
+    # Sources with no snapshot either; their sections are omitted and the digest says so.
+    unavailable: list[str] = []
     matchups: list[Matchup] = []
     results: list[Result] = []
     standings: list[DivisionStandings] = []
