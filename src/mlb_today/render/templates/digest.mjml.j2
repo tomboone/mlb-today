@@ -1,0 +1,193 @@
+{#- The digest email (spec §6), authored for a 600 px column and compiled by `mjml` (ADR-0003).
+    Styles are inline or attributes rather than an authored <mj-style> block, which several mail
+    clients drop (MJML's own responsive <style> is a progressive enhancement). Table cells use
+    `align` and the table's `cellpadding` rather than per-cell styles, to keep a full day's HTML
+    well under the 150 KB budget. -#}
+{% set ink = "#1a1a1a" %}
+{% set muted = "#666666" %}
+{% set rule = "#e5e5e5" %}
+{% set navy = "#041e42" %}
+{% macro th(label, align="right") -%}
+<th align="{{ align }}" style="color:{{ muted }};border-bottom:1px solid {{ rule }};">{{ label }}</th>
+{%- endmacro %}
+{% macro td(value, align="right") -%}
+<td align="{{ align }}">{{ value }}</td>
+{%- endmacro %}
+{% macro heading(title, note=none) %}
+    <mj-section padding="24px 0 4px">
+      <mj-column>
+        <mj-text font-size="18px" font-weight="700" color="{{ navy }}">{{ title }}</mj-text>
+        {% if note %}
+        <mj-text font-size="12px" color="{{ muted }}">{{ note }}</mj-text>
+        {% endif %}
+      </mj-column>
+    </mj-section>
+{% endmacro %}
+{% macro side(team, wins, losses, probable, prefix="") -%}
+<td width="50%" valign="top" style="padding:0 8px 0 0;">
+<strong>{{ prefix }}{{ team }}</strong> <span style="color:{{ muted }};">({{ wins }}-{{ losses }})</span><br />
+{{ probable.name }}
+{%- if probable.line %}
+<br /><span style="font-size:12px;color:{{ muted }};">{{ probable.line.w | dash }}-{{ probable.line.l | dash }}, {{ probable.line.era | era }} ERA<br />{{ probable.line.xfip | era }} xFIP, {{ probable.line.war | war }} WAR</span>
+{%- endif %}
+</td>
+{%- endmacro %}
+{% macro decision(tag, d, saves=false) -%}
+{{ tag }}: {{ d.name }}
+{%- if saves and d.saves is not none %} ({{ d.saves }})
+{%- elif not saves and d.wins is not none and d.losses is not none %} ({{ d.wins }}-{{ d.losses }})
+{%- endif %}
+{%- endmacro %}
+<mjml>
+  <mj-head>
+    <mj-title>{{ subject }}</mj-title>
+    <mj-attributes>
+      <mj-all font-family="Helvetica, Arial, sans-serif" />
+      <mj-text font-size="14px" line-height="1.45" color="{{ ink }}" padding="0 16px" />
+      <mj-table font-size="12px" line-height="1.4" color="{{ ink }}" padding="0 16px" cellpadding="3" />
+      <mj-section padding="0" />
+      <mj-column padding="0" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body width="600px" background-color="#f4f4f4">
+    <mj-wrapper padding="0" background-color="#ffffff">
+
+    <mj-section background-color="{{ navy }}" padding="20px 0">
+      <mj-column>
+        <mj-text font-size="24px" font-weight="700" color="#ffffff">{{ "MLB Today" if digest.kind == "full" else "MLB Scores" }}</mj-text>
+        <mj-text font-size="14px" color="#c8d1de">{{ digest.date | long_date }}</mj-text>
+      </mj-column>
+    </mj-section>
+
+    {% if stale or unavailable %}
+    <mj-section padding="16px 16px 0">
+      <mj-column background-color="#fff4e5" border-left="4px solid #f0a020" padding="8px 0">
+        {% for label, when in stale %}
+        <mj-text font-size="13px">{{ label }} could not be fetched; showing its snapshot from {{ when | stamp }}.</mj-text>
+        {% endfor %}
+        {% if unavailable %}
+        <mj-text font-size="13px">Not available today: {{ unavailable | join(", ") }}.</mj-text>
+        {% endif %}
+      </mj-column>
+    </mj-section>
+    {% endif %}
+
+    {% if digest.kind == "full" and digest.matchups %}
+    {{ heading("Today's matchups") }}
+    <mj-section>
+      <mj-column>
+        {% for first_pitch, matchups in digest.matchups | groupby("first_pitch") %}
+        <mj-text font-size="13px" font-weight="700" color="{{ muted }}" padding="12px 16px 0">{{ first_pitch | ampm }}</mj-text>
+        {% for m in matchups %}
+        <mj-table font-size="14px" line-height="1.45" padding="6px 16px 0" cellpadding="0">
+          <tr>{{ side(m.away.abbr, m.away.wins, m.away.losses, m.away.probable) }}{{ side(m.home.abbr, m.home.wins, m.home.losses, m.home.probable, prefix="@ ") }}</tr>
+        </mj-table>
+        <mj-text font-size="12px" color="{{ muted }}" padding="2px 16px 8px">
+          {% if m.status not in scheduled_statuses %}<strong style="color:#b00020;">{{ m.status }}</strong> · {% endif %}{{ m.venue }}
+          {% set tv = [] %}
+          {% if m.tv.national %}{% set _ = tv.append("National: " ~ m.tv.national | join(", ")) %}{% endif %}
+          {% if m.tv.home %}{% set _ = tv.append(m.home.abbr ~ ": " ~ m.tv.home | join(", ")) %}{% endif %}
+          {% if m.tv.away %}{% set _ = tv.append(m.away.abbr ~ ": " ~ m.tv.away | join(", ")) %}{% endif %}
+          {% if m.tv.misc %}{% set _ = tv.append("Other: " ~ m.tv.misc | join(", ")) %}{% endif %}
+          {% if tv %}<br />TV: {{ tv | join(" · ") }}{% endif %}
+        </mj-text>
+        {% if not loop.last %}
+        <mj-divider border-width="1px" border-color="{{ rule }}" padding="0 16px" />
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+      </mj-column>
+    </mj-section>
+    {% endif %}
+
+    {% if digest.results %}
+    {{ heading("Yesterday's results") }}
+    <mj-section>
+      <mj-column>
+        {% for r in digest.results %}
+        {% if r.away.runs is not none %}
+        {% set note = r | score_note %}
+        <mj-text padding="10px 16px 0">
+          <strong>{{ r.away.abbr }} {{ r.away.runs }}, {{ r.home.abbr }} {{ r.home.runs }}</strong>{% if note %} <span style="color:{{ muted }};">({{ note }})</span>{% endif %}
+        </mj-text>
+        <mj-text font-size="12px" color="{{ muted }}">
+          R/H/E: {{ r.away.abbr }} {{ r.away.runs | dash }}-{{ r.away.hits | dash }}-{{ r.away.errors | dash }} · {{ r.home.abbr }} {{ r.home.runs | dash }}-{{ r.home.hits | dash }}-{{ r.home.errors | dash }}
+          {% if r.decisions %}
+          <br />{{ decision("W", r.decisions.winner) }} · {{ decision("L", r.decisions.loser) }}{% if r.decisions.save %} · {{ decision("S", r.decisions.save, saves=true) }}{% endif %}
+          {% endif %}
+          {% if r.away.home_runs or r.home.home_runs %}
+          <br />HR:{% for s in (r.away, r.home) if s.home_runs %} {{ s.abbr }}: {% for hr in s.home_runs %}{{ hr.player }} ({{ hr.season_total }}){{ ", " if not loop.last }}{% endfor %}{{ ";" if not loop.last }}{% endfor %}
+          {% endif %}
+          {% if r.stale_note %}
+          <br /><em>{{ r.stale_note }}</em>
+          {% endif %}
+        </mj-text>
+        {% else %}
+        <mj-text padding="10px 16px 0">
+          <strong>{{ r.away.abbr }} @ {{ r.home.abbr }}</strong> <span style="color:#b00020;">{{ r.status }}</span>
+        </mj-text>
+        {% endif %}
+        {% endfor %}
+      </mj-column>
+    </mj-section>
+    {% endif %}
+
+    {% if digest.standings %}
+    {{ heading("Standings") }}
+    <mj-section padding="0">
+      {% for league, divisions in digest.standings | groupby("league") %}
+      <mj-column width="50%">
+        {% for division in divisions %}
+        <mj-text font-size="13px" font-weight="700" padding="8px 16px 2px">{{ division.league }} {{ division.division }}</mj-text>
+        <mj-table>
+          <tr>{{ th("", "left") }}{{ th("W") }}{{ th("L") }}{{ th("PCT") }}{{ th("GB") }}{{ th("L10") }}{{ th("STRK") }}</tr>
+          {% for row in division.rows %}
+          <tr>{{ td(row.abbr, "left") }}{{ td(row.w) }}{{ td(row.l) }}{{ td(row.pct) }}{{ td(row.gb) }}{{ td(row.last_ten) }}{{ td(row.streak) }}</tr>
+          {% endfor %}
+        </mj-table>
+        {% endfor %}
+      </mj-column>
+      {% endfor %}
+    </mj-section>
+    {% endif %}
+
+    {% if digest.batting %}
+    {{ heading("Batting leaders", "Top 25 by WAR · Fangraphs, as of " ~ (digest.batting.as_of | stamp)) }}
+    <mj-section>
+      <mj-column>
+        <mj-table>
+          <tr>{{ th("", "left") }}{{ th("Player", "left") }}{{ th("Team", "left") }}{{ th("AVG") }}{{ th("HR") }}{{ th("OPS") }}{{ th("WAR") }}</tr>
+          {% for row in digest.batting.rows %}
+          <tr>{{ td(loop.index, "left") }}{{ td(row.player, "left") }}{{ td(row.team, "left") }}{{ td(row.avg | pct) }}{{ td(row.hr | dash) }}{{ td(row.ops | pct) }}{{ td(row.war | war) }}</tr>
+          {% endfor %}
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    {% endif %}
+
+    {% if digest.pitching %}
+    {{ heading("Pitching leaders", "Top 25 by WAR · Fangraphs, as of " ~ (digest.pitching.as_of | stamp)) }}
+    <mj-section>
+      <mj-column>
+        <mj-table>
+          <tr>{{ th("", "left") }}{{ th("Player", "left") }}{{ th("Team", "left") }}{{ th("W-L") }}{{ th("ERA") }}{{ th("xFIP") }}{{ th("WAR") }}</tr>
+          {% for row in digest.pitching.rows %}
+          <tr>{{ td(loop.index, "left") }}{{ td(row.player, "left") }}{{ td(row.team, "left") }}{{ td((row.wins | dash) ~ "-" ~ (row.losses | dash)) }}{{ td(row.era | era) }}{{ td(row.xfip | era) }}{{ td(row.war | war) }}</tr>
+          {% endfor %}
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    {% endif %}
+
+    <mj-section padding="24px 0">
+      <mj-column>
+        <mj-divider border-width="1px" border-color="{{ rule }}" padding="0 16px 12px" />
+        <mj-text font-size="11px" color="{{ muted }}">
+          Schedule, scores and standings from the MLB Stats API; leaderboards and pitcher lines from Fangraphs. mlb-today is a personal project, not affiliated with or endorsed by Major League Baseball or Fangraphs. MLB data © MLB Advanced Media, L.P.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    </mj-wrapper>
+  </mj-body>
+</mjml>

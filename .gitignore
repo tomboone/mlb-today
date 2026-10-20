@@ -18,6 +18,7 @@ project.lock.json
 /App_Data
 /secrets
 /data
+/deploy/data
 .secrets
 appsettings.json
 local.settings.json
@@ -42,16 +43,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Azurite artifacts
-__blobstorage__
-__queuestorage__
-__azurite_db*__.json
-azurite-data
-azurite-debug.log
-
 .idea
 .vscode
 
 .DS_Store
 
-logs
+# `mlb-today preview` output at its default path
+/digest.html
+/digest.txt

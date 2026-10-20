@@ -1,0 +1,1172 @@
+{
+  "copyright": "Copyright 2026 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+  "dates": [
+    {
+      "date": "2026-09-23",
+      "events": [],
+      "games": [
+        {
+          "broadcasts": [
+            {
+              "availability": {
+                "availabilityCode": "local_in_market",
+                "availabilityId": 1,
+                "availabilityText": "Local (In Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "NATS",
+              "colorSpace": {
+                "code": "SDR",
+                "colorSpaceFull": "Standard Dynamic Range"
+              },
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "f1e3f3a2-cee2-4434-bcba-1fac8c476e1f",
+              "homeAway": "away",
+              "id": 6382,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "f1e3f3a2-cee2-4434-bcba-1fac8c476e1f",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "Nationals.TV",
+              "postGameShow": true,
+              "type": "TV",
+              "videoResolution": {
+                "code": "FHD",
+                "resolutionFull": "Full High Definition (1080p)",
+                "resolutionShort": "FHD"
+              }
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_in_market",
+                "availabilityId": 1,
+                "availabilityText": "Local (In Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "DSN",
+              "colorSpace": {
+                "code": "SDR",
+                "colorSpaceFull": "Standard Dynamic Range"
+              },
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "34753ed3-2617-485f-8e7d-6d2421771097",
+              "homeAway": "home",
+              "id": 6420,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "34753ed3-2617-485f-8e7d-6d2421771097",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "Detroit SportsNet",
+              "postGameShow": true,
+              "preGameShow": "2026-09-23T12:30:00-04:00",
+              "type": "TV",
+              "videoResolution": {
+                "code": "FHD",
+                "resolutionFull": "Full High Definition (1080p)",
+                "resolutionShort": "FHD"
+              }
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "WXYTFM",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "31a306ba-808d-41e9-acf2-ea3a2911c4c3",
+              "homeAway": "home",
+              "id": 2141,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "31a306ba-808d-41e9-acf2-ea3a2911c4c3",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "WXYT 97.1 FM",
+              "postGameShow": false,
+              "type": "FM"
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "106.7 FM",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "06568c32-7722-47c1-8ba8-fc45da4a0e3d",
+              "homeAway": "away",
+              "id": 4044,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "06568c32-7722-47c1-8ba8-fc45da4a0e3d",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "WJFK 106.7 The Fan",
+              "postGameShow": false,
+              "type": "FM"
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "LaZ WDTW",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "af687ca0-a9d0-4c10-9c69-7a71daece1d8",
+              "homeAway": "home",
+              "id": 6316,
+              "isNational": false,
+              "language": "es",
+              "mediaId": "af687ca0-a9d0-4c10-9c69-7a71daece1d8",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "LaZ WDTW 1310AM/107.9FM",
+              "postGameShow": false,
+              "type": "AM"
+            }
+          ],
+          "calendarEventID": "14-824223-2026-09-23",
+          "content": {
+            "link": "/api/v1/game/824223/content"
+          },
+          "dayNight": "day",
+          "doubleHeader": "N",
+          "gameDate": "2026-09-23T13:10:00-04:00",
+          "gameGuid": "55d996ad-620d-4cb8-9fe5-0ce4b7a62f65",
+          "gameNumber": 1,
+          "gamePk": 824223,
+          "gameType": "R",
+          "gamedayType": "P",
+          "gamesInSeries": 3,
+          "ifNecessary": "N",
+          "ifNecessaryDescription": "Normal Game",
+          "inningBreakLength": 120,
+          "isTie": false,
+          "link": "/api/v1.1/game/824223/feed/live",
+          "officialDate": "2026-09-23",
+          "publicFacing": true,
+          "recordSource": "S",
+          "reverseHomeAwayStatus": false,
+          "scheduledInnings": 9,
+          "season": "2026",
+          "seasonDisplay": "2026",
+          "seriesDescription": "Regular Season",
+          "seriesGameNumber": 3,
+          "status": {
+            "abstractGameCode": "F",
+            "abstractGameState": "Final",
+            "codedGameState": "F",
+            "detailedState": "Final",
+            "startTimeTBD": false,
+            "statusCode": "F"
+          },
+          "teams": {
+            "away": {
+              "isWinner": true,
+              "leagueRecord": {
+                "losses": 84,
+                "pct": ".472",
+                "ties": 0,
+                "wins": 75
+              },
+              "probablePitcher": {
+                "fullName": "Richard Lovelady",
+                "id": 663992,
+                "link": "/api/v1/people/663992"
+              },
+              "score": 4,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "WSH",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Nationals",
+                "division": {
+                  "id": 204,
+                  "link": "/api/v1/divisions/204",
+                  "name": "National League East"
+                },
+                "fileCode": "was",
+                "firstYearOfPlay": "1968",
+                "franchiseName": "Washington",
+                "id": 120,
+                "league": {
+                  "id": 104,
+                  "link": "/api/v1/league/104",
+                  "name": "National League"
+                },
+                "link": "/api/v1/teams/120",
+                "locationName": "Washington",
+                "name": "Washington Nationals",
+                "season": 2026,
+                "shortName": "Washington",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 5000,
+                  "link": "/api/v1/venues/5000"
+                },
+                "teamCode": "was",
+                "teamName": "Nationals",
+                "venue": {
+                  "id": 3309,
+                  "link": "/api/v1/venues/3309",
+                  "name": "Nationals Park"
+                }
+              }
+            },
+            "home": {
+              "isWinner": false,
+              "leagueRecord": {
+                "losses": 85,
+                "pct": ".465",
+                "ties": 0,
+                "wins": 74
+              },
+              "probablePitcher": {
+                "fullName": "Framber Valdez",
+                "id": 664285,
+                "link": "/api/v1/people/664285"
+              },
+              "score": 2,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "DET",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Tigers",
+                "division": {
+                  "id": 202,
+                  "link": "/api/v1/divisions/202",
+                  "name": "American League Central"
+                },
+                "fileCode": "det",
+                "firstYearOfPlay": "1901",
+                "franchiseName": "Detroit",
+                "id": 116,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/116",
+                "locationName": "Detroit",
+                "name": "Detroit Tigers",
+                "season": 2026,
+                "shortName": "Detroit",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2511,
+                  "link": "/api/v1/venues/2511"
+                },
+                "teamCode": "det",
+                "teamName": "Tigers",
+                "venue": {
+                  "id": 2394,
+                  "link": "/api/v1/venues/2394",
+                  "name": "Comerica Park"
+                }
+              }
+            }
+          },
+          "tiebreaker": "N",
+          "venue": {
+            "active": true,
+            "id": 2394,
+            "link": "/api/v1/venues/2394",
+            "location": {
+              "address1": "2100 Woodward Avenue",
+              "azimuthAngle": 150.0,
+              "city": "Detroit",
+              "country": "USA",
+              "defaultCoordinates": {
+                "latitude": 42.3391151,
+                "longitude": -83.048695
+              },
+              "elevation": 600,
+              "phone": "(313) 471-2000",
+              "postalCode": "48201",
+              "state": "Michigan",
+              "stateAbbrev": "MI"
+            },
+            "name": "Comerica Park",
+            "season": "2026"
+          }
+        },
+        {
+          "broadcasts": [
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "Sportsnet",
+              "colorSpace": {
+                "code": "SDR",
+                "colorSpaceFull": "Standard Dynamic Range"
+              },
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "51ae062a-fb97-488e-bfeb-dae23f54b741",
+              "homeAway": "away",
+              "id": 3864,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "51ae062a-fb97-488e-bfeb-dae23f54b741",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "Sportsnet",
+              "postGameShow": true,
+              "type": "TV",
+              "videoResolution": {
+                "code": "H",
+                "resolutionFull": "High Resolution",
+                "resolutionShort": "HD"
+              }
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "98 Rock",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "7c26bd35-dd95-4802-98f0-f68d418123c5",
+              "homeAway": "home",
+              "id": 6034,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "7c26bd35-dd95-4802-98f0-f68d418123c5",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "98 Rock 97.9 FM",
+              "postGameShow": false,
+              "type": "FM"
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "SN590",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "3c22b7c9-5fc9-459c-bad6-d9f034c08555",
+              "homeAway": "away",
+              "id": 230,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "3c22b7c9-5fc9-459c-bad6-d9f034c08555",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "SN590 THE FAN",
+              "postGameShow": false,
+              "type": "AM"
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": false,
+              "broadcastDate": "2026-09-23",
+              "callSign": "TVA (Fr)",
+              "colorSpace": {
+                "code": "SDR",
+                "colorSpaceFull": "Standard Dynamic Range"
+              },
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "cda69fb6-747b-4fd4-afe1-0cae5ac1dcd6",
+              "homeAway": "away",
+              "id": 4284,
+              "isNational": false,
+              "language": "fr",
+              "mediaId": "cda69fb6-747b-4fd4-afe1-0cae5ac1dcd6",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_OFF",
+                "mediaStateId": 1,
+                "mediaStateText": "Media Off"
+              },
+              "mvpdAuthRequired": false,
+              "name": "TVA Sports",
+              "postGameShow": false,
+              "type": "TV",
+              "videoResolution": {
+                "code": "FHD",
+                "resolutionFull": "Full High Definition (1080p)",
+                "resolutionShort": "FHD"
+              }
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_in_market",
+                "availabilityId": 1,
+                "availabilityText": "Local (In Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "MASN",
+              "colorSpace": {
+                "code": "SDR",
+                "colorSpaceFull": "Standard Dynamic Range"
+              },
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "8d5e59f3-cc17-4b19-be41-58ed988eea01",
+              "homeAway": "home",
+              "id": 581,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "8d5e59f3-cc17-4b19-be41-58ed988eea01",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "MASN",
+              "postGameShow": true,
+              "preGameShow": "2026-09-23T13:00:00-04:00",
+              "tags": [
+                "mlbn-a-net"
+              ],
+              "type": "TV",
+              "videoResolution": {
+                "code": "FHD",
+                "resolutionFull": "Full High Definition (1080p)",
+                "resolutionShort": "FHD"
+              }
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": false,
+              "broadcastDate": "2026-09-23",
+              "callSign": "WBAL 1090",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "5dc8a05a-2660-432f-9e19-2680076bfe55",
+              "homeAway": "home",
+              "id": 6030,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "5dc8a05a-2660-432f-9e19-2680076bfe55",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_OFF",
+                "mediaStateId": 1,
+                "mediaStateText": "Media Off"
+              },
+              "mvpdAuthRequired": false,
+              "name": "WBAL 1090 AM",
+              "postGameShow": false,
+              "type": "AM"
+            }
+          ],
+          "calendarEventID": "14-824785-2026-09-23",
+          "content": {
+            "link": "/api/v1/game/824785/content"
+          },
+          "dayNight": "day",
+          "description": "Makeup of 9/22 PPD",
+          "doubleHeader": "S",
+          "gameDate": "2026-09-23T13:35:00-04:00",
+          "gameGuid": "1f4cecd1-1bf9-47ae-bf1b-5fd9f3c923d2",
+          "gameNumber": 1,
+          "gamePk": 824785,
+          "gameType": "R",
+          "gamedayType": "P",
+          "gamesInSeries": 3,
+          "ifNecessary": "N",
+          "ifNecessaryDescription": "Normal Game",
+          "inningBreakLength": 120,
+          "isTie": false,
+          "link": "/api/v1.1/game/824785/feed/live",
+          "officialDate": "2026-09-23",
+          "publicFacing": true,
+          "recordSource": "S",
+          "rescheduledFrom": "2026-09-22T18:35:00-04:00",
+          "rescheduledFromDate": "2026-09-22",
+          "reverseHomeAwayStatus": false,
+          "scheduledInnings": 9,
+          "season": "2026",
+          "seasonDisplay": "2026",
+          "seriesDescription": "Regular Season",
+          "seriesGameNumber": 2,
+          "status": {
+            "abstractGameCode": "F",
+            "abstractGameState": "Final",
+            "codedGameState": "F",
+            "detailedState": "Final",
+            "startTimeTBD": false,
+            "statusCode": "F"
+          },
+          "teams": {
+            "away": {
+              "isWinner": false,
+              "leagueRecord": {
+                "losses": 81,
+                "pct": ".487",
+                "ties": 0,
+                "wins": 77
+              },
+              "probablePitcher": {
+                "fullName": "Max Scherzer",
+                "id": 453286,
+                "link": "/api/v1/people/453286"
+              },
+              "score": 2,
+              "seriesNumber": 52,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "TOR",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Blue Jays",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "tor",
+                "firstYearOfPlay": "1977",
+                "franchiseName": "Toronto",
+                "id": 141,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/141",
+                "locationName": "Toronto",
+                "name": "Toronto Blue Jays",
+                "season": 2026,
+                "shortName": "Toronto",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2536,
+                  "link": "/api/v1/venues/2536"
+                },
+                "teamCode": "tor",
+                "teamName": "Blue Jays",
+                "venue": {
+                  "id": 14,
+                  "link": "/api/v1/venues/14",
+                  "name": "Rogers Centre"
+                }
+              }
+            },
+            "home": {
+              "isWinner": true,
+              "leagueRecord": {
+                "losses": 81,
+                "pct": ".487",
+                "ties": 0,
+                "wins": 77
+              },
+              "probablePitcher": {
+                "fullName": "Chris Bassitt",
+                "id": 605135,
+                "link": "/api/v1/people/605135"
+              },
+              "score": 4,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "BAL",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Orioles",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "bal",
+                "firstYearOfPlay": "1901",
+                "franchiseName": "Baltimore",
+                "id": 110,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/110",
+                "locationName": "Baltimore",
+                "name": "Baltimore Orioles",
+                "season": 2026,
+                "shortName": "Baltimore",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2508,
+                  "link": "/api/v1/venues/2508"
+                },
+                "teamCode": "bal",
+                "teamName": "Orioles",
+                "venue": {
+                  "id": 2,
+                  "link": "/api/v1/venues/2",
+                  "name": "Oriole Park at Camden Yards"
+                }
+              }
+            }
+          },
+          "tiebreaker": "N",
+          "venue": {
+            "active": true,
+            "id": 2,
+            "link": "/api/v1/venues/2",
+            "location": {
+              "address1": "333 West Camden Street",
+              "azimuthAngle": 31.0,
+              "city": "Baltimore",
+              "country": "USA",
+              "defaultCoordinates": {
+                "latitude": 39.283787,
+                "longitude": -76.621689
+              },
+              "elevation": 33,
+              "phone": "(410) 685-9800",
+              "postalCode": "21201",
+              "state": "Maryland",
+              "stateAbbrev": "MD"
+            },
+            "name": "Oriole Park at Camden Yards",
+            "season": "2026"
+          }
+        },
+        {
+          "broadcasts": [
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "Sportsnet",
+              "colorSpace": {
+                "code": "SDR",
+                "colorSpaceFull": "Standard Dynamic Range"
+              },
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "6ecfd536-ba8c-49b3-9f5d-52a702d4eb2b",
+              "homeAway": "away",
+              "id": 3864,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "6ecfd536-ba8c-49b3-9f5d-52a702d4eb2b",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "Sportsnet",
+              "postGameShow": true,
+              "preGameShow": "2026-09-23T18:00:00-04:00",
+              "type": "TV",
+              "videoResolution": {
+                "code": "H",
+                "resolutionFull": "High Resolution",
+                "resolutionShort": "HD"
+              }
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "SN590",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "5e508540-4890-4e6b-a05f-91736d385eac",
+              "homeAway": "away",
+              "id": 230,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "5e508540-4890-4e6b-a05f-91736d385eac",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "SN590 THE FAN",
+              "postGameShow": false,
+              "type": "AM"
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": false,
+              "broadcastDate": "2026-09-23",
+              "callSign": "TVA (Fr)",
+              "colorSpace": {
+                "code": "SDR",
+                "colorSpaceFull": "Standard Dynamic Range"
+              },
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "e794946c-61ed-43c8-bc08-a91d2172f2d1",
+              "homeAway": "away",
+              "id": 4284,
+              "isNational": false,
+              "language": "fr",
+              "mediaId": "e794946c-61ed-43c8-bc08-a91d2172f2d1",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_OFF",
+                "mediaStateId": 1,
+                "mediaStateText": "Media Off"
+              },
+              "mvpdAuthRequired": false,
+              "name": "TVA Sports",
+              "postGameShow": false,
+              "type": "TV",
+              "videoResolution": {
+                "code": "FHD",
+                "resolutionFull": "Full High Definition (1080p)",
+                "resolutionShort": "FHD"
+              }
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "98 Rock",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "634391e3-9856-4083-89a1-61fe2176eb89",
+              "homeAway": "home",
+              "id": 6034,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "634391e3-9856-4083-89a1-61fe2176eb89",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "98 Rock 97.9 FM",
+              "postGameShow": false,
+              "type": "FM"
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_in_market",
+                "availabilityId": 1,
+                "availabilityText": "Local (In Market)"
+              },
+              "availableForStreaming": true,
+              "broadcastDate": "2026-09-23",
+              "callSign": "MASN",
+              "colorSpace": {
+                "code": "SDR",
+                "colorSpaceFull": "Standard Dynamic Range"
+              },
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "4aa45ba5-42e6-4ade-9307-adb349609dde",
+              "homeAway": "home",
+              "id": 581,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "4aa45ba5-42e6-4ade-9307-adb349609dde",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_ARCHIVE",
+                "mediaStateId": 3,
+                "mediaStateText": "Media Archive"
+              },
+              "mvpdAuthRequired": false,
+              "name": "MASN",
+              "postGameShow": true,
+              "preGameShow": "2026-09-23T18:00:00-04:00",
+              "type": "TV",
+              "videoResolution": {
+                "code": "FHD",
+                "resolutionFull": "Full High Definition (1080p)",
+                "resolutionShort": "FHD"
+              }
+            },
+            {
+              "availability": {
+                "availabilityCode": "local_out_of_market",
+                "availabilityId": 2,
+                "availabilityText": "Local (Out of Market)"
+              },
+              "availableForStreaming": false,
+              "broadcastDate": "2026-09-23",
+              "callSign": "WBAL 1090",
+              "freeGame": false,
+              "freeGameStatus": false,
+              "gameDateBroadcastGuid": "7be57b2f-7615-453f-a309-8032e0baeb2f",
+              "homeAway": "home",
+              "id": 6030,
+              "isNational": false,
+              "language": "en",
+              "mediaId": "7be57b2f-7615-453f-a309-8032e0baeb2f",
+              "mediaState": {
+                "mediaStateCode": "MEDIA_OFF",
+                "mediaStateId": 1,
+                "mediaStateText": "Media Off"
+              },
+              "mvpdAuthRequired": false,
+              "name": "WBAL 1090 AM",
+              "postGameShow": false,
+              "type": "AM"
+            }
+          ],
+          "calendarEventID": "14-824784-2026-09-23",
+          "content": {
+            "link": "/api/v1/game/824784/content"
+          },
+          "dayNight": "night",
+          "doubleHeader": "S",
+          "gameDate": "2026-09-23T18:35:00-04:00",
+          "gameGuid": "a9608278-e62f-45d6-96b1-0d081f80e02a",
+          "gameNumber": 2,
+          "gamePk": 824784,
+          "gameType": "R",
+          "gamedayType": "P",
+          "gamesInSeries": 3,
+          "ifNecessary": "N",
+          "ifNecessaryDescription": "Normal Game",
+          "inningBreakLength": 120,
+          "isTie": false,
+          "link": "/api/v1.1/game/824784/feed/live",
+          "officialDate": "2026-09-23",
+          "publicFacing": true,
+          "recordSource": "S",
+          "reverseHomeAwayStatus": false,
+          "scheduledInnings": 9,
+          "season": "2026",
+          "seasonDisplay": "2026",
+          "seriesDescription": "Regular Season",
+          "seriesGameNumber": 3,
+          "status": {
+            "abstractGameCode": "F",
+            "abstractGameState": "Final",
+            "codedGameState": "F",
+            "detailedState": "Final",
+            "startTimeTBD": false,
+            "statusCode": "F"
+          },
+          "teams": {
+            "away": {
+              "isWinner": false,
+              "leagueRecord": {
+                "losses": 82,
+                "pct": ".484",
+                "ties": 0,
+                "wins": 77
+              },
+              "probablePitcher": {
+                "fullName": "CJ Van Eyk",
+                "id": 669310,
+                "link": "/api/v1/people/669310"
+              },
+              "score": 2,
+              "seriesNumber": 52,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "TOR",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Blue Jays",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "tor",
+                "firstYearOfPlay": "1977",
+                "franchiseName": "Toronto",
+                "id": 141,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/141",
+                "locationName": "Toronto",
+                "name": "Toronto Blue Jays",
+                "season": 2026,
+                "shortName": "Toronto",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2536,
+                  "link": "/api/v1/venues/2536"
+                },
+                "teamCode": "tor",
+                "teamName": "Blue Jays",
+                "venue": {
+                  "id": 14,
+                  "link": "/api/v1/venues/14",
+                  "name": "Rogers Centre"
+                }
+              }
+            },
+            "home": {
+              "isWinner": true,
+              "leagueRecord": {
+                "losses": 81,
+                "pct": ".491",
+                "ties": 0,
+                "wins": 78
+              },
+              "probablePitcher": {
+                "fullName": "Trey Gibson",
+                "id": 694346,
+                "link": "/api/v1/people/694346"
+              },
+              "score": 4,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "BAL",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Orioles",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "bal",
+                "firstYearOfPlay": "1901",
+                "franchiseName": "Baltimore",
+                "id": 110,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/110",
+                "locationName": "Baltimore",
+                "name": "Baltimore Orioles",
+                "season": 2026,
+                "shortName": "Baltimore",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2508,
+                  "link": "/api/v1/venues/2508"
+                },
+                "teamCode": "bal",
+                "teamName": "Orioles",
+                "venue": {
+                  "id": 2,
+                  "link": "/api/v1/venues/2",
+                  "name": "Oriole Park at Camden Yards"
+                }
+              }
+            }
+          },
+          "tiebreaker": "N",
+          "venue": {
+            "active": true,
+            "id": 2,
+            "link": "/api/v1/venues/2",
+            "location": {
+              "address1": "333 West Camden Street",
+              "azimuthAngle": 31.0,
+              "city": "Baltimore",
+              "country": "USA",
+              "defaultCoordinates": {
+                "latitude": 39.283787,
+                "longitude": -76.621689
+              },
+              "elevation": 33,
+              "phone": "(410) 685-9800",
+              "postalCode": "21201",
+              "state": "Maryland",
+              "stateAbbrev": "MD"
+            },
+            "name": "Oriole Park at Camden Yards",
+            "season": "2026"
+          }
+        }
+      ],
+      "totalEvents": 0,
+      "totalGames": 16,
+      "totalGamesInProgress": 0,
+      "totalItems": 16
+    }
+  ],
+  "totalEvents": 0,
+  "totalGames": 16,
+  "totalGamesInProgress": 0,
+  "totalItems": 16
+}

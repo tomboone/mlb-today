@@ -1,0 +1,2094 @@
+{
+  "copyright": "Copyright 2026 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+  "dates": [
+    {
+      "date": "2026-09-22",
+      "events": [],
+      "games": [
+        {
+          "calendarEventID": "14-823543-2026-09-22",
+          "content": {
+            "link": "/api/v1/game/823543/content"
+          },
+          "dayNight": "day",
+          "decisions": {
+            "loser": {
+              "fullName": "Nick Martinez",
+              "id": 607259,
+              "link": "/api/v1/people/607259"
+            },
+            "save": {
+              "fullName": "David Bednar",
+              "id": 670280,
+              "link": "/api/v1/people/670280"
+            },
+            "winner": {
+              "fullName": "Carlos Rod\u00f3n",
+              "id": 607074,
+              "link": "/api/v1/people/607074"
+            }
+          },
+          "description": "Makeup of 5/23 PPD",
+          "doubleHeader": "S",
+          "gameDate": "2026-09-22T13:05:00-04:00",
+          "gameGuid": "af8f273e-23d4-4a7a-8dd8-34e36c11f913",
+          "gameNumber": 1,
+          "gamePk": 823543,
+          "gameType": "R",
+          "gamedayType": "P",
+          "gamesInSeries": 4,
+          "ifNecessary": "N",
+          "ifNecessaryDescription": "Normal Game",
+          "inningBreakLength": 120,
+          "isTie": false,
+          "linescore": {
+            "balls": 2,
+            "currentInning": 9,
+            "currentInningOrdinal": "9th",
+            "defense": {
+              "batter": {
+                "fullName": "Luis Garc\u00eda Jr.",
+                "id": 671277,
+                "link": "/api/v1/people/671277"
+              },
+              "battingOrder": 4,
+              "catcher": {
+                "fullName": "Ali S\u00e1nchez",
+                "id": 645305,
+                "link": "/api/v1/people/645305"
+              },
+              "center": {
+                "fullName": "Spencer Jones",
+                "id": 682987,
+                "link": "/api/v1/people/682987"
+              },
+              "first": {
+                "fullName": "Luis Garc\u00eda Jr.",
+                "id": 671277,
+                "link": "/api/v1/people/671277"
+              },
+              "inHole": {
+                "fullName": "Spencer Jones",
+                "id": 682987,
+                "link": "/api/v1/people/682987"
+              },
+              "left": {
+                "fullName": "Cody Bellinger",
+                "id": 641355,
+                "link": "/api/v1/people/641355"
+              },
+              "onDeck": {
+                "fullName": "George Lombard Jr.",
+                "id": 806146,
+                "link": "/api/v1/people/806146"
+              },
+              "pitcher": {
+                "fullName": "David Bednar",
+                "id": 670280,
+                "link": "/api/v1/people/670280"
+              },
+              "right": {
+                "fullName": "Heliot Ramos",
+                "id": 671218,
+                "link": "/api/v1/people/671218"
+              },
+              "second": {
+                "fullName": "Anthony Volpe",
+                "id": 683011,
+                "link": "/api/v1/people/683011"
+              },
+              "shortstop": {
+                "fullName": "George Lombard Jr.",
+                "id": 806146,
+                "link": "/api/v1/people/806146"
+              },
+              "team": {
+                "id": 147,
+                "link": "/api/v1/teams/147",
+                "name": "New York Yankees"
+              },
+              "third": {
+                "fullName": "Jos\u00e9 Caballero",
+                "id": 676609,
+                "link": "/api/v1/people/676609"
+              }
+            },
+            "inningHalf": "Top",
+            "inningState": "Top",
+            "innings": [
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 1,
+                "ordinalNum": "1st"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 2,
+                "ordinalNum": "2nd"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 3,
+                "ordinalNum": "3rd"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 4,
+                  "leftOnBase": 2,
+                  "runs": 2
+                },
+                "num": 4,
+                "ordinalNum": "4th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 2,
+                  "runs": 0
+                },
+                "num": 5,
+                "ordinalNum": "5th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 6,
+                "ordinalNum": "6th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 7,
+                "ordinalNum": "7th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 8,
+                "ordinalNum": "8th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0
+                },
+                "num": 9,
+                "ordinalNum": "9th"
+              }
+            ],
+            "isTopInning": true,
+            "offense": {
+              "batter": {
+                "fullName": "Yandy D\u00edaz",
+                "id": 650490,
+                "link": "/api/v1/people/650490"
+              },
+              "battingOrder": 1,
+              "inHole": {
+                "fullName": "Junior Caminero",
+                "id": 691406,
+                "link": "/api/v1/people/691406"
+              },
+              "onDeck": {
+                "fullName": "Jonathan Aranda",
+                "id": 666018,
+                "link": "/api/v1/people/666018"
+              },
+              "pitcher": {
+                "fullName": "Ty Johnson",
+                "id": 694494,
+                "link": "/api/v1/people/694494"
+              },
+              "team": {
+                "id": 139,
+                "link": "/api/v1/teams/139",
+                "name": "Tampa Bay Rays"
+              }
+            },
+            "outs": 3,
+            "scheduledInnings": 9,
+            "strikes": 2,
+            "teams": {
+              "away": {
+                "errors": 0,
+                "hits": 3,
+                "leftOnBase": 1,
+                "runs": 0
+              },
+              "home": {
+                "errors": 0,
+                "hits": 5,
+                "leftOnBase": 4,
+                "runs": 2
+              }
+            }
+          },
+          "link": "/api/v1.1/game/823543/feed/live",
+          "officialDate": "2026-09-22",
+          "publicFacing": true,
+          "recordSource": "S",
+          "rescheduledFrom": "2026-05-23T13:35:00-04:00",
+          "rescheduledFromDate": "2026-05-23",
+          "reverseHomeAwayStatus": false,
+          "scheduledInnings": 9,
+          "season": "2026",
+          "seasonDisplay": "2026",
+          "seriesDescription": "Regular Season",
+          "seriesGameNumber": 1,
+          "status": {
+            "abstractGameCode": "F",
+            "abstractGameState": "Final",
+            "codedGameState": "F",
+            "detailedState": "Final",
+            "startTimeTBD": false,
+            "statusCode": "F"
+          },
+          "teams": {
+            "away": {
+              "isWinner": false,
+              "leagueRecord": {
+                "losses": 61,
+                "pct": ".609",
+                "ties": 0,
+                "wins": 95
+              },
+              "score": 0,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "TB",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Rays",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "tb",
+                "firstYearOfPlay": "1996",
+                "franchiseName": "Tampa Bay",
+                "id": 139,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/139",
+                "locationName": "St. Petersburg",
+                "name": "Tampa Bay Rays",
+                "season": 2026,
+                "shortName": "Tampa Bay",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2534,
+                  "link": "/api/v1/venues/2534"
+                },
+                "teamCode": "tba",
+                "teamName": "Rays",
+                "venue": {
+                  "id": 12,
+                  "link": "/api/v1/venues/12",
+                  "name": "Tropicana Field"
+                }
+              }
+            },
+            "home": {
+              "isWinner": true,
+              "leagueRecord": {
+                "losses": 66,
+                "pct": ".577",
+                "ties": 0,
+                "wins": 90
+              },
+              "score": 2,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "NYY",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Yankees",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "nyy",
+                "firstYearOfPlay": "1903",
+                "franchiseName": "New York",
+                "id": 147,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/147",
+                "locationName": "Bronx",
+                "name": "New York Yankees",
+                "season": 2026,
+                "shortName": "NY Yankees",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2523,
+                  "link": "/api/v1/venues/2523"
+                },
+                "teamCode": "nya",
+                "teamName": "Yankees",
+                "venue": {
+                  "id": 3313,
+                  "link": "/api/v1/venues/3313",
+                  "name": "Yankee Stadium"
+                }
+              }
+            }
+          },
+          "tiebreaker": "N",
+          "venue": {
+            "id": 3313,
+            "link": "/api/v1/venues/3313",
+            "name": "Yankee Stadium"
+          }
+        },
+        {
+          "calendarEventID": "14-823494-2026-09-22",
+          "content": {
+            "link": "/api/v1/game/823494/content"
+          },
+          "dayNight": "night",
+          "decisions": {
+            "loser": {
+              "fullName": "Max Fried",
+              "id": 608331,
+              "link": "/api/v1/people/608331"
+            },
+            "winner": {
+              "fullName": "Drew Rasmussen",
+              "id": 656876,
+              "link": "/api/v1/people/656876"
+            }
+          },
+          "doubleHeader": "S",
+          "gameDate": "2026-09-22T19:05:00-04:00",
+          "gameGuid": "dd11de41-0b4c-4d03-8c82-d8c06c3b23b2",
+          "gameNumber": 2,
+          "gamePk": 823494,
+          "gameType": "R",
+          "gamedayType": "P",
+          "gamesInSeries": 4,
+          "ifNecessary": "N",
+          "ifNecessaryDescription": "Normal Game",
+          "inningBreakLength": 145,
+          "isTie": false,
+          "linescore": {
+            "balls": 2,
+            "currentInning": 9,
+            "currentInningOrdinal": "9th",
+            "defense": {
+              "batter": {
+                "fullName": "Jonny DeLuca",
+                "id": 676356,
+                "link": "/api/v1/people/676356"
+              },
+              "battingOrder": 4,
+              "catcher": {
+                "fullName": "Nick Fortes",
+                "id": 663743,
+                "link": "/api/v1/people/663743"
+              },
+              "center": {
+                "fullName": "Cedric Mullins",
+                "id": 656775,
+                "link": "/api/v1/people/656775"
+              },
+              "first": {
+                "fullName": "Jonathan Aranda",
+                "id": 666018,
+                "link": "/api/v1/people/666018"
+              },
+              "inHole": {
+                "fullName": "Ben Williamson",
+                "id": 810938,
+                "link": "/api/v1/people/810938"
+              },
+              "left": {
+                "fullName": "Chandler Simpson",
+                "id": 802415,
+                "link": "/api/v1/people/802415"
+              },
+              "onDeck": {
+                "fullName": "Chandler Simpson",
+                "id": 802415,
+                "link": "/api/v1/people/802415"
+              },
+              "pitcher": {
+                "fullName": "Bryan Baker",
+                "id": 641329,
+                "link": "/api/v1/people/641329"
+              },
+              "right": {
+                "fullName": "Jonny DeLuca",
+                "id": 676356,
+                "link": "/api/v1/people/676356"
+              },
+              "second": {
+                "fullName": "Ben Williamson",
+                "id": 810938,
+                "link": "/api/v1/people/810938"
+              },
+              "shortstop": {
+                "fullName": "Taylor Walls",
+                "id": 670764,
+                "link": "/api/v1/people/670764"
+              },
+              "team": {
+                "id": 139,
+                "link": "/api/v1/teams/139",
+                "name": "Tampa Bay Rays"
+              },
+              "third": {
+                "fullName": "Junior Caminero",
+                "id": 691406,
+                "link": "/api/v1/people/691406"
+              }
+            },
+            "inningHalf": "Bottom",
+            "inningState": "Bottom",
+            "innings": [
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 1,
+                "ordinalNum": "1st"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 2,
+                "ordinalNum": "2nd"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 1
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 3,
+                "ordinalNum": "3rd"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 4,
+                "ordinalNum": "4th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 5,
+                "ordinalNum": "5th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 6,
+                "ordinalNum": "6th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 4,
+                  "leftOnBase": 1,
+                  "runs": 3
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 2,
+                  "leftOnBase": 2,
+                  "runs": 1
+                },
+                "num": 7,
+                "ordinalNum": "7th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 8,
+                "ordinalNum": "8th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 3,
+                  "leftOnBase": 1,
+                  "runs": 2
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 2,
+                  "runs": 0
+                },
+                "num": 9,
+                "ordinalNum": "9th"
+              }
+            ],
+            "isTopInning": false,
+            "offense": {
+              "batter": {
+                "fullName": "George Lombard Jr.",
+                "id": 806146,
+                "link": "/api/v1/people/806146"
+              },
+              "battingOrder": 7,
+              "first": {
+                "fullName": "Jazz Chisholm Jr.",
+                "id": 665862,
+                "link": "/api/v1/people/665862"
+              },
+              "inHole": {
+                "fullName": "Jos\u00e9 Caballero",
+                "id": 676609,
+                "link": "/api/v1/people/676609"
+              },
+              "onDeck": {
+                "fullName": "Austin Wells",
+                "id": 669224,
+                "link": "/api/v1/people/669224"
+              },
+              "pitcher": {
+                "fullName": "Michael Fulmer",
+                "id": 605242,
+                "link": "/api/v1/people/605242"
+              },
+              "team": {
+                "id": 147,
+                "link": "/api/v1/teams/147",
+                "name": "New York Yankees"
+              },
+              "third": {
+                "fullName": "Spencer Jones",
+                "id": 682987,
+                "link": "/api/v1/people/682987"
+              }
+            },
+            "outs": 3,
+            "scheduledInnings": 9,
+            "strikes": 2,
+            "teams": {
+              "away": {
+                "errors": 0,
+                "hits": 11,
+                "isWinner": true,
+                "leftOnBase": 6,
+                "runs": 6
+              },
+              "home": {
+                "errors": 0,
+                "hits": 3,
+                "isWinner": false,
+                "leftOnBase": 6,
+                "runs": 1
+              }
+            }
+          },
+          "link": "/api/v1.1/game/823494/feed/live",
+          "officialDate": "2026-09-22",
+          "publicFacing": true,
+          "recordSource": "S",
+          "reverseHomeAwayStatus": false,
+          "scheduledInnings": 9,
+          "season": "2026",
+          "seasonDisplay": "2026",
+          "seriesDescription": "Regular Season",
+          "seriesGameNumber": 2,
+          "status": {
+            "abstractGameCode": "F",
+            "abstractGameState": "Final",
+            "codedGameState": "F",
+            "detailedState": "Final",
+            "startTimeTBD": false,
+            "statusCode": "F"
+          },
+          "teams": {
+            "away": {
+              "isWinner": true,
+              "leagueRecord": {
+                "losses": 61,
+                "pct": ".611",
+                "ties": 0,
+                "wins": 96
+              },
+              "score": 6,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "TB",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Rays",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "tb",
+                "firstYearOfPlay": "1996",
+                "franchiseName": "Tampa Bay",
+                "id": 139,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/139",
+                "locationName": "St. Petersburg",
+                "name": "Tampa Bay Rays",
+                "season": 2026,
+                "shortName": "Tampa Bay",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2534,
+                  "link": "/api/v1/venues/2534"
+                },
+                "teamCode": "tba",
+                "teamName": "Rays",
+                "venue": {
+                  "id": 12,
+                  "link": "/api/v1/venues/12",
+                  "name": "Tropicana Field"
+                }
+              }
+            },
+            "home": {
+              "isWinner": false,
+              "leagueRecord": {
+                "losses": 67,
+                "pct": ".573",
+                "ties": 0,
+                "wins": 90
+              },
+              "score": 1,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "NYY",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Yankees",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "nyy",
+                "firstYearOfPlay": "1903",
+                "franchiseName": "New York",
+                "id": 147,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/147",
+                "locationName": "Bronx",
+                "name": "New York Yankees",
+                "season": 2026,
+                "shortName": "NY Yankees",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2523,
+                  "link": "/api/v1/venues/2523"
+                },
+                "teamCode": "nya",
+                "teamName": "Yankees",
+                "venue": {
+                  "id": 3313,
+                  "link": "/api/v1/venues/3313",
+                  "name": "Yankee Stadium"
+                }
+              }
+            }
+          },
+          "tiebreaker": "N",
+          "venue": {
+            "id": 3313,
+            "link": "/api/v1/venues/3313",
+            "name": "Yankee Stadium"
+          }
+        },
+        {
+          "calendarEventID": "14-824222-2026-09-22",
+          "content": {
+            "link": "/api/v1/game/824222/content"
+          },
+          "dayNight": "night",
+          "decisions": {
+            "loser": {
+              "fullName": "Drew Anderson",
+              "id": 623454,
+              "link": "/api/v1/people/623454"
+            },
+            "save": {
+              "fullName": "Erik Tolman",
+              "id": 680899,
+              "link": "/api/v1/people/680899"
+            },
+            "winner": {
+              "fullName": "Jackson Kent",
+              "id": 800600,
+              "link": "/api/v1/people/800600"
+            }
+          },
+          "doubleHeader": "N",
+          "gameDate": "2026-09-22T18:40:00-04:00",
+          "gameGuid": "4c42297b-2f32-440a-a4c5-6934d5a4149d",
+          "gameNumber": 1,
+          "gamePk": 824222,
+          "gameType": "R",
+          "gamedayType": "P",
+          "gamesInSeries": 3,
+          "ifNecessary": "N",
+          "ifNecessaryDescription": "Normal Game",
+          "inningBreakLength": 120,
+          "isTie": false,
+          "linescore": {
+            "balls": 1,
+            "currentInning": 9,
+            "currentInningOrdinal": "9th",
+            "defense": {
+              "batter": {
+                "fullName": "Yohandy Morales",
+                "id": 691002,
+                "link": "/api/v1/people/691002"
+              },
+              "battingOrder": 7,
+              "catcher": {
+                "fullName": "Keibert Ruiz",
+                "id": 660688,
+                "link": "/api/v1/people/660688"
+              },
+              "center": {
+                "fullName": "Dylan Crews",
+                "id": 686611,
+                "link": "/api/v1/people/686611"
+              },
+              "first": {
+                "fullName": "Andr\u00e9s Chaparro",
+                "id": 665953,
+                "link": "/api/v1/people/665953"
+              },
+              "inHole": {
+                "fullName": "Nasim Nu\u00f1ez",
+                "id": 683083,
+                "link": "/api/v1/people/683083"
+              },
+              "left": {
+                "fullName": "Daylen Lile",
+                "id": 695734,
+                "link": "/api/v1/people/695734"
+              },
+              "onDeck": {
+                "fullName": "Keibert Ruiz",
+                "id": 660688,
+                "link": "/api/v1/people/660688"
+              },
+              "pitcher": {
+                "fullName": "Erik Tolman",
+                "id": 680899,
+                "link": "/api/v1/people/680899"
+              },
+              "right": {
+                "fullName": "James Wood",
+                "id": 695578,
+                "link": "/api/v1/people/695578"
+              },
+              "second": {
+                "fullName": "CJ Abrams",
+                "id": 682928,
+                "link": "/api/v1/people/682928"
+              },
+              "shortstop": {
+                "fullName": "Nasim Nu\u00f1ez",
+                "id": 683083,
+                "link": "/api/v1/people/683083"
+              },
+              "team": {
+                "id": 120,
+                "link": "/api/v1/teams/120",
+                "name": "Washington Nationals"
+              },
+              "third": {
+                "fullName": "Jorbit Vivas",
+                "id": 678391,
+                "link": "/api/v1/people/678391"
+              }
+            },
+            "inningHalf": "Bottom",
+            "inningState": "Bottom",
+            "innings": [
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 1,
+                "ordinalNum": "1st"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 2,
+                  "leftOnBase": 0,
+                  "runs": 1
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 2,
+                "ordinalNum": "2nd"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 2,
+                  "runs": 0
+                },
+                "num": 3,
+                "ordinalNum": "3rd"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 4,
+                "ordinalNum": "4th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 5,
+                "ordinalNum": "5th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 2,
+                  "runs": 1
+                },
+                "num": 6,
+                "ordinalNum": "6th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 2,
+                  "leftOnBase": 0,
+                  "runs": 2
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 2,
+                  "leftOnBase": 2,
+                  "runs": 0
+                },
+                "num": 7,
+                "ordinalNum": "7th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 8,
+                "ordinalNum": "8th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 9,
+                "ordinalNum": "9th"
+              }
+            ],
+            "isTopInning": false,
+            "offense": {
+              "batter": {
+                "fullName": "Kevin McGonigle",
+                "id": 805808,
+                "link": "/api/v1/people/805808"
+              },
+              "battingOrder": 3,
+              "first": {
+                "fullName": "Zach McKinstry",
+                "id": 656716,
+                "link": "/api/v1/people/656716"
+              },
+              "inHole": {
+                "fullName": "Brett Callahan",
+                "id": 814430,
+                "link": "/api/v1/people/814430"
+              },
+              "onDeck": {
+                "fullName": "Eduardo Valencia",
+                "id": 680664,
+                "link": "/api/v1/people/680664"
+              },
+              "pitcher": {
+                "fullName": "Beau Brieske",
+                "id": 689225,
+                "link": "/api/v1/people/689225"
+              },
+              "team": {
+                "id": 116,
+                "link": "/api/v1/teams/116",
+                "name": "Detroit Tigers"
+              }
+            },
+            "outs": 3,
+            "scheduledInnings": 9,
+            "strikes": 3,
+            "teams": {
+              "away": {
+                "errors": 0,
+                "hits": 7,
+                "isWinner": true,
+                "leftOnBase": 3,
+                "runs": 3
+              },
+              "home": {
+                "errors": 0,
+                "hits": 7,
+                "isWinner": false,
+                "leftOnBase": 11,
+                "runs": 1
+              }
+            }
+          },
+          "link": "/api/v1.1/game/824222/feed/live",
+          "officialDate": "2026-09-22",
+          "publicFacing": true,
+          "recordSource": "S",
+          "reverseHomeAwayStatus": false,
+          "scheduledInnings": 9,
+          "season": "2026",
+          "seasonDisplay": "2026",
+          "seriesDescription": "Regular Season",
+          "seriesGameNumber": 2,
+          "status": {
+            "abstractGameCode": "F",
+            "abstractGameState": "Final",
+            "codedGameState": "F",
+            "detailedState": "Final",
+            "startTimeTBD": false,
+            "statusCode": "F"
+          },
+          "teams": {
+            "away": {
+              "isWinner": true,
+              "leagueRecord": {
+                "losses": 84,
+                "pct": ".468",
+                "ties": 0,
+                "wins": 74
+              },
+              "score": 3,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "WSH",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Nationals",
+                "division": {
+                  "id": 204,
+                  "link": "/api/v1/divisions/204",
+                  "name": "National League East"
+                },
+                "fileCode": "was",
+                "firstYearOfPlay": "1968",
+                "franchiseName": "Washington",
+                "id": 120,
+                "league": {
+                  "id": 104,
+                  "link": "/api/v1/league/104",
+                  "name": "National League"
+                },
+                "link": "/api/v1/teams/120",
+                "locationName": "Washington",
+                "name": "Washington Nationals",
+                "season": 2026,
+                "shortName": "Washington",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 5000,
+                  "link": "/api/v1/venues/5000"
+                },
+                "teamCode": "was",
+                "teamName": "Nationals",
+                "venue": {
+                  "id": 3309,
+                  "link": "/api/v1/venues/3309",
+                  "name": "Nationals Park"
+                }
+              }
+            },
+            "home": {
+              "isWinner": false,
+              "leagueRecord": {
+                "losses": 84,
+                "pct": ".468",
+                "ties": 0,
+                "wins": 74
+              },
+              "score": 1,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "DET",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Tigers",
+                "division": {
+                  "id": 202,
+                  "link": "/api/v1/divisions/202",
+                  "name": "American League Central"
+                },
+                "fileCode": "det",
+                "firstYearOfPlay": "1901",
+                "franchiseName": "Detroit",
+                "id": 116,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/116",
+                "locationName": "Detroit",
+                "name": "Detroit Tigers",
+                "season": 2026,
+                "shortName": "Detroit",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2511,
+                  "link": "/api/v1/venues/2511"
+                },
+                "teamCode": "det",
+                "teamName": "Tigers",
+                "venue": {
+                  "id": 2394,
+                  "link": "/api/v1/venues/2394",
+                  "name": "Comerica Park"
+                }
+              }
+            }
+          },
+          "tiebreaker": "N",
+          "venue": {
+            "id": 2394,
+            "link": "/api/v1/venues/2394",
+            "name": "Comerica Park"
+          }
+        },
+        {
+          "calendarEventID": "14-824624-2026-09-22",
+          "content": {
+            "link": "/api/v1/game/824624/content"
+          },
+          "dayNight": "night",
+          "decisions": {
+            "loser": {
+              "fullName": "Caleb Thielbar",
+              "id": 573204,
+              "link": "/api/v1/people/573204"
+            },
+            "winner": {
+              "fullName": "Josh Ekness",
+              "id": 694795,
+              "link": "/api/v1/people/694795"
+            }
+          },
+          "doubleHeader": "N",
+          "gameDate": "2026-09-22T19:40:00-04:00",
+          "gameGuid": "2d2224f1-b910-4298-8f44-b3ffd2f6b01b",
+          "gameNumber": 1,
+          "gamePk": 824624,
+          "gameType": "R",
+          "gamedayType": "P",
+          "gamesInSeries": 3,
+          "ifNecessary": "N",
+          "ifNecessaryDescription": "Normal Game",
+          "inningBreakLength": 120,
+          "isTie": false,
+          "linescore": {
+            "balls": 0,
+            "currentInning": 12,
+            "currentInningOrdinal": "12th",
+            "defense": {
+              "batter": {
+                "fullName": "Graham Pauley",
+                "id": 688363,
+                "link": "/api/v1/people/688363"
+              },
+              "battingOrder": 8,
+              "catcher": {
+                "fullName": "Joe Mack",
+                "id": 691788,
+                "link": "/api/v1/people/691788"
+              },
+              "center": {
+                "fullName": "Jakob Marsee",
+                "id": 805300,
+                "link": "/api/v1/people/805300"
+              },
+              "first": {
+                "fullName": "Griffin Conine",
+                "id": 665052,
+                "link": "/api/v1/people/665052"
+              },
+              "inHole": {
+                "fullName": "Heriberto Hern\u00e1ndez",
+                "id": 681715,
+                "link": "/api/v1/people/681715"
+              },
+              "left": {
+                "fullName": "Heriberto Hern\u00e1ndez",
+                "id": 681715,
+                "link": "/api/v1/people/681715"
+              },
+              "onDeck": {
+                "fullName": "Jakob Marsee",
+                "id": 805300,
+                "link": "/api/v1/people/805300"
+              },
+              "pitcher": {
+                "fullName": "Victor Vodnik",
+                "id": 680767,
+                "link": "/api/v1/people/680767"
+              },
+              "right": {
+                "fullName": "Esteury Ruiz",
+                "id": 665923,
+                "link": "/api/v1/people/665923"
+              },
+              "second": {
+                "fullName": "Javier Sanoja",
+                "id": 691594,
+                "link": "/api/v1/people/691594"
+              },
+              "shortstop": {
+                "fullName": "Otto Lopez",
+                "id": 672640,
+                "link": "/api/v1/people/672640"
+              },
+              "team": {
+                "id": 146,
+                "link": "/api/v1/teams/146",
+                "name": "Miami Marlins"
+              },
+              "third": {
+                "fullName": "Graham Pauley",
+                "id": 688363,
+                "link": "/api/v1/people/688363"
+              }
+            },
+            "inningHalf": "Bottom",
+            "inningState": "Bottom",
+            "innings": [
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 1,
+                "ordinalNum": "1st"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 2,
+                "ordinalNum": "2nd"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 3,
+                "ordinalNum": "3rd"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 3,
+                  "leftOnBase": 2,
+                  "runs": 1
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 4,
+                "ordinalNum": "4th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 5,
+                "ordinalNum": "5th"
+              },
+              {
+                "away": {
+                  "errors": 1,
+                  "hits": 1,
+                  "leftOnBase": 0,
+                  "runs": 1
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 3,
+                  "leftOnBase": 3,
+                  "runs": 2
+                },
+                "num": 6,
+                "ordinalNum": "6th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 2,
+                  "runs": 0
+                },
+                "num": 7,
+                "ordinalNum": "7th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 0,
+                  "runs": 0
+                },
+                "num": 8,
+                "ordinalNum": "8th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 9,
+                "ordinalNum": "9th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 3,
+                  "runs": 0
+                },
+                "num": 10,
+                "ordinalNum": "10th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 1,
+                  "leftOnBase": 3,
+                  "runs": 0
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 2,
+                  "runs": 0
+                },
+                "num": 11,
+                "ordinalNum": "11th"
+              },
+              {
+                "away": {
+                  "errors": 0,
+                  "hits": 4,
+                  "leftOnBase": 2,
+                  "runs": 6
+                },
+                "home": {
+                  "errors": 0,
+                  "hits": 0,
+                  "leftOnBase": 1,
+                  "runs": 0
+                },
+                "num": 12,
+                "ordinalNum": "12th"
+              }
+            ],
+            "isTopInning": false,
+            "offense": {
+              "batter": {
+                "fullName": "Ian Happ",
+                "id": 664023,
+                "link": "/api/v1/people/664023"
+              },
+              "battingOrder": 5,
+              "inHole": {
+                "fullName": "Pedro Ram\u00edrez",
+                "id": 699393,
+                "link": "/api/v1/people/699393"
+              },
+              "onDeck": {
+                "fullName": "Nico Hoerner",
+                "id": 663538,
+                "link": "/api/v1/people/663538"
+              },
+              "pitcher": {
+                "fullName": "Edward Cabrera",
+                "id": 665795,
+                "link": "/api/v1/people/665795"
+              },
+              "second": {
+                "fullName": "Seiya Suzuki",
+                "id": 673548,
+                "link": "/api/v1/people/673548"
+              },
+              "team": {
+                "id": 112,
+                "link": "/api/v1/teams/112",
+                "name": "Chicago Cubs"
+              }
+            },
+            "outs": 3,
+            "scheduledInnings": 9,
+            "strikes": 0,
+            "teams": {
+              "away": {
+                "errors": 1,
+                "hits": 11,
+                "isWinner": true,
+                "leftOnBase": 11,
+                "runs": 8
+              },
+              "home": {
+                "errors": 0,
+                "hits": 7,
+                "isWinner": false,
+                "leftOnBase": 15,
+                "runs": 2
+              }
+            }
+          },
+          "link": "/api/v1.1/game/824624/feed/live",
+          "officialDate": "2026-09-22",
+          "publicFacing": true,
+          "recordSource": "S",
+          "reverseHomeAwayStatus": false,
+          "scheduledInnings": 9,
+          "season": "2026",
+          "seasonDisplay": "2026",
+          "seriesDescription": "Regular Season",
+          "seriesGameNumber": 1,
+          "status": {
+            "abstractGameCode": "F",
+            "abstractGameState": "Final",
+            "codedGameState": "F",
+            "detailedState": "Final",
+            "startTimeTBD": false,
+            "statusCode": "F"
+          },
+          "teams": {
+            "away": {
+              "isWinner": true,
+              "leagueRecord": {
+                "losses": 80,
+                "pct": ".490",
+                "ties": 0,
+                "wins": 77
+              },
+              "score": 8,
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "MIA",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Marlins",
+                "division": {
+                  "id": 204,
+                  "link": "/api/v1/divisions/204",
+                  "name": "National League East"
+                },
+                "fileCode": "mia",
+                "firstYearOfPlay": "1991",
+                "franchiseName": "Miami",
+                "id": 146,
+                "league": {
+                  "id": 104,
+                  "link": "/api/v1/league/104",
+                  "name": "National League"
+                },
+                "link": "/api/v1/teams/146",
+                "locationName": "Miami",
+                "name": "Miami Marlins",
+                "season": 2026,
+                "shortName": "Miami",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2520,
+                  "link": "/api/v1/venues/2520"
+                },
+                "teamCode": "mia",
+                "teamName": "Marlins",
+                "venue": {
+                  "id": 4169,
+                  "link": "/api/v1/venues/4169",
+                  "name": "loanDepot park"
+                }
+              }
+            },
+            "home": {
+              "isWinner": false,
+              "leagueRecord": {
+                "losses": 70,
+                "pct": ".554",
+                "ties": 0,
+                "wins": 87
+              },
+              "score": 2,
+              "seriesNumber": 52,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "CL",
+                "id": 114,
+                "link": "/api/v1/league/114",
+                "name": "Cactus League"
+              },
+              "team": {
+                "abbreviation": "CHC",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Cubs",
+                "division": {
+                  "id": 205,
+                  "link": "/api/v1/divisions/205",
+                  "name": "National League Central"
+                },
+                "fileCode": "chc",
+                "firstYearOfPlay": "1874",
+                "franchiseName": "Chicago",
+                "id": 112,
+                "league": {
+                  "id": 104,
+                  "link": "/api/v1/league/104",
+                  "name": "National League"
+                },
+                "link": "/api/v1/teams/112",
+                "locationName": "Chicago",
+                "name": "Chicago Cubs",
+                "season": 2026,
+                "shortName": "Chi Cubs",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "CL",
+                  "id": 114,
+                  "link": "/api/v1/league/114",
+                  "name": "Cactus League"
+                },
+                "springVenue": {
+                  "id": 4629,
+                  "link": "/api/v1/venues/4629"
+                },
+                "teamCode": "chn",
+                "teamName": "Cubs",
+                "venue": {
+                  "id": 17,
+                  "link": "/api/v1/venues/17",
+                  "name": "Wrigley Field"
+                }
+              }
+            }
+          },
+          "tiebreaker": "N",
+          "venue": {
+            "id": 17,
+            "link": "/api/v1/venues/17",
+            "name": "Wrigley Field"
+          }
+        },
+        {
+          "calendarEventID": "14-824785-2026-09-22",
+          "content": {
+            "link": "/api/v1/game/824785/content"
+          },
+          "dayNight": "night",
+          "doubleHeader": "N",
+          "gameDate": "2026-09-22T18:35:00-04:00",
+          "gameGuid": "1f4cecd1-1bf9-47ae-bf1b-5fd9f3c923d2",
+          "gameNumber": 1,
+          "gamePk": 824785,
+          "gameType": "R",
+          "gamedayType": "P",
+          "gamesInSeries": 3,
+          "ifNecessary": "N",
+          "ifNecessaryDescription": "Normal Game",
+          "inningBreakLength": 120,
+          "link": "/api/v1.1/game/824785/feed/live",
+          "officialDate": "2026-09-23",
+          "publicFacing": true,
+          "recordSource": "S",
+          "rescheduleDate": "2026-09-23T13:35:00-04:00",
+          "rescheduleGameDate": "2026-09-23",
+          "reverseHomeAwayStatus": false,
+          "scheduledInnings": 9,
+          "season": "2026",
+          "seasonDisplay": "2026",
+          "seriesDescription": "Regular Season",
+          "seriesGameNumber": 2,
+          "status": {
+            "abstractGameCode": "F",
+            "abstractGameState": "Final",
+            "codedGameState": "D",
+            "detailedState": "Postponed",
+            "reason": "Rain",
+            "startTimeTBD": false,
+            "statusCode": "DR"
+          },
+          "teams": {
+            "away": {
+              "leagueRecord": {
+                "losses": 81,
+                "pct": ".487",
+                "ties": 0,
+                "wins": 77
+              },
+              "seriesNumber": 52,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "TOR",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Blue Jays",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "tor",
+                "firstYearOfPlay": "1977",
+                "franchiseName": "Toronto",
+                "id": 141,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/141",
+                "locationName": "Toronto",
+                "name": "Toronto Blue Jays",
+                "season": 2026,
+                "shortName": "Toronto",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2536,
+                  "link": "/api/v1/venues/2536"
+                },
+                "teamCode": "tor",
+                "teamName": "Blue Jays",
+                "venue": {
+                  "id": 14,
+                  "link": "/api/v1/venues/14",
+                  "name": "Rogers Centre"
+                }
+              }
+            },
+            "home": {
+              "leagueRecord": {
+                "losses": 81,
+                "pct": ".487",
+                "ties": 0,
+                "wins": 77
+              },
+              "seriesNumber": 51,
+              "splitSquad": false,
+              "springLeague": {
+                "abbreviation": "GL",
+                "id": 115,
+                "link": "/api/v1/league/115",
+                "name": "Grapefruit League"
+              },
+              "team": {
+                "abbreviation": "BAL",
+                "active": true,
+                "allStarStatus": "N",
+                "clubName": "Orioles",
+                "division": {
+                  "id": 201,
+                  "link": "/api/v1/divisions/201",
+                  "name": "American League East"
+                },
+                "fileCode": "bal",
+                "firstYearOfPlay": "1901",
+                "franchiseName": "Baltimore",
+                "id": 110,
+                "league": {
+                  "id": 103,
+                  "link": "/api/v1/league/103",
+                  "name": "American League"
+                },
+                "link": "/api/v1/teams/110",
+                "locationName": "Baltimore",
+                "name": "Baltimore Orioles",
+                "season": 2026,
+                "shortName": "Baltimore",
+                "sport": {
+                  "id": 1,
+                  "link": "/api/v1/sports/1",
+                  "name": "Major League Baseball"
+                },
+                "springLeague": {
+                  "abbreviation": "GL",
+                  "id": 115,
+                  "link": "/api/v1/league/115",
+                  "name": "Grapefruit League"
+                },
+                "springVenue": {
+                  "id": 2508,
+                  "link": "/api/v1/venues/2508"
+                },
+                "teamCode": "bal",
+                "teamName": "Orioles",
+                "venue": {
+                  "id": 2,
+                  "link": "/api/v1/venues/2",
+                  "name": "Oriole Park at Camden Yards"
+                }
+              }
+            }
+          },
+          "tiebreaker": "N",
+          "venue": {
+            "id": 2,
+            "link": "/api/v1/venues/2",
+            "name": "Oriole Park at Camden Yards"
+          }
+        }
+      ],
+      "totalEvents": 0,
+      "totalGames": 16,
+      "totalGamesInProgress": 0,
+      "totalItems": 16
+    }
+  ],
+  "totalEvents": 0,
+  "totalGames": 16,
+  "totalGamesInProgress": 0,
+  "totalItems": 16
+}
