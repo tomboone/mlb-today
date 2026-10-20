@@ -18,7 +18,7 @@ The instant a digest is dispatched. On a game day it is 30 minutes before the ea
 _Avoid_: Probables cron, schedule
 
 **Heartbeat**:
-The signal sent to the dead-man monitor after a digest is successfully dispatched. Its absence on a game day is the alarm.
+The signal sent to the dead-man monitor after a digest is successfully dispatched. Its absence on a game day is the alarm. When a send's retry also fails, a `/fail` ping raises the alarm at once instead.
 
 ### The baseball
 

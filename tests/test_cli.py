@@ -1,6 +1,8 @@
 import json
+import os
 import re
 import signal
+import time
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
@@ -20,7 +22,6 @@ from tests.mocked_sources import mock_sources, seed_snapshots
 runner = CliRunner()
 
 COMMANDS = ["run", "send", "preview", "health"]
-STUBS = ["health"]
 ANSI_ESCAPE = re.compile(r"\x1b\[[0-9;]*m")
 
 
@@ -42,16 +43,6 @@ def env(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
     monkeypatch.setenv("RECIPIENTS", "fan@example.com")
     monkeypatch.setenv("DATA_DIR", str(tmp_path))
     return tmp_path
-
-
-@pytest.mark.parametrize("command", STUBS)
-def test_stub_commands_exit_1(monkeypatch: pytest.MonkeyPatch, command: str) -> None:
-    monkeypatch.setenv("RECIPIENTS", "fan@example.com")
-
-    result = runner.invoke(app, [command])
-
-    assert result.exit_code == 1
-    assert '"msg": "not implemented"' in result.output
 
 
 def test_invalid_config_exits_2(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -156,3 +147,44 @@ def test_run_stops_cleanly_on_sigterm(env: Path, monkeypatch: pytest.MonkeyPatch
 
     assert result.exit_code == 0, result.output
     assert '"msg": "scheduler stopped"' in result.output
+
+
+def _state_file(data_dir: Path, age_hours: float) -> Path:
+    path = data_dir / "state.json"
+    path.write_text("{}")
+    mtime = time.time() - age_hours * 3600
+    os.utime(path, (mtime, mtime))
+    return path
+
+
+def test_health_exits_0_with_a_fresh_state_file(env: Path) -> None:
+    _state_file(env, age_hours=1)
+
+    result = runner.invoke(app, ["health"])
+
+    assert result.exit_code == 0, result.output
+
+
+def test_health_exits_1_with_a_27_hour_old_state_file(env: Path) -> None:
+    _state_file(env, age_hours=27)
+
+    result = runner.invoke(app, ["health"])
+
+    assert result.exit_code == 1
+    assert "state file last updated 27.0 hours ago" in result.output
+
+
+def test_health_exits_1_without_a_state_file(env: Path) -> None:
+    result = runner.invoke(app, ["health"])
+
+    assert result.exit_code == 1
+    assert "no state file" in result.output
+
+
+def test_health_exits_1_not_2_on_invalid_config(env: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    # Docker reserves health-check exit code 2.
+    monkeypatch.delenv("RECIPIENTS")
+
+    result = runner.invoke(app, ["health"])
+
+    assert result.exit_code == 1

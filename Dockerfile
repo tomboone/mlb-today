@@ -43,6 +43,8 @@ USER app
 
 VOLUME /data
 
-HEALTHCHECK --interval=5m CMD ["mlb-today", "health"]
+# `health` fails once the state file is over 26 hours old (spec §4.4); the start period covers the
+# first plan at boot, which creates the file on a fresh volume.
+HEALTHCHECK --interval=5m --start-period=1m CMD ["mlb-today", "health"]
 
 CMD ["mlb-today", "run"]
