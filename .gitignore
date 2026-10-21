@@ -43,6 +43,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Coverage output
+.coverage
+htmlcov/
+
 .idea
 .vscode
 
