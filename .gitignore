@@ -1,51 +1,27 @@
-bin
-obj
-csx
-.vs
-edge
-Publish
-
-*.user
-*.suo
-*.cscfg
-*.Cache
-project.lock.json
-
-/packages
-/TestResults
-
-/tools/NuGet.exe
-/App_Data
-/secrets
-/data
-/deploy/data
-.secrets
-appsettings.json
-local.settings.json
-
-node_modules
-dist
-
-# Local python packages
-.python_packages/
-
-# Python Environments
+# Python environments
 .env
-.venv
+.venv/
 env/
 venv/
-ENV/
-env.bak/
-venv.bak/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-.idea
-.vscode
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
+# Local data volume (snapshots, state, outbox)
+/data/
+/deploy/data/
+
+# Editors and OS
+.idea/
+.vscode/
 .DS_Store
 
 # `mlb-today preview` output at its default path
