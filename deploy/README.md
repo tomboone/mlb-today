@@ -164,7 +164,7 @@ in the last 26 hours.
 labelled both `com.centurylinklabs.watchtower.enable=true` and `com.centurylinklabs.watchtower.scope=mlb-today`)
 on the new image, removing the old one. Its `--scope mlb-today` keeps it away from other projects' containers and
 Watchtowers on the same host, such as nba-today's; `docker compose logs watchtower` should show
-`Only checking containers using enable label, in scope "mlb-today"`. To update by hand:
+`msg="Only checking containers in scope" scope=mlb-today`. To update by hand:
 `docker compose pull && docker compose up -d`.
 
 **Roll back** by pinning a commit: change the `image` tag in `docker-compose.yml` to `sha-<7>` and run
