@@ -54,7 +54,7 @@ uv run ruff check . && uv run ruff format --check . && uv run pyright && uv run 
 
 [`deploy/README.md`](deploy/README.md) walks from a fresh Ubuntu install to a running digest: Docker, the GHCR
 image, Resend, healthchecks.io, `.env`, and day-to-day operation. Pushes to `main` publish
-`ghcr.io/tomboone/mlb-today:latest`, and Watchtower on the host picks up each new image.
+`ghcr.io/tomboone/mlb-today:latest` once CI passes, and Watchtower on the host picks up each new image.
 
 ## Configuration
 

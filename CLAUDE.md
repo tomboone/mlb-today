@@ -12,7 +12,9 @@ Daily MLB digest email. See `CONTEXT.md` for the glossary, `docs/adr/` for decis
 ## Branch flow
 
 - Work branches are cut from `main` and PRs target `main`.
-- Every push to `main` publishes `ghcr.io/tomboone/mlb-today:latest`, which Watchtower deploys to the Mini.
+- Every push to `main` publishes `ghcr.io/tomboone/mlb-today` (`sha-<7>`, plus `latest` while the commit is still
+  the tip) once that commit's `ci` check passes; Watchtower deploys `latest` to the Mini. CI, publishing and
+  dependency automation are callers of the shared `neuroticsasquat-ch/workflows@v1`.
 
 ## Toolchain (v2)
 

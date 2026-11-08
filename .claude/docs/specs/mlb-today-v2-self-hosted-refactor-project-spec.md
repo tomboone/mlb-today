@@ -35,7 +35,7 @@ Known bug to fix in the port: the template's "Misc" broadcast line prints `game.
 | Standings | Six division tables: W, L, PCT, GB, L10, streak. Regular season only. |
 | No-game days | Send nothing, except a **scores-only digest** at a fixed morning time when the previous day was a game day. |
 | Toolchain | uv, ruff (lint + format), pyright, pytest, respx, httpx, pydantic v2 + pydantic-settings, Python 3.13. |
-| Build/deploy | GitHub Actions: lint + test on every PR; build and push `ghcr.io/tomboone/mlb-today` on push to `release/v2` (`:edge`) and `main` (`:latest`). Watchtower on the Mini pulls new tags. |
+| Build/deploy | GitHub Actions: lint + test on every PR; build and push `ghcr.io/tomboone/mlb-today` on push to `release/v2` (`:edge`) and `main` (`:latest`). Watchtower on the Mini pulls new tags. *(Superseded by NEU-2232: see §11.)* |
 | Alerting | Structured JSON logs to stdout; healthchecks.io ping on success, `/fail` on a failed send. No Sentry. |
 | Branch flow | `release/v2` off `main`. Each ticket branches from and PRs into `release/v2`. One final PR merges `release/v2` → `main`. The Azure workflow keeps deploying `main` until then. |
 
@@ -218,6 +218,7 @@ class Transport(Protocol):
 - `deploy/docker-compose.yml`: `mlb-today` service with `env_file: .env`, volume `./data:/data`, `restart: unless-stopped`; `watchtower` service polling GHCR every 5 minutes with label-scoped updates.
 - `deploy/README.md`: Mini setup (Docker install, clone `deploy/`, `.env`, `docker compose up -d`), how to check logs, how to run `preview`.
 - Workflows: `ci.yml` (PRs and pushes: uv sync, ruff check, ruff format --check, pyright, pytest), `image.yml` (push to `release/v2` → `:edge` + sha; push to `main` → `:latest` + sha). The existing `azure-functions-app-python.yml` stays until the final cutover ticket deletes it.
+  - *Superseded by NEU-2232 (2026-11-07):* `ci.yml` calls the shared `neuroticsasquat-ch/workflows@v1` (python, image-check, and image-publish after `ci` on `main`); `image.yml` is gone. See the ops spec `docs/specs/ops-shared-ci-workflows-project-spec.md`.
 
 ## 12. Cutover (final milestone)
 
