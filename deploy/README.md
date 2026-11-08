@@ -5,7 +5,8 @@ GHCR. This walks from a fresh Ubuntu install to a running digest. Besides Docker
 only outside accounts to set up are [Resend](https://resend.com) (email) and [healthchecks.io](https://healthchecks.io)
 (alerting).
 
-Each push to `main` publishes two tags via `.github/workflows/image.yml`:
+Each push to `main` publishes two tags from the `publish` job in `.github/workflows/ci.yml`, once that commit's `ci`
+check has passed:
 
 | Tag | Use |
 |---|---|
